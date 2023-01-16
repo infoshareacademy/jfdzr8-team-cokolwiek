@@ -7,7 +7,10 @@ import { AdminEmployeesList } from './components/AdminEmployeesList'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AdminHome } from './components/AdminHome'
 import { AdminPanel } from './components/AdminPanel'
-import { Nav } from './components/Nav'
+import { Header } from './layout/Header'
+import { PageLayout } from './layout/PageLayout'
+import { Footer } from './layout/Footer'
+import { NotFound } from './layout/NotFound'
 
 function App() {
   const [userId, setUserId] = useState(0)
@@ -15,23 +18,23 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Nav isAuth={userId} isAdmin = {isAdmin}/>
-
-      <Routes>
-        <Route element={<ProtectedRoute isAllowed={!userId} />}>
-          <Route path="/login" element={<Login setUserId={setUserId} setAdmin={setAdmin}/>} />
-        </Route>
-        <Route element={<ProtectedRoute isAllowed={isAdmin} />}>
-          <Route path="/AdminEmployeesList" element={<AdminEmployeesList />} />
-          <Route path="/AdminPanel" element={<AdminPanel />} />
-        </Route>
-
-        <Route element={<ProtectedRoute isAllowed={userId} redirectPath="/login" />}>
-          <Route path="/" element={isAdmin ? <AdminHome /> : <EmployeeView userId={userId}/>} />
-        </Route>
-
-        <Route path="*" element={<h2>Strona nie istnieje...</h2>} />
-      </Routes>
+      <PageLayout 
+      header = {<Header isAuth={userId!=0} />}
+      footer = {<Footer />} >
+        <Routes>
+          <Route element={<ProtectedRoute isAllowed={!userId} />}>
+            <Route path="/login" element={<Login setUserId={setUserId} setAdmin={setAdmin}/>} />
+          </Route>
+          <Route element={<ProtectedRoute isAllowed={isAdmin} />}>
+            <Route path="/AdminEmployeesList" element={<AdminEmployeesList />} />
+            <Route path="/AdminPanel" element={<AdminPanel />} />
+          </Route>
+          <Route element={<ProtectedRoute isAllowed={userId} redirectPath="/login" />}>
+            <Route path="/" element={isAdmin ? <AdminHome /> : <EmployeeView userId={userId}/>} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </PageLayout>
     </BrowserRouter>
   )
 }
