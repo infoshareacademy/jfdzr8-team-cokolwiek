@@ -12,6 +12,9 @@ import { PageLayout } from './layout/PageLayout'
 import { Footer } from './layout/Footer'
 import { NotFound } from './layout/NotFound'
 
+{/*tylko do testowania cruda do bazy*/}
+import { Test } from './firebase/utils/test'
+
 function App() {
   const [userId, setUserId] = useState(0)
   const [isAdmin, setAdmin] = useState(false)
@@ -33,6 +36,9 @@ function App() {
             <Route path="/" element={isAdmin ? <AdminHome /> : <EmployeeView userId={userId}/>} />
           </Route>
           <Route path="*" element={<NotFound />} />
+
+          {/*tylko do testowania cruda do bazy*/}
+          <Route path="/test" element={<Test />} />
         </Routes>
       </PageLayout>
     </BrowserRouter>
