@@ -1,3 +1,9 @@
-export const Login = ({setUserId, setAdmin}) => {
-    return (<h2>Login page</h2>)
+import { signInWithGoogle } from '../firebase/utils/functions'
+
+export const Login = () => {  
+    return (
+      <div>
+      <button className="button" onClick={signInWithGoogle}><i className="fab fa-google"></i>Sign in with google</button>
+    </div>
+    )
   }
