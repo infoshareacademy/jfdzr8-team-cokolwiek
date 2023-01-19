@@ -1,11 +1,11 @@
-import { NavLink } from 'react-router-dom'
+import { auth } from "../firebase/firebase"
 
-export const Header = ({ isAuth }) => {
+export const Header = ({ user }) => {
 
  return (
  <>
   <h2>Header</h2>
-  {isAuth && (<NavLink to="/???">Logout</NavLink>
+  {user && (<button className="button" onClick={()=>auth.signOut()}><i className="fab fa-google"></i>Sign out</button>
   )}  
   </>
   )
