@@ -1,15 +1,15 @@
 import './App.css'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import { Login } from './components/Login'
+import { Login } from './components/Login/Login'
 import { EmployeeView } from './components/EmployeeView'
 import { useState } from 'react'
-import { AdminEmployeesList } from './components/AdminEmployeesList'
+import { AdminEmployeesList } from './components/AdminEmployeesList/AdminEmployeesList'
 import { ProtectedRoute } from './components/ProtectedRoute'
-import { AdminHome } from './components/AdminHome'
-import { AdminPanel } from './components/AdminPanel'
-import { Header } from './layout/Header'
+import { AdminHome } from './components/AdminHome/AdminHome'
+import { AdminPanel } from './components/AdminPanel/AdminPanel'
+import { Header } from './layout/PageLayout/Header'
 import { PageLayout } from './layout/PageLayout'
-import { Footer } from './layout/Footer'
+import { Footer } from './layout/PageLayout/Footer'
 import { NotFound } from './layout/NotFound'
 
 {/*tylko do testowania cruda do bazy*/}
@@ -25,16 +25,16 @@ function App() {
       header = {<Header isAuth={userId!=0} />}
       footer = {<Footer />} >
         <Routes>
-          <Route element={<ProtectedRoute isAllowed={!userId} />}>
+          {/* <Route element={<ProtectedRoute isAllowed={!userId} />}> */}
             <Route path="/login" element={<Login setUserId={setUserId} setAdmin={setAdmin}/>} />
-          </Route>
-          <Route element={<ProtectedRoute isAllowed={isAdmin} />}>
+          {/* </Route> */}
+          {/* <Route element={<ProtectedRoute isAllowed={isAdmin} />}> */}
             <Route path="/AdminEmployeesList" element={<AdminEmployeesList />} />
             <Route path="/AdminPanel" element={<AdminPanel />} />
-          </Route>
-          <Route element={<ProtectedRoute isAllowed={userId} redirectPath="/login" />}>
+          {/* </Route> */}
+          {/* <Route element={<ProtectedRoute isAllowed={userId} redirectPath="/login" />}> */}
             <Route path="/" element={isAdmin ? <AdminHome /> : <EmployeeView userId={userId}/>} />
-          </Route>
+          {/* </Route> */}
           <Route path="*" element={<NotFound />} />
 
           {/*tylko do testowania cruda do bazy*/}

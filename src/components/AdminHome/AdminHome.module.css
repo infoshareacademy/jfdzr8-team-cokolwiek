@@ -1,0 +1,39 @@
+.boxContent{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+.leftContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    width: 20%;
+    height: 100%;
+    background:hsl(0, 0%, 50%);
+
+}
+.rightContent{
+    height: 100%;
+    background: hsl(188, 82%, 26%);
+    width: 80%;
+}
+.buttonAdministrationPanel{
+    margin-top: 110px;
+    width: 90%;
+}
+.buttonNext{
+    top: 90%;
+    left: 36%;
+    position: relative;
+}
+.buttonLogout{
+    position: relative;
+    top: 4%;
+    left: 41%;
+}
+.buttonLeftContent{
+    width: 90%;
+    margin-bottom:10px
+}
