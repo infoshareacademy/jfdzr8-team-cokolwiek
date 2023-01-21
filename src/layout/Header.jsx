@@ -17,12 +17,13 @@ export const Header = ({ user }) => {
         >
           <img src={logo} height="100" alt="" loading="lazy" />
         </MDBNavbarBrand>
-        {user && (
-          <button className="button" onClick={() => auth.signOut()}>
-            <i className="fab fa-google"></i>Sign out
-          </button>
-        )}
       </MDBContainer>
     </MDBNavbar>
   );
 };
+
+// {user && (
+//   <button className="button" onClick={() => auth.signOut()}>
+//     <i className="fab fa-google"></i>Sign out
+//   </button>
+// )}

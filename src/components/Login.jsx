@@ -9,6 +9,7 @@ import {
   MDBCard,
   MDBCardBody,
   MDBIcon,
+  MDBFooter,
 } from "mdb-react-ui-kit";
 
 export const Login = () => {

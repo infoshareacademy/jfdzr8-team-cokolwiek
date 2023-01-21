@@ -15,6 +15,8 @@ import { auth } from "./firebase/firebase";
 import { getUsersByEmail } from "./firebase/utils/functions";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { AdminMenu } from "./components/AdminMenu";
+import { UserMenu } from "./components/UserMenu";
 
 {
   /*tylko do testowania cruda do bazy*/
@@ -24,6 +26,7 @@ import { Test } from "./firebase/utils/test";
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setIsLoading] = useState(true);
+  const [isEditView, setEditView] = useState(false)
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -51,7 +54,7 @@ function App() {
   ) : (
     <BrowserRouter>
       {console.log("render", user)}
-      <PageLayout header={<Header user={user} />} footer={<Footer />}>
+      <PageLayout header={<Header user={user} />} footer={<Footer />} menu={ user ? user?.isAdmin ? <AdminMenu isEditView={isEditView} /> : <UserMenu /> : null }>
         <Routes>
           <Route element={<ProtectedRoute isAllowed={!user} />}>
             <Route path="/login" element={<Login />} />
@@ -61,7 +64,7 @@ function App() {
               path="/AdminEmployeesList"
               element={<AdminEmployeesList />}
             />
-            <Route path="/AdminPanel" element={<AdminPanel />} />
+            <Route path="/AdminPanel" element={<AdminPanel setEditView={setEditView}/>} />
           </Route>
           <Route
             element={<ProtectedRoute isAllowed={user} redirectPath="/login" />}
