@@ -25,6 +25,7 @@ const LayoutMenu = styled.div`
  height: 100vh;
  position: absolute;
  left: 0;
+ top: 0;
 `;
 
 export const PageLayout = ({ header, footer, children, menu = null }) => (

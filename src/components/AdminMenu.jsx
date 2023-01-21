@@ -22,6 +22,9 @@ const Wrapper = styled.div`
     margin-left: 5px;
     padding: 5px;
 }
+h2 {
+    color:#fbfbfb;
+}
 box-shadow: 0px 0px 5px 0px black;
 min-height: 100%;
 display: flex;
@@ -42,6 +45,7 @@ height: 35px;
 padding: 5px;
 color: #1a1a1a;
 background-color: #fbfbfb;
+margin-bottom: 10px;
 &:hover{
    
 }
@@ -87,7 +91,9 @@ export const AdminMenu = ({isEditView }) => {
     return (
     <Wrapper isEditView = {isEditView}>
     <h2>Admin Menu</h2>
-    <button className="edit bbig" onClick={addLocationModal}>Dodaj Lokalizacje</button>
+    {isEditView ? <LinkBox to='/'>Disable Edit Mode</LinkBox> :
+    <LinkBox to='/AdminPanel'>Enable Edit Mode</LinkBox>
+    }
     <List>
         {locations.map((location)=>{
          return (<ListItem key={location.id}>{location.name} 
@@ -96,9 +102,7 @@ export const AdminMenu = ({isEditView }) => {
          )
         })}
     </List>
-    {isEditView ? <LinkBox to='/'>Admin home</LinkBox> :
-    <LinkBox to='/AdminPanel'>Admin panel</LinkBox>
-    }
+    <button className="edit bbig" onClick={addLocationModal}>Dodaj Lokalizacje</button>
     </Wrapper>
     )
   }
