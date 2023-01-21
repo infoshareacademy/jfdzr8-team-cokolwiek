@@ -1,3 +1,7 @@
+import { ButtonAddEmployee } from '../../components/ButtonAddEmployee/ButtonAddEmployee'
+import { ButtonEmployee } from '../../components/ButtonEmployee/ButtonEmployee'
+import { ButtonFinish } from '../../components/ButtonFinish/ButtonFinish'
+import { ButtonSave } from '../../components/ButtonSave/ButtonSave'
 import styles from "./AdminPanel.module.css"
 export const AdminPanel = () => {
   return (
@@ -14,16 +18,12 @@ export const AdminPanel = () => {
         <button className={styles.buttonInfoEmployee}>Pracownicy bez lokalizacji (<p></p>)</button>
 			</div>
       <div className={styles.rightContent}>
-        <button className={styles.buttonAddEmployee}>Dodaj pracownika</button>
-        <button className={styles.buttonSave}>Zapisz</button>
+        <ButtonAddEmployee/>
+        <ButtonSave/>
         <div className={styles.boxEmployeesList}>
-          <button>pracownik 1</button>
-          <button>pracownik 2</button>
-          <button>pracownik 3</button>
-          <button>pracownik 4</button>
-          <button>pracownik 5</button>
+          <ButtonEmployee/>
         </div>
-				<button className={styles.buttonFinish}>Zakończ</button>
+				<ButtonFinish/>
 			</div>
 		</div>
     )

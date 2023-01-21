@@ -19,21 +19,3 @@
     background: hsl(188, 82%, 26%);
     width: 80%;
 }
-.buttonAdministrationPanel{
-    margin-top: 110px;
-    width: 90%;
-}
-.buttonNext{
-    top: 90%;
-    left: 36%;
-    position: relative;
-}
-.buttonLogout{
-    position: relative;
-    top: 4%;
-    left: 41%;
-}
-.buttonLeftContent{
-    width: 90%;
-    margin-bottom:10px
-}
