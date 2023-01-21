@@ -1,3 +1,17 @@
+import styles from "./EmployeeView.module.css";
 export const EmployeeView = () => {
-    return (<h1>Employee view</h1>)
-  }
+	return (
+		<div className={styles.boxContent}>
+			<div className={styles.leftContent}>
+				<BoxHeaderLeftContent />
+			</div>
+			<div className={styles.rightContent}>
+				<ButtonChooseAWeek />
+				<ButtonLogout />
+				<TableWeek />
+				<CounterHour />
+				<ConfirmButton />
+			</div>
+		</div>
+	);
+};
