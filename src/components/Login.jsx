@@ -10,9 +10,15 @@ import {
   MDBCardBody,
   MDBIcon,
 } from "mdb-react-ui-kit";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+margin-top: 40%;
+`
 
 export const Login = () => {
   return (
+    <Wrapper>
     <MDBContainer fluid>
       <MDBRow className="d-flex justify-content-center align-items-center h-100">
         <MDBCol col="12">
@@ -38,5 +44,6 @@ export const Login = () => {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
+    </Wrapper>
   );
 };

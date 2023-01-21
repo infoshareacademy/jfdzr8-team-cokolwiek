@@ -1,4 +1,4 @@
-import React from "react";
+import styled from "styled-components";
 import {
   MDBFooter,
   MDBContainer,
@@ -8,8 +8,11 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 
+
+
 export const Footer = () => {
   return (
+    
     <MDBFooter className="bg-dark text-center text-white fixed-bottom">
       <MDBContainer className="p-4 pb-0">
         <section className="mb-4">
@@ -87,5 +90,6 @@ export const Footer = () => {
         © 2023 TimeTaker
       </div>
     </MDBFooter>
+   
   );
 };

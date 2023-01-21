@@ -72,7 +72,7 @@ function App() {
             <Route
               path="/"
               element={
-                user?.isAdmin ? <AdminHome /> : <EmployeeView user={user} />
+                user?.isAdmin ? <AdminHome setEditView={setEditView}/> : <EmployeeView user={user} />
               }
             />
           </Route>
