@@ -15,9 +15,37 @@ export const signInWithGoogle = async () => {
 }
 
 export const getUsers =  () => {
-  return getDocs(usersCollection)
+  return getDocs(query(usersCollection,  where("isAdmin", "==", false)))
+}
+
+export const getUsersByLocation =  (id) => {
+  return getDocs(query(usersCollection,  where("location_id", "==", id)))
+}
+
+export const getUsersWithoutLocation =  (id) => {
+  return getDocs(query(usersCollection,  where("location_id", "==", "")))
 }
 
 export const getUsersByEmail = (email) => {
   return email ? getDocs(query(usersCollection, where("e-mail", "==", email))) : null
+}
+
+export const addUser = (user) => {
+  addDoc(usersCollection, user)
+}
+
+export const dellUser = (id) => {
+  deleteDoc(doc(db, "Users", id))
+}
+
+export const getLocations =  () => {
+  return getDocs(locationsCollection)
+}
+
+export const addLocation = (location) => {
+  addDoc(locationsCollection, location)
+}
+
+export const dellLocation = (id) => {
+  deleteDoc(doc(db, "Locations", id))
 }
