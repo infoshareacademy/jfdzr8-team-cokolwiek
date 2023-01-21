@@ -22,7 +22,7 @@ top: 0;
 
 const LayoutMenu = styled.div`
  width: 250px;
- height: 100%;
+ height: 100vh;
  position: absolute;
  left: 0;
 `;

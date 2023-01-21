@@ -26,7 +26,6 @@ export const Header = ({ user }) => {
       <MDBContainer fluid className="bg-dark">
         <Wrapper>
         <MDBNavbarBrand 
-          href="/"
           className="justify-content-center"
         >
           <img src={logo} height="100" alt="" loading="lazy" />
