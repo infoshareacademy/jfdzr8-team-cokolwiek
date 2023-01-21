@@ -1,4 +1,4 @@
-import { getUsers, getUsersByEmail } from "./functions"
+import { getUsers, getUsersByEmail, dellUser } from "./functions"
 
 export const Test = () => {
     
@@ -13,5 +13,7 @@ export const Test = () => {
       
       test(getUsers)
       test(getUsersByEmail,"ssosnkrz@gmail.com")
+
+      dellUser("d1Ik6qEs8sp5ww8zQDzh")
 
 }

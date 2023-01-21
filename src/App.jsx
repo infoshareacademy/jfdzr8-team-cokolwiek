@@ -15,6 +15,8 @@ import { auth } from "./firebase/firebase";
 import { getUsersByEmail } from "./firebase/utils/functions";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { AdminMenu } from "./components/AdminMenu";
+import { UserMenu } from "./components/UserMenu";
 
 {
   /*tylko do testowania cruda do bazy*/
@@ -51,7 +53,7 @@ function App() {
   ) : (
     <BrowserRouter>
       {console.log("render", user)}
-      <PageLayout header={<Header user={user} />} footer={<Footer />}>
+      <PageLayout header={<Header user={user} />} footer={<Footer />} menu={ user ? user?.isAdmin ? <AdminMenu /> : <UserMenu /> : null }>
         <Routes>
           <Route element={<ProtectedRoute isAllowed={!user} />}>
             <Route path="/login" element={<Login />} />
