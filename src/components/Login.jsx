@@ -1,4 +1,5 @@
 import { signInWithGoogle } from "../firebase/utils/functions";
+import React from "react";
 import styles from "./Login.module.css";
 import {
   MDBBtn,
@@ -8,6 +9,7 @@ import {
   MDBCard,
   MDBCardBody,
   MDBIcon,
+  MDBFooter,
 } from "mdb-react-ui-kit";
 
 export const Login = () => {
