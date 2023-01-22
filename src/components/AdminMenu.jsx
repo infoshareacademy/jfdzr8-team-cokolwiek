@@ -14,6 +14,7 @@ const Wrapper = styled.div`
     width: 200px;
     height: 35px;
     padding: 5px;
+    margin-top: 10px;
 }
 .bsmall {
     height: 35px;
@@ -25,6 +26,10 @@ const Wrapper = styled.div`
 h2 {
     color:#fbfbfb;
 }
+h4 {
+    height: 25px;
+    margin-top: 10px;
+}
 box-shadow: 0px 0px 5px 0px black;
 min-height: 100%;
 display: flex;
@@ -32,6 +37,8 @@ flex-direction: column;
 align-items: center;
 min-width: 220px;
 padding-top: 20px;
+
+
 `
 
 const LinkBox = styled(Link)`
@@ -54,10 +61,15 @@ const ListItem = styled.li`
  display: flex;
  margin-top: 10px;
  align-items: baseline;
- justify-content: flex-end
+ justify-content: flex-end;
 `
 const List = styled.ul`
     list-style-type: none;
+    height: 65vh;
+    overflow-y: auto;
+    padding-right: 15px;
+    width: 100%;
+    margin-top: 10px;
 `
 
 export const AdminMenu = () => {
@@ -75,7 +87,7 @@ export const AdminMenu = () => {
       }, [])
 
     const addLocationModal = () => {
-        {/*addLocation({name: "test"})*/}
+        {addLocation({name: "test"})}
         alert("add new")
     }
 
@@ -95,6 +107,7 @@ export const AdminMenu = () => {
     {isEditView ? <LinkBox to='/' onClick={()=>setEditView(false)}>Disable Edit Mode</LinkBox> :
     <LinkBox to='/AdminPanel'onClick={()=>setEditView(true)}>Enable Edit Mode</LinkBox>
     }
+    {isEditView ? <button className="edit bbig" onClick={addLocationModal}>Add Location</button> : <h4>Select Location</h4>}
     <List>
         {locations.map((location)=>{
          return (<ListItem key={location.id}>{location.name} 
@@ -103,7 +116,6 @@ export const AdminMenu = () => {
          )
         })}
     </List>
-    <button className="edit bbig" onClick={addLocationModal}>Dodaj Lokalizacje</button>
     </Wrapper>
     )
   }
