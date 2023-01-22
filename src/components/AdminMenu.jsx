@@ -4,6 +4,8 @@ import { addLocation, getLocations } from "../firebase/utils/functions"
 import { useState, useEffect } from "react"
 import { locationsCollection } from "../firebase/utils/functions"
 import { onSnapshot } from "@firebase/firestore"
+import { useContext } from "react"
+import { MenuContent } from "./StateContainer"
 
 const Wrapper = styled.div`
 .edit {
@@ -93,6 +95,7 @@ const List = styled.ul`
 export const AdminMenu = () => {
     const [locations, setLocations] = useState([])
     const [isEditView, setEditView] = useState(false)
+    const context = useContext(MenuContent)
 
     useEffect(() => {
         onSnapshot(locationsCollection,querySnapshot => {
@@ -119,6 +122,11 @@ export const AdminMenu = () => {
         console.log(e.target)
     }
 
+    const setLocation = (e) => {
+        const result = locations.filter(location =>location.id == e.target.id)
+        context.setLocation(result[0])
+    }
+
     return (
     <Wrapper isEditView = {isEditView}>
     <h2>Admin Menu</h2>
@@ -128,7 +136,7 @@ export const AdminMenu = () => {
     {isEditView ? <button className="edit bbig" onClick={addLocationModal}>Add Location</button> : <h4>Select Location</h4>}
     <List>
         {locations.map((location)=>{
-         return (<ListItem key={location.id}><span>{location.name}</span>
+         return (<ListItem key={location.id}><span id={location.id} onClick={setLocation}>{location.name}</span>
          <button id={location.id} className="edit bsmall" onClick={editLocationModal}>edit</button> 
          <button id={location.id} className="edit bsmall" onClick={delLocationModal}>del</button></ListItem> 
          )

@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import { StateContainer } from '../components/StateContainer'
+
 const LayoutRoot = styled.div`
 display: flex;
 flex-direction: column;
@@ -13,6 +15,7 @@ const LayoutHeader = styled.div`
 `
 const LayoutContent = styled.div`
  display: flex;
+ flex-direction: column;
 	height: 100%;
 `
 const LayoutFooter = styled.div`
@@ -34,8 +37,10 @@ export const PageLayout = ({ header, footer, children, menu }) => (
   <LayoutRoot>
     <LayoutHeader>{header}</LayoutHeader>
     <LayoutContent>
+      <StateContainer>
       {menu && <LayoutMenu>{menu}</LayoutMenu>}
       {children}
+      </StateContainer>
     </LayoutContent>
     <LayoutFooter>{footer}</LayoutFooter>
   </LayoutRoot>
