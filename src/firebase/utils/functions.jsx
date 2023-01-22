@@ -2,8 +2,8 @@ import { auth, db, provider } from "../firebase"
 import { signInWithPopup, signOut } from 'firebase/auth'
 import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, updateDoc, query, where } from "firebase/firestore";
 
-const usersCollection = collection(db, "Users");
-const locationsCollection = collection(db, "Locations");
+export const usersCollection = collection(db, "Users");
+export const locationsCollection = collection(db, "Locations");
 
 provider.setCustomParameters(
   {prompt: 'select_account'}
