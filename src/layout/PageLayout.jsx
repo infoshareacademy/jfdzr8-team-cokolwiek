@@ -21,7 +21,9 @@ top: 0;
 `;
 
 const LayoutMenu = styled.div`
- width: 250px;
+ min-width: 250px;
+ max-width: 300px;
+ width: 25vw;
  height: 100vh;
  position: absolute;
  left: 0;

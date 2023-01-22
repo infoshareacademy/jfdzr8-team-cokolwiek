@@ -17,11 +17,12 @@ const Wrapper = styled.div`
     margin-top: 10px;
 }
 .bsmall {
-    height: 35px;
+    height: 25px;
     width: 50px;
     color:#fbfbfb;
     margin-left: 5px;
-    padding: 5px;
+    padding: 2px;
+    font-size: 0.8em;
 }
 h2 {
     color:#fbfbfb;
@@ -46,8 +47,7 @@ border-radius: 5px;
 box-shadow: 0px 0px 5px 0px black;
 display: flex;
 justify-content: center;
-color: #fbfbfb;
-width: 200px;
+min-width: 200px;
 height: 35px;
 padding: 5px;
 color: #1a1a1a;
@@ -61,15 +61,33 @@ const ListItem = styled.li`
  display: flex;
  margin-top: 10px;
  align-items: baseline;
- justify-content: flex-end;
+ justify-content: center;
+ padding: 5px;
+ margin: 0;
+ border-radius: 5px;
+ width: 100%;
+ border: 1px solid;
+ margin-bottom: 10px;
+ &:hover{
+    background: #e4a11b;
+    cursor: pointer;
+ }
+ span {
+    width:80%;
+    text-align: center;
+ }
 `
 const List = styled.ul`
     list-style-type: none;
-    height: 65vh;
+    height: 66vh;
+    min-height: 65vh;
     overflow-y: auto;
     padding-right: 15px;
     width: 100%;
     margin-top: 10px;
+    border-top: 1px solid;
+    padding: 10px;
+    box-shadow: 0px 0px 2px 0px black;
 `
 
 export const AdminMenu = () => {
@@ -110,7 +128,7 @@ export const AdminMenu = () => {
     {isEditView ? <button className="edit bbig" onClick={addLocationModal}>Add Location</button> : <h4>Select Location</h4>}
     <List>
         {locations.map((location)=>{
-         return (<ListItem key={location.id}>{location.name} 
+         return (<ListItem key={location.id}><span>{location.name}</span>
          <button id={location.id} className="edit bsmall" onClick={editLocationModal}>edit</button> 
          <button id={location.id} className="edit bsmall" onClick={delLocationModal}>del</button></ListItem> 
          )
