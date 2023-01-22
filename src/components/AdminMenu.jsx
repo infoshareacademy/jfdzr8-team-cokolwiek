@@ -90,6 +90,9 @@ const List = styled.ul`
     border-top: 1px solid;
     padding: 10px;
     box-shadow: 0px 0px 2px 0px black;
+    .selected {
+        background: #e4a11b;
+    }
 `
 
 export const AdminMenu = () => {
@@ -136,7 +139,8 @@ export const AdminMenu = () => {
     {isEditView ? <button className="edit bbig" onClick={addLocationModal}>Add Location</button> : <h4>Select Location</h4>}
     <List>
         {locations.map((location)=>{
-         return (<ListItem key={location.id}><span id={location.id} onClick={setLocation}>{location.name}</span>
+         return (<ListItem key={location.id} className={location.id == context.location.id ? "selected" : ""}>
+         <span id={location.id} onClick={setLocation}>{location.name}</span>
          <button id={location.id} className="edit bsmall" onClick={editLocationModal}>edit</button> 
          <button id={location.id} className="edit bsmall" onClick={delLocationModal}>del</button></ListItem> 
          )
