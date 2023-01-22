@@ -26,7 +26,7 @@ import { Test } from "./firebase/utils/test";
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setIsLoading] = useState(true);
-  const [isEditView, setEditView] = useState(false)
+  
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -54,7 +54,7 @@ function App() {
   ) : (
     <BrowserRouter>
       {console.log("render", user)}
-      <PageLayout header={<Header user={user} />} footer={<Footer />} menu={ user ? user?.isAdmin ? <AdminMenu isEditView={isEditView} /> : <UserMenu /> : null }>
+      <PageLayout header={<Header user={user} />} footer={<Footer />} menu={ user ? user?.isAdmin ? <AdminMenu /> : <UserMenu /> : null }>
         <Routes>
           <Route element={<ProtectedRoute isAllowed={!user} />}>
             <Route path="/login" element={<Login />} />
@@ -64,7 +64,7 @@ function App() {
               path="/AdminEmployeesList"
               element={<AdminEmployeesList />}
             />
-            <Route path="/AdminPanel" element={<AdminPanel setEditView={setEditView}/>} />
+            <Route path="/AdminPanel" element={<AdminPanel />} />
           </Route>
           <Route
             element={<ProtectedRoute isAllowed={user} redirectPath="/login" />}
@@ -72,7 +72,7 @@ function App() {
             <Route
               path="/"
               element={
-                user?.isAdmin ? <AdminHome setEditView={setEditView}/> : <EmployeeView user={user} />
+                user?.isAdmin ? <AdminHome /> : <EmployeeView user={user} />
               }
             />
           </Route>

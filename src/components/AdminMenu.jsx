@@ -60,8 +60,9 @@ const List = styled.ul`
     list-style-type: none;
 `
 
-export const AdminMenu = ({isEditView }) => {
+export const AdminMenu = () => {
     const [locations, setLocations] = useState([])
+    const [isEditView, setEditView] = useState(false)
 
     useEffect(() => {
         onSnapshot(locationsCollection,querySnapshot => {
@@ -91,8 +92,8 @@ export const AdminMenu = ({isEditView }) => {
     return (
     <Wrapper isEditView = {isEditView}>
     <h2>Admin Menu</h2>
-    {isEditView ? <LinkBox to='/'>Disable Edit Mode</LinkBox> :
-    <LinkBox to='/AdminPanel'>Enable Edit Mode</LinkBox>
+    {isEditView ? <LinkBox to='/' onClick={()=>setEditView(false)}>Disable Edit Mode</LinkBox> :
+    <LinkBox to='/AdminPanel'onClick={()=>setEditView(true)}>Enable Edit Mode</LinkBox>
     }
     <List>
         {locations.map((location)=>{

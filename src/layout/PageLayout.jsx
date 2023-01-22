@@ -28,7 +28,7 @@ const LayoutMenu = styled.div`
  top: 0;
 `;
 
-export const PageLayout = ({ header, footer, children, menu = null }) => (
+export const PageLayout = ({ header, footer, children, menu }) => (
   <LayoutRoot>
     <LayoutHeader>{header}</LayoutHeader>
     <LayoutContent>
