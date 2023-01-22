@@ -9,8 +9,9 @@ import { MenuContent } from "./StateContainer"
 
 const Wrapper = styled.div`
 .edit {
-    display: ${({isEditView}) => !isEditView ? 'none' : 'initial'}};
-}
+    display: ${({ isEditView }) => !isEditView ? 'none' : 'initial'}
+    };
+
 .bbig {
     color:#fbfbfb;
     width: 200px;
