@@ -49,3 +49,9 @@ export const addLocation = (location) => {
 export const dellLocation = (id) => {
   deleteDoc(doc(db, "Locations", id))
 }
+
+export const editLocation = async (id, newName) =>  {
+  await updateDoc(doc(db, "Locations", id), {
+    name: newName
+  });
+}

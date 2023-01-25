@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { onSnapshot } from "@firebase/firestore";
 import { MDBIcon } from "mdb-react-ui-kit";
@@ -6,6 +6,17 @@ import styled from "styled-components";
 import { AdminMenuItem } from "./AdminMenuItem";
 import { addLocation } from "../firebase/utils/functions";
 import { locationsCollection } from "../firebase/utils/functions";
+import {
+    MDBBtn,
+    MDBModal,
+    MDBModalDialog,
+    MDBModalContent,
+    MDBModalHeader,
+    MDBModalTitle,
+    MDBModalBody,
+    MDBModalFooter,
+    MDBInput,
+  } from "mdb-react-ui-kit";
 
 const Wrapper = styled.div`
 .edit {
@@ -78,6 +89,13 @@ const List = styled.ul`
 export const AdminMenu = () => {
   const [locations, setLocations] = useState([]);
   const [isEditView, setEditView] = useState(false);
+  const [addModalState, setAddModalState] = useState(false);
+  const addLocationInput = useRef()
+
+  const addModalToggle = () => {
+    setAddModalState(!addModalState)
+    addLocationInput.current.value = ""
+  }
 
   useEffect(() => {
     onSnapshot(locationsCollection, (querySnapshot) => {
@@ -89,11 +107,12 @@ export const AdminMenu = () => {
     });
   }, []);
 
-  const addLocationModal = () => {
-    {
-      addLocation({ name: "test" });
-    }
-    alert("add new");
+  const addLocationFromModal = () => {
+    if (addLocationInput.current.value != "") {
+        //add name checking - if not exist then add
+        addLocation( {name: addLocationInput.current.value})
+        addModalToggle()
+    } else console.log("nic z tego")
   };
 
   return (
@@ -111,11 +130,39 @@ export const AdminMenu = () => {
           <MDBIcon far icon="edit ms-3 align-self-center" />
         </LinkBox>
       )}
-      {isEditView ? (
-        <button className="edit bbig" onClick={addLocationModal}>
+      {isEditView ? (<>
+        <button className="edit bbig" onClick={addModalToggle} >
           Add Location
           <MDBIcon icon="plus" className="ms-3" />
         </button>
+        <MDBModal tabIndex="-1" show={addModalState} setShow={setAddModalState}>
+          <MDBModalDialog centered>
+            <MDBModalContent className="bg-warning bg-gradient">
+              <MDBModalHeader>
+                <MDBModalTitle>Dodaj lokalizację</MDBModalTitle>
+                <MDBBtn
+                  className="btn-close"
+                  color="orange"
+                  onClick={addModalToggle}
+                ></MDBBtn>
+              </MDBModalHeader>
+              <MDBModalBody>
+                <MDBInput
+                  ref={addLocationInput}
+                  type="text"
+                  className="bg-light bg-gradient"
+                />
+              </MDBModalBody>
+              <MDBModalFooter>
+                <MDBBtn color="secondary" onClick={addModalToggle}>
+                  Anuluj
+                </MDBBtn>
+                <MDBBtn color="success" onClick={addLocationFromModal}>Zapisz</MDBBtn>
+              </MDBModalFooter>
+            </MDBModalContent>
+          </MDBModalDialog>
+        </MDBModal>
+    </>
       ) : (
         <h4>Select Location</h4>
       )}
