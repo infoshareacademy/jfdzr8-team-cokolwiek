@@ -9,14 +9,27 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@fortawesome/fontawesome-free": "^6.2.1",
     "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.6",
+    "@mui/x-date-pickers": "^5.0.15",
+    "bootstrap": "^5.2.3",
+    "dayjs": "^1.11.7",
     "firebase": "^9.15.0",
     "mdb-react-ui-kit": "^5.1.0",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.2",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "@date-io/date-fns": "x.x.x",
+    "@date-io/dayjs": "x.x.x",
+    "@date-io/luxon": "x.x.x",
+    "@date-io/date-fns-jalali": "x.x.x",
+    "@date-io/jalaali": "x.x.x"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
