@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useContext } from "react";
 import { MenuContent } from "./StateContainer";
 import { MDBIcon } from "mdb-react-ui-kit";
@@ -16,8 +15,7 @@ import {
   MDBModalFooter,
   MDBInput,
 } from "mdb-react-ui-kit";
-import { db } from "../firebase/firebase";
-import { deleteDoc, doc } from "firebase/firestore";
+import { dellLocation, editLocation } from "../firebase/utils/functions";
 
 const ListItem = styled.li`
   display: flex;
@@ -41,35 +39,36 @@ const ListItem = styled.li`
 `;
 
 export const AdminMenuItem = ({ location }) => {
-  const [locations, setLocations] = useState([]);
 
   const context = useContext(MenuContent);
-  const [centredModal, setCentredModal] = useState(false);
-  const [deleteCentredModal, setDeleteCentredModal] = useState(false);
+  const [editModalState, setEditModalState] = useState(false);
+  const [deleteModalState, setDeleteModalState] = useState(false);
+  const editLocationInput = useRef()
 
   const setLocation = (e) => {
     context.setLocation(location);
   };
 
-  const editLocationModal = () => setCentredModal(!centredModal);
+  const editModalToggle = () => {
+    setEditModalState(!editModalState);
+    editLocationInput.current.value = ""
+  }
+  const deleteModalToggle = () => setDeleteModalState(!deleteModalState);
 
-  const delOpenLocationModal = (e) => {
-    // console.log("del " + e.target.id);
-    setDeleteCentredModal(!deleteCentredModal);
-    setId(e.target.id);
+
+  const deleteLocation = () => {
+    //dodac kasowanie userow w lokacji
+    dellLocation(location.id)
+    if (context.location.id == location.id) context.setLocation(false)
   };
 
-  const delCloseLocationModal = (e) => {
-    // console.log("del " + e.target.id);
-    setDeleteCentredModal(!deleteCentredModal);
-    setId(null);
-  };
-
-  const deleteLocation = (e) => {
-    const docRef = doc(db, "Locations", location.id);
-    deleteDoc(docRef);
-    setId(null);
-  };
+ const editLocationFromModal = () => {
+  if (editLocationInput.current.value != "") {
+    //dodac spr czy czasami lokalizacja o tej nazwie juz nie istnieje
+    editLocation(location.id, editLocationInput.current.value)
+    editModalToggle()
+  } else console.log("nic z tego")
+ }
 
   return (
     <ListItem
@@ -82,34 +81,34 @@ export const AdminMenuItem = ({ location }) => {
       <button
         id={location.id}
         className="edit bsmall"
-        onClick={editLocationModal}
+        onClick={editModalToggle}
       >
         <MDBIcon icon="edit" />
       </button>
       <>
-        <MDBModal tabIndex="-1" show={centredModal} setShow={setCentredModal}>
+        <MDBModal tabIndex="-1" show={editModalState} setShow={setEditModalState}>
           <MDBModalDialog centered>
             <MDBModalContent className="bg-warning bg-gradient">
               <MDBModalHeader>
-                <MDBModalTitle>Edytuj lokalizację</MDBModalTitle>
+                <MDBModalTitle>Wprowadz nowa nazwe</MDBModalTitle>
                 <MDBBtn
                   className="btn-close"
                   color="orange"
-                  onClick={editLocationModal}
+                  onClick={editModalToggle}
                 ></MDBBtn>
               </MDBModalHeader>
               <MDBModalBody>
                 <MDBInput
-                  id="form1"
+                  ref={editLocationInput}
                   type="text"
                   className="bg-light bg-gradient"
                 />
               </MDBModalBody>
               <MDBModalFooter>
-                <MDBBtn color="secondary" onClick={editLocationModal}>
-                  Zamknij
+                <MDBBtn color="secondary" onClick={editModalToggle}>
+                  Anuluj
                 </MDBBtn>
-                <MDBBtn color="success">Zapisz</MDBBtn>
+                <MDBBtn color="success" onClick={editLocationFromModal}>Zapisz</MDBBtn>
               </MDBModalFooter>
             </MDBModalContent>
           </MDBModalDialog>
@@ -118,33 +117,28 @@ export const AdminMenuItem = ({ location }) => {
       <button
         id={location.id}
         className="edit bsmall"
-        onClick={delOpenLocationModal}
+        onClick={deleteModalToggle}
       >
         <MDBIcon icon="trash" />
       </button>
       <>
-        <MDBModal
-          tabIndex="-1"
-          show={deleteCentredModal}
-          setShow={setDeleteCentredModal}
-        >
+        <MDBModal tabIndex="-1" show={deleteModalState} setShow={setDeleteModalState} >
           <MDBModalDialog centered>
             <MDBModalContent className="bg-danger bg-gradient">
               <MDBModalHeader>
-                <MDBModalTitle>Czy chcesz usunąć lokalizację?</MDBModalTitle>
+                <MDBModalTitle>Czy chcesz usunąć lokalizację {location.name} <br/>wraz z przypisanymi do niej osobami?</MDBModalTitle>
                 <MDBBtn
                   className="btn-close"
                   color="orange"
-                  onClick={delCloseLocationModal}
+                  onClick={deleteModalToggle}
                 ></MDBBtn>
               </MDBModalHeader>
 
               <MDBModalFooter className="justify-content-center">
-                <MDBBtn color="secondary" onClick={delCloseLocationModal}>
+                <MDBBtn color="secondary" onClick={deleteModalToggle}>
                   Anuluj
                 </MDBBtn>
                 <MDBBtn
-                  id={location.id}
                   color="success gradient"
                   onClick={deleteLocation}
                 >
