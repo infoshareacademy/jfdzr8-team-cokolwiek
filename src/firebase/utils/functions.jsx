@@ -42,16 +42,27 @@ export const getLocations =  () => {
   return getDocs(locationsCollection)
 }
 
-export const addLocation = (location) => {
+export const addLocationFunction = (location) => {
   addDoc(locationsCollection, location)
 }
 
-export const dellLocation = (id) => {
-  deleteDoc(doc(db, "Locations", id))
+export const getLocationsByName = async (name) => {
+  const p = await getDocs(query(locationsCollection, where("name", "==", name)))
+  return p
 }
 
-export const editLocation = async (id, newName) =>  {
-  await updateDoc(doc(db, "Locations", id), {
-    name: newName
-  });
+export const dellLocationFunction = (id) => {
+  deleteDoc(doc(db, "Locations", id))
+  getDocs(query(usersCollection, where("location_id", "==", id))).then(querySnapshot => {
+    querySnapshot.forEach(doc => deleteDoc(doc))
+  })
+}
+
+export const editLocationFunction =  (id, newName) =>  {
+  getDocs(query(locationsCollection, where("name","==",newName))).then(querySnapshot => {
+    if (querySnapshot.empty) updateDoc(doc(db, "Locations", id), {
+      name: newName
+    });
+  })
+    
 }

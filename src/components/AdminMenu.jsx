@@ -4,8 +4,8 @@ import { onSnapshot } from "@firebase/firestore";
 import { MDBIcon } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { AdminMenuItem } from "./AdminMenuItem";
-import { addLocation } from "../firebase/utils/functions";
-import { locationsCollection } from "../firebase/utils/functions";
+import { addLocationFunction, getLocationsByName, locationsCollection } from "../firebase/utils/functions";
+
 import {
     MDBBtn,
     MDBModal,
@@ -107,12 +107,24 @@ export const AdminMenu = () => {
     });
   }, []);
 
-  const addLocationFromModal = () => {
-    if (addLocationInput.current.value != "") {
-        //add name checking - if not exist then add
-        addLocation( {name: addLocationInput.current.value})
-        addModalToggle()
-    } else console.log("nic z tego")
+  const addLocation = () => {
+    const currentValue = addLocationInput.current.value
+    if (currentValue != "") {
+      getLocationsByName(currentValue).then(querySnapshot => {
+        const isUnique = querySnapshot.empty ? true : false
+        if (isUnique) {
+          addLocationFunction(location.id, currentValue)
+          addModalToggle()
+        } else {
+          addLocationInput.current.value = ""
+          addLocationInput.current.placeholder = "Enter unique name"
+          addLocationInput.current.focus()
+        }
+      })
+    } else {
+      addLocationInput.current.placeholder = "Enter unique name"
+      addLocationInput.current.focus()
+  }
   };
 
   return (
@@ -157,7 +169,7 @@ export const AdminMenu = () => {
                 <MDBBtn color="secondary" onClick={addModalToggle}>
                   Anuluj
                 </MDBBtn>
-                <MDBBtn color="success" onClick={addLocationFromModal}>Zapisz</MDBBtn>
+                <MDBBtn color="success" onClick={addLocation}>Zapisz</MDBBtn>
               </MDBModalFooter>
             </MDBModalContent>
           </MDBModalDialog>
