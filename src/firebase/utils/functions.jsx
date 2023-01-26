@@ -42,8 +42,8 @@ export const getLocations =  () => {
   return getDocs(locationsCollection)
 }
 
-export const addLocationFunction = (location) => {
-  addDoc(locationsCollection, location)
+export const addLocationFunction = (name) => {
+  addDoc(locationsCollection, {name: name})
 }
 
 export const getLocationsByName = async (name) => {

@@ -113,7 +113,7 @@ export const AdminMenu = () => {
       getLocationsByName(currentValue).then(querySnapshot => {
         const isUnique = querySnapshot.empty ? true : false
         if (isUnique) {
-          addLocationFunction(location.id, currentValue)
+          addLocationFunction(currentValue)
           addModalToggle()
         } else {
           addLocationInput.current.value = ""
