@@ -15,7 +15,7 @@ import {
   MDBModalFooter,
   MDBInput,
 } from "mdb-react-ui-kit";
-import { dellLocation, editLocation } from "../firebase/utils/functions";
+import { dellLocationFunction, editLocationFunction, getLocationsByName } from "../firebase/utils/functions";
 
 const ListItem = styled.li`
   display: flex;
@@ -52,22 +52,35 @@ export const AdminMenuItem = ({ location }) => {
   const editModalToggle = () => {
     setEditModalState(!editModalState);
     editLocationInput.current.value = ""
+    editLocationInput.current.placeholder = ""
   }
   const deleteModalToggle = () => setDeleteModalState(!deleteModalState);
 
 
   const deleteLocation = () => {
-    //dodac kasowanie userow w lokacji
-    dellLocation(location.id)
+    dellLocationFunction(location.id)
     if (context.location.id == location.id) context.setLocation(false)
   };
 
- const editLocationFromModal = () => {
-  if (editLocationInput.current.value != "") {
-    //dodac spr czy czasami lokalizacja o tej nazwie juz nie istnieje
-    editLocation(location.id, editLocationInput.current.value)
-    editModalToggle()
-  } else console.log("nic z tego")
+ const editLocation = () => {
+  const currentValue = editLocationInput.current.value
+  if (currentValue != "") {
+    getLocationsByName(currentValue).then(querySnapshot => {
+      const isUnique = querySnapshot.empty ? true : false
+      if (isUnique) {
+        editLocationFunction(location.id, currentValue)
+        if (context.location.id == location.id) context.setLocation({...location, name: currentValue})
+        editModalToggle()
+      } else {
+        editLocationInput.current.value = ""
+        editLocationInput.current.placeholder = "Enter unique name"
+        editLocationInput.current.focus()
+      }
+    })
+  } else {
+    editLocationInput.current.placeholder = "Enter unique name"
+    editLocationInput.current.focus()
+}
  }
 
   return (
@@ -108,7 +121,7 @@ export const AdminMenuItem = ({ location }) => {
                 <MDBBtn color="secondary" onClick={editModalToggle}>
                   Anuluj
                 </MDBBtn>
-                <MDBBtn color="success" onClick={editLocationFromModal}>Zapisz</MDBBtn>
+                <MDBBtn color="success" onClick={editLocation}>Zapisz</MDBBtn>
               </MDBModalFooter>
             </MDBModalContent>
           </MDBModalDialog>

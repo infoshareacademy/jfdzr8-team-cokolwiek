@@ -1,9 +1,13 @@
 import { auth, db, provider } from "../firebase"
 import { signInWithPopup, signOut } from 'firebase/auth'
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, updateDoc, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, updateDoc, query, where, orderBy } from "firebase/firestore";
 
 export const usersCollection = collection(db, "Users");
 export const locationsCollection = collection(db, "Locations");
+
+export const locationsOrderbyName = query(locationsCollection, orderBy('name'));
+
+export const usersInLocationOrderbyLastName= (id) => query(usersCollection, where("location_id", "==", id), where("isAdmin", "==", false)/*, orderBy('lastName')*/);
 
 provider.setCustomParameters(
   {prompt: 'select_account'}
@@ -19,7 +23,7 @@ export const getUsers =  () => {
 }
 
 export const getUsersByLocation =  (id) => {
-  return getDocs(query(usersCollection,  where("location_id", "==", id)))
+  return getDocs(query(usersCollection,  where("location_id", "==", id), orderBy('lastName')))
 }
 
 export const getUsersWithoutLocation =  (id) => {
@@ -42,16 +46,27 @@ export const getLocations =  () => {
   return getDocs(locationsCollection)
 }
 
-export const addLocation = (location) => {
-  addDoc(locationsCollection, location)
+export const addLocationFunction = (name) => {
+  addDoc(locationsCollection, {name: name})
 }
 
-export const dellLocation = (id) => {
+export const getLocationsByName = async (name) => {
+  const p = await getDocs(query(locationsCollection, where("name", "==", name)))
+  return p
+}
+
+export const dellLocationFunction = (id) => {
   deleteDoc(doc(db, "Locations", id))
+  getDocs(query(usersCollection, where("location_id", "==", id))).then(querySnapshot => {
+    querySnapshot.forEach(doc => deleteDoc(doc))
+  })
 }
 
-export const editLocation = async (id, newName) =>  {
-  await updateDoc(doc(db, "Locations", id), {
-    name: newName
-  });
+export const editLocationFunction =  (id, newName) =>  {
+  getDocs(query(locationsCollection, where("name","==",newName))).then(querySnapshot => {
+    if (querySnapshot.empty) updateDoc(doc(db, "Locations", id), {
+      name: newName
+    });
+  })
+    
 }
