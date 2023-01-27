@@ -4,7 +4,7 @@ import { onSnapshot } from "@firebase/firestore";
 import { MDBIcon } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { AdminMenuItem } from "./AdminMenuItem";
-import { addLocationFunction, getLocationsByName, locationsCollection } from "../firebase/utils/functions";
+import { addLocationFunction, getLocationsByName, locationsOrderbyName } from "../firebase/utils/functions";
 
 import {
     MDBBtn,
@@ -98,7 +98,7 @@ export const AdminMenu = () => {
   }
 
   useEffect(() => {
-    onSnapshot(locationsCollection, (querySnapshot) => {
+    onSnapshot(locationsOrderbyName, (querySnapshot) => {
       const locations = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
