@@ -7,7 +7,7 @@ export const locationsCollection = collection(db, "Locations");
 
 export const locationsOrderbyName = query(locationsCollection, orderBy('name'));
 
-export const usersInLocationOrderbyLastName= (id) => query(usersCollection, where("location_id", "==", id), orderBy('lastName'));
+export const usersInLocationOrderbyLastName= (id) => query(usersCollection, where("location_id", "==", id), where("isAdmin", "==", false)/*, orderBy('lastName')*/);
 
 provider.setCustomParameters(
   {prompt: 'select_account'}
