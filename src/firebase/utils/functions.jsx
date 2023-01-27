@@ -7,6 +7,8 @@ export const locationsCollection = collection(db, "Locations");
 
 export const locationsOrderbyName = query(locationsCollection, orderBy('name'));
 
+export const usersInLocationOrderbyLastName= (id) => query(usersCollection, where("location_id", "==", id), orderBy('lastName'));
+
 provider.setCustomParameters(
   {prompt: 'select_account'}
 )
@@ -21,7 +23,7 @@ export const getUsers =  () => {
 }
 
 export const getUsersByLocation =  (id) => {
-  return getDocs(query(usersCollection,  where("location_id", "==", id)))
+  return getDocs(query(usersCollection,  where("location_id", "==", id), orderBy('lastName')))
 }
 
 export const getUsersWithoutLocation =  (id) => {
