@@ -9,13 +9,14 @@ export const AdminPanel = () => {
 
     return (<>
     <h1>Admin Panel</h1>
-    {context.location &&
-    <>
-    <div>selected location: {context.location.name}</div>
-    {
-      context.users.map(user => <AdminPanelItem key={user.id} user={user}/>)}
-    </>
-    }
+      {context.location &&
+        <>
+          <div>selected location: {context.location.name}</div>
+          {
+            context.users.map(user => <AdminPanelItem key={user.id} user={user} />)}
+          
+        </>
+      }
     </>
     )
   }

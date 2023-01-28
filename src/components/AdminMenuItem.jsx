@@ -44,6 +44,7 @@ export const AdminMenuItem = ({ location }) => {
   const [editModalState, setEditModalState] = useState(false);
   const [deleteModalState, setDeleteModalState] = useState(false);
   const editLocationInput = useRef()
+  
 
   const setLocation = (e) => {
     context.setLocation(location);

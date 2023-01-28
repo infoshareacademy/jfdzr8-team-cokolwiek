@@ -65,18 +65,20 @@ export const dellLocationFunction = (id) => {
 export const editLocationFunction =  (id, newName) =>  {
   getDocs(query(locationsCollection, where("name","==",newName))).then(querySnapshot => {
     if (querySnapshot.empty) updateDoc(doc(db, "Locations", id), {
-      name: newName
+      name: newName,
     });
   })
 }
 
-  export const editUserFunction =  ({id, name}) =>  {
+  export const editUserFunction =  ({id, name, lastName,locationId}) =>  {
     console.log(name)
       getDoc(doc(db, "Users", id)).then(docSnap => {
         const user = docSnap.data()    
       updateDoc(doc(db, "Users", id), {
         ...user,
-        name: name
+        name: name, 
+        lastName: lastName,
+        location_id:locationId,
       })
     })
   }
