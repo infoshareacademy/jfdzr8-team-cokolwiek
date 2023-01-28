@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 import { onSnapshot } from "@firebase/firestore";
 import { MDBIcon } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { AdminMenuItem } from "./AdminMenuItem";
 import { addLocationFunction, getLocationsByName, locationsOrderbyName } from "../firebase/utils/functions";
+import { MenuContent } from "./StateContainer";
 
 import {
     MDBBtn,
@@ -87,7 +88,7 @@ const List = styled.ul`
 `;
 
 export const AdminMenu = () => {
-  const [locations, setLocations] = useState([]);
+  const context = useContext(MenuContent);
   const [isEditView, setEditView] = useState(false);
   const [addModalState, setAddModalState] = useState(false);
   const addLocationInput = useRef()
@@ -96,16 +97,9 @@ export const AdminMenu = () => {
     setAddModalState(!addModalState)
     addLocationInput.current.value = ""
   }
+  const locations=context.locations
 
-  useEffect(() => {
-    onSnapshot(locationsOrderbyName, (querySnapshot) => {
-      const locations = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setLocations(locations);
-    });
-  }, []);
+ 
 
   const addLocation = () => {
     const currentValue = addLocationInput.current.value
