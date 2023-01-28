@@ -1,10 +1,11 @@
-import { useContext, useState, useEffect } from "react"
+
+import { useContext } from "react"
+import { AdminPanelItem } from "./AdminPanelItem"
 import { MenuContent } from "./StateContainer"
 
 
 export const AdminPanel = () => {
   const context = useContext(MenuContent)
-
 
     return (<>
     <h1>Admin Panel</h1>
@@ -12,9 +13,7 @@ export const AdminPanel = () => {
     <>
     <div>selected location: {context.location.name}</div>
     {
-        console.log(context.location.id,context.users)
-      
-    }
+      context.users.map(user => <AdminPanelItem key={user.id} user={user}/>)}
     </>
     }
     </>

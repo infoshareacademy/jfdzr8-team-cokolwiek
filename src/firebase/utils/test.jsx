@@ -1,4 +1,4 @@
-import { getUsers, getUsersByEmail, dellUser, getLocations, getUsersByLocation } from "./functions"
+import { getUsers, getUsersByEmail, getLocations, getUsersByLocation } from "./functions"
 
 export const Test = () => {
     
@@ -15,7 +15,7 @@ export const Test = () => {
       test(getUsersByEmail,"ssosnkrz@gmail.com")
       test(getUsersByLocation("OB7HQaKL4NEal5LMAJ9U"))
 
-      dellUser("d1Ik6qEs8sp5ww8zQDzh")
+      //dellUser("d1Ik6qEs8sp5ww8zQDzh")
 
       test(getLocations)
 
