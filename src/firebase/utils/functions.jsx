@@ -1,6 +1,6 @@
 import { auth, db, provider } from "../firebase"
 import { signInWithPopup, signOut } from 'firebase/auth'
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, updateDoc, query, where, orderBy } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, getDoc, updateDoc, query, where, orderBy } from "firebase/firestore";
 
 export const usersCollection = collection(db, "Users");
 export const locationsCollection = collection(db, "Locations");
@@ -38,7 +38,7 @@ export const addUser = (user) => {
   addDoc(usersCollection, user)
 }
 
-export const dellUser = (id) => {
+export const dellUserFunction = (id) => {
   deleteDoc(doc(db, "Users", id))
 }
 
@@ -68,5 +68,16 @@ export const editLocationFunction =  (id, newName) =>  {
       name: newName
     });
   })
-    
 }
+
+  export const editUserFunction =  ({id, name}) =>  {
+    console.log(name)
+      getDoc(doc(db, "Users", id)).then(docSnap => {
+        const user = docSnap.data()    
+      updateDoc(doc(db, "Users", id), {
+        ...user,
+        name: name
+      })
+    })
+  }
+    
