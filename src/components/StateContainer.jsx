@@ -1,24 +1,30 @@
 import { createContext, useState, useEffect, useMemo } from "react"
 export const MenuContent = createContext();
 import { onSnapshot } from "@firebase/firestore";
-import { usersInLocationOrderbyLastName } from "../firebase/utils/functions";
+import { getUsersByLocation } from "../firebase/utils/functions";
 import { addLocationFunction, getLocationsByName, locationsOrderbyName } from "../firebase/utils/functions";
 export const StateContainer = ({children}) => {
-    const[location, setLocation] = useState(false)
+    const[selectedLocation, setSelectedLocation] = useState(false)
   const [users, setUsers] = useState([])
+  const [getUsersTrigger, setGetUsersTrigger] = useState(false)
   const [locations, setLocations] = useState([]);
-    //console.log("statecontainer",location)
+
+ 
+    
     useEffect(() => {
-      location.id ?
-      onSnapshot(usersInLocationOrderbyLastName(location.id), (querySnapshot) => {
+      selectedLocation.id ?
+      getUsersByLocation(selectedLocation.id).then(querySnapshot => {
+        //alert(location.name)
         const users = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setUsers(users);
+        console.log("statecontainer selectedLocation",selectedLocation)
+        console.log(users)
+        setUsers(users)  
       }) : setUsers([])
       
-    }, [location.id]);
+    }, [selectedLocation.id,getUsersTrigger]);
   
     useEffect(() => {
       onSnapshot(locationsOrderbyName, (querySnapshot) => {
@@ -27,16 +33,16 @@ export const StateContainer = ({children}) => {
           ...doc.data(),
         }));
         setLocations(locations);
+        if (!selectedLocation) setSelectedLocation(locations[0])
       });
     }, []);
 
-    const value = useMemo(() => {
-        return {location:location, setLocation:setLocation, users:users } 
-    },[location.id])
 
     return (
     <MenuContent.Provider 
-    value={{location:location, setLocation:setLocation, users:users, locations:locations, setLocations:setLocations } }>
+    value={{location:selectedLocation, setLocation:setSelectedLocation, 
+    users:users, locations:locations, setLocations:setLocations,
+    setGetUsersTrigger: setGetUsersTrigger } }>
     {children}
     </MenuContent.Provider>
     )

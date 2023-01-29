@@ -2,6 +2,8 @@ import { auth, db, provider } from "../firebase"
 import { signInWithPopup, signOut } from 'firebase/auth'
 import { addDoc, collection, deleteDoc, doc, getDocs, getDoc, updateDoc, query, where, orderBy } from "firebase/firestore";
 
+
+
 export const usersCollection = collection(db, "Users");
 export const locationsCollection = collection(db, "Locations");
 
@@ -23,7 +25,7 @@ export const getUsers =  () => {
 }
 
 export const getUsersByLocation =  (id) => {
-  return getDocs(query(usersCollection,  where("location_id", "==", id), orderBy('lastName')))
+  return getDocs(query(usersCollection,  where("location_id", "==", id), where("isAdmin", "==", false)))
 }
 
 export const getUsersWithoutLocation =  (id) => {
@@ -31,7 +33,13 @@ export const getUsersWithoutLocation =  (id) => {
 }
 
 export const getUsersByEmail = (email) => {
-  return email ? getDocs(query(usersCollection, where("e-mail", "==", email))) : null
+  const p = getDocs(query(usersCollection, where("e-mail", "==", email)))
+  return p
+}
+
+export const checkEmail = (newEmail, user_id) => {
+  const p = getDocs(query(usersCollection, where("e-mail", "==", newEmail), where("id", "!=", user_id)))
+  return p
 }
 
 export const addUser = (user) => {
@@ -70,16 +78,7 @@ export const editLocationFunction =  (id, newName) =>  {
   })
 }
 
-  export const editUserFunction =  ({id, name, lastName,locationId}) =>  {
-    console.log(name)
-      getDoc(doc(db, "Users", id)).then(docSnap => {
-        const user = docSnap.data()    
-      updateDoc(doc(db, "Users", id), {
-        ...user,
-        name: name, 
-        lastName: lastName,
-        location_id:locationId,
-      })
-    })
-  }
+
+
+
     
