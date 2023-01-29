@@ -11,6 +11,7 @@ export const StateContainer = ({children}) => {
     useEffect(() => {
       location.id ?
       onSnapshot(usersInLocationOrderbyLastName(location.id), (querySnapshot) => {
+        //alert(location.name)
         const users = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -27,12 +28,10 @@ export const StateContainer = ({children}) => {
           ...doc.data(),
         }));
         setLocations(locations);
+        if (!location) setLocation(locations[0])
       });
     }, []);
 
-    const value = useMemo(() => {
-        return {location:location, setLocation:setLocation, users:users } 
-    },[location.id])
 
     return (
     <MenuContent.Provider 

@@ -46,14 +46,13 @@ export const AdminMenuItem = ({ location }) => {
   const editLocationInput = useRef()
   
 
-  const setLocation = (e) => {
-    context.setLocation(location);
-  };
 
   const editModalToggle = () => {
     setEditModalState(!editModalState);
-    editLocationInput.current.value = ""
-    editLocationInput.current.placeholder = ""
+    if (!editModalState) {
+      editLocationInput.current.value = location.name
+      editLocationInput.current.placeholder = ""
+    }
   }
   const deleteModalToggle = () => setDeleteModalState(!deleteModalState);
 
@@ -89,7 +88,7 @@ export const AdminMenuItem = ({ location }) => {
       key={location.id}
       className={location.id == context.location.id ? "selected" : ""}
     >
-      <span id={location.id} onClick={setLocation}>
+      <span id={location.id} onClick={()=>context.setLocation(location)}>
         {location.name}
       </span>
       <button
@@ -104,7 +103,7 @@ export const AdminMenuItem = ({ location }) => {
           <MDBModalDialog centered>
             <MDBModalContent className="bg-warning bg-gradient">
               <MDBModalHeader>
-                <MDBModalTitle>Wprowadz nowa nazwe</MDBModalTitle>
+                <MDBModalTitle>EDIT NAME</MDBModalTitle>
                 <MDBBtn
                   className="btn-close"
                   color="orange"

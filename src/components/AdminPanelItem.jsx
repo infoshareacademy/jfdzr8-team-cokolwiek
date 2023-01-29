@@ -1,8 +1,7 @@
 import { useState, useRef, useContext } from "react";
 import {
 	dellUserFunction,
-	editUserFunction,
-	getLocationsByName,
+  getUsersByEmail,
 } from "../firebase/utils/functions";
 import {
 	MDBBtn,
@@ -19,6 +18,8 @@ import {
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { MenuContent } from "./StateContainer";
+import { doc, updateDoc } from "@firebase/firestore";
+import { db } from "../firebase/firebase";
 
 const EmployeeDiv = styled.div`
 	font-size: 12px;
@@ -29,10 +30,12 @@ export const AdminPanelItem = ({ user }) => {
 	const [editModalState, setEditModalState] = useState(false);
 	const inputEditUserName = useRef();
   const inputEditUserLastName = useRef();
+  const inputEditUserEmail = useRef();
   
+  
+	const context = useContext(MenuContent);
   const [newLocation, setNewLocation] = useState(false)
 
-	const context = useContext(MenuContent);
 
 	const deleteModalToggle = () => setDeleteModalState(!deleteModalState);
 
@@ -43,6 +46,9 @@ export const AdminPanelItem = ({ user }) => {
 			inputEditUserName.current.placeholder = "";
 			inputEditUserLastName.current.value = user.lastName;
 			inputEditUserLastName.current.placeholder = "";
+      		inputEditUserEmail.current.value = user["e-mail"];
+			inputEditUserEmail.current.placeholder = "";
+			setNewLocation(context.location)
 		}
 	};
 
@@ -51,12 +57,60 @@ export const AdminPanelItem = ({ user }) => {
 		deleteModalToggle();
 	};
 
-	const editUser = id => {
-		const newName = inputEditUserName.current.value;
+	const editUser = (id) => {
+		const initialLocation = context.location
+	const newName = inputEditUserName.current.value;
     const newLastName = inputEditUserLastName.current.value;
-    const locationId = newLocation
-		//editUserFunction({ id: id, name: newName, lastName: newLastName, locationId:locationId });
-    editModalToggle();
+    const newEmail = inputEditUserEmail.current.value;
+    const newLocationId = newLocation ? newLocation.id : context.location.id
+
+    let ok = true;
+
+    if (newEmail == "") {
+      ok = false;
+      inputEditUserEmail.current.placeholder = "Enter value";
+      inputEditUserEmail.current.focus()
+    } else getUsersByEmail(newEmail).then(querySnapshot => {
+		let isUnique = true
+		querySnapshot.docs.map((doc) => {
+			const u = doc.data()
+			if (doc.id != id && u["e-mail"] == newEmail) isUnique = false
+		});
+      if (!isUnique) {
+        ok = false
+        inputEditUserEmail.current.value = "";
+        inputEditUserEmail.current.placeholder = "Enter unique value";
+        inputEditUserEmail.current.focus()
+      }
+      if (newLastName == "") {
+        ok = false;
+        inputEditUserLastName.current.placeholder = "Enter value";
+        inputEditUserLastName.current.focus()
+      }
+  
+      if (newName == "") {
+        ok = false;
+        inputEditUserName.current.placeholder = "Enter value";
+        inputEditUserName.current.focus()
+      }
+   
+      if (ok) {
+		updateDoc(doc(db, "Users", id), {
+			...user,
+			name: newName, 
+			lastName: newLastName,
+			location_id: newLocationId,
+			"e-mail": newEmail
+		  }).then(() => {
+			console.log(context.location.name)
+			context.setLocation(false)
+			context.setLocation({...initialLocation})
+			console.log(context.location.name)
+		  }
+		  )
+        editModalToggle();
+      }
+    })
     
 	};
 
@@ -95,24 +149,21 @@ export const AdminPanelItem = ({ user }) => {
 									type="text"
 									className="bg-light bg-gradient"
 								/>
+                E-mail
+								<MDBInput
+									ref={inputEditUserEmail}
+									type="text"
+									className="bg-light bg-gradient"
+								/>
 								<MDBDropdown>
-                  <MDBDropdownToggle>{context.location.name }</MDBDropdownToggle>
+                  <MDBDropdownToggle>{newLocation ? newLocation.name : context.location.name}</MDBDropdownToggle>
                   <MDBDropdownMenu>
                     
-                    {context.locations.map(location => {
-                      
-                      return (
-                        
-                        <MDBDropdownItem key={location.id} onClick={() =>
-                        {
-                        setNewLocation(location.id)
-                        }}
-                          
-                      
-                      link>{location.name}</MDBDropdownItem>
-                    )})}
-                    
-										
+                    {context.locations.map(location => {                    
+                      return (                      
+                        <MDBDropdownItem key={location.id} onClick={() => setNewLocation(location)} link>{location.name}
+                        </MDBDropdownItem>
+                      )})}
 									</MDBDropdownMenu>
 								</MDBDropdown>
 							</MDBModalBody>
