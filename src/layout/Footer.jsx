@@ -8,12 +8,9 @@ import {
   MDBBtn,
 } from "mdb-react-ui-kit";
 
-
-
 export const Footer = () => {
   return (
-    
-    <MDBFooter className="bg-dark text-center text-white fixed-bottom">
+    <MDBFooter className="bg-secondary text-center text-white fixed-bottom shadow-1-strong">
       <MDBContainer className="p-4 pb-0">
         <section className="mb-4">
           <MDBBtn
@@ -90,6 +87,5 @@ export const Footer = () => {
         © 2023 TimeTaker
       </div>
     </MDBFooter>
-   
   );
 };

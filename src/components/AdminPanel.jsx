@@ -88,28 +88,39 @@ export const AdminPanel = () => {
   return (
     <>
       <h1>Admin Panel</h1>
-
+      <hr></hr>
       {context.location && (
         <>
-          <div>selected location: {context.location.name}</div>
+          <h2>selected location: {context.location.name}</h2>
+          <hr></hr>
           <>
             <button
-              style={{ background: "none", border: "1px solid black" }}
+              style={{
+                background: "none",
+                border: "1px solid gray",
+                borderRadius: "20px",
+                color: "black",
+                fontSize: "20px",
+              }}
               className="edit bbig"
               onClick={addModalToggle}
             >
               Add User
               <MDBIcon icon="plus" className="ms-3" />
             </button>
+            <p></p>
             <MDBModal
               tabIndex="-1"
               show={addModalState}
               setShow={setAddModalState}
             >
               <MDBModalDialog centered>
-                <MDBModalContent className="bg-warning bg-gradient">
+                <MDBModalContent className="bg-gray bg-gradient">
                   <MDBModalHeader>
-                    <MDBModalTitle>CREATE USER</MDBModalTitle>
+                    <MDBModalTitle>
+                      CREATE USER
+                      <MDBIcon className="ms-3" fas icon="user-plus" />
+                    </MDBModalTitle>
                     <MDBBtn
                       className="btn-close"
                       color="orange"
@@ -117,23 +128,29 @@ export const AdminPanel = () => {
                     ></MDBBtn>
                   </MDBModalHeader>
                   <MDBModalBody>
-                    Imię
+                    <p style={{ fontSize: "18px" }}>Imię</p>
+
                     <MDBInput
                       ref={inputAddUserName}
                       type="text"
                       className="bg-light bg-gradient"
                     />
                   </MDBModalBody>
+
                   <MDBModalBody>
-                    Nazwisko
+                    <p style={{ fontSize: "18px" }}>Nazwisko</p>
                     <MDBInput
-                      ref={inputAddUserLastName}
+                      ref={inputAddUserName}
                       type="text"
                       className="bg-light bg-gradient"
                     />
-                    E-mail
+                  </MDBModalBody>
+
+                  <MDBModalBody>
+                    <p style={{ fontSize: "18px" }}> E-mail</p>
+
                     <MDBInput
-                      ref={inputAddUserEmail}
+                      ref={inputAddUserLastName}
                       type="text"
                       className="bg-light bg-gradient"
                     />

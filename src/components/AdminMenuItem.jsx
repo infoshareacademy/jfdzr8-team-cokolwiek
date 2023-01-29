@@ -60,6 +60,8 @@ export const AdminMenuItem = ({ location }) => {
   const deleteLocation = () => {
     dellLocationFunction(location.id);
     if (context.location.id == location.id) context.setLocation(false);
+    dellLocationFunction(location.id);
+    if (context.location.id == location.id) context.setLocation(false);
   };
 
   const editLocation = () => {
@@ -95,9 +97,10 @@ export const AdminMenuItem = ({ location }) => {
       <button
         id={location.id}
         className="edit bsmall"
+        style={{ background: "none" }}
         onClick={editModalToggle}
       >
-        <MDBIcon icon="edit" />
+        <MDBIcon icon="edit" color="black" />
       </button>
       <>
         <MDBModal
@@ -106,9 +109,12 @@ export const AdminMenuItem = ({ location }) => {
           setShow={setEditModalState}
         >
           <MDBModalDialog centered>
-            <MDBModalContent className="bg-warning bg-gradient">
+            <MDBModalContent className="bg-gray bg-gradient">
               <MDBModalHeader>
-                <MDBModalTitle>EDIT NAME</MDBModalTitle>
+                <MDBModalTitle>
+                  EDIT NAME
+                  <MDBIcon className="ms-3" fas icon="globe-americas" />
+                </MDBModalTitle>
                 <MDBBtn
                   className="btn-close"
                   color="orange"
@@ -137,9 +143,10 @@ export const AdminMenuItem = ({ location }) => {
       <button
         id={location.id}
         className="edit bsmall"
+        style={{ background: "none" }}
         onClick={deleteModalToggle}
       >
-        <MDBIcon icon="trash" />
+        <MDBIcon icon="trash" color="black" />
       </button>
       <>
         <MDBModal

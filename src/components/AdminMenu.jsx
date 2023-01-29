@@ -105,22 +105,33 @@ export const AdminMenu = () => {
 
   const addLocation = () => {
     const currentValue = addLocationInput.current.value;
+
     if (currentValue != "") {
       getLocationsByName(currentValue).then((querySnapshot) => {
         const isUnique = querySnapshot.empty ? true : false;
-        if (isUnique) {
-          addLocationFunction(currentValue);
-          addModalToggle();
-        } else {
-          addLocationInput.current.value = "";
-          addLocationInput.current.placeholder = "Enter unique name";
-          addLocationInput.current.focus();
-        }
+        getLocationsByName(currentValue).then((querySnapshot) => {
+          const isUnique = querySnapshot.empty ? true : false;
+          if (isUnique) {
+            addLocationFunction(currentValue);
+            addModalToggle();
+            addLocationFunction(currentValue);
+            addModalToggle();
+          } else {
+            addLocationInput.current.value = "";
+            addLocationInput.current.placeholder = "Enter unique name";
+            addLocationInput.current.focus();
+            addLocationInput.current.value = "";
+            addLocationInput.current.placeholder = "Enter unique name";
+            addLocationInput.current.focus();
+          }
+        });
       });
     } else {
       addLocationInput.current.placeholder = "Enter unique name";
       addLocationInput.current.focus();
     }
+    addLocationInput.current.placeholder = "Enter unique name";
+    addLocationInput.current.focus();
   };
 
   return (
@@ -129,19 +140,19 @@ export const AdminMenu = () => {
 
       {isEditView ? (
         <LinkBox to="/" onClick={() => setEditView(false)}>
-          Disable Edit Mode
+          Wyłącz tryb edycji
           <MDBIcon far icon="times-circle" className="ms-3 align-self-center" />
         </LinkBox>
       ) : (
         <LinkBox to="/AdminPanel" onClick={() => setEditView(true)}>
-          Enable Edit Mode
+          Włącz tryb edycji
           <MDBIcon far icon="edit ms-3 align-self-center" />
         </LinkBox>
       )}
       {isEditView ? (
         <>
           <button className="edit bbig" onClick={addModalToggle}>
-            Add Location
+            Dodaj lokalizacje
             <MDBIcon icon="plus" className="ms-3" />
           </button>
           <MDBModal
@@ -150,9 +161,12 @@ export const AdminMenu = () => {
             setShow={setAddModalState}
           >
             <MDBModalDialog centered>
-              <MDBModalContent className="bg-warning bg-gradient">
+              <MDBModalContent className="bg-gray bg-gradient">
                 <MDBModalHeader>
-                  <MDBModalTitle>Dodaj lokalizację</MDBModalTitle>
+                  <MDBModalTitle>
+                    Dodaj lokalizację
+                    <MDBIcon className="ms-3" fas icon="map-marker-alt" />
+                  </MDBModalTitle>
                   <MDBBtn
                     className="btn-close"
                     color="orange"
@@ -164,6 +178,7 @@ export const AdminMenu = () => {
                     ref={addLocationInput}
                     type="text"
                     className="bg-light bg-gradient"
+                    label="Nazwa lokalizacji"
                   />
                 </MDBModalBody>
                 <MDBModalFooter>
@@ -179,7 +194,10 @@ export const AdminMenu = () => {
           </MDBModal>
         </>
       ) : (
-        <h4>Select Location</h4>
+        <h4>
+          Twoje lokalizacje
+          <MDBIcon className="ms-3" fas icon="map-marked-alt" />
+        </h4>
       )}
       <List>
         {locations.map((location) => {

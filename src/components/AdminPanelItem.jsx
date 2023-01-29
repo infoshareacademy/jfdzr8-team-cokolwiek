@@ -22,7 +22,24 @@ import { deleteDoc, doc, updateDoc } from "@firebase/firestore";
 import { db } from "../firebase/firebase";
 
 const EmployeeDiv = styled.div`
+  font-size: 20px;
+  border: 1px solid gray;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  max-height: 80px;
+`;
+
+const Btns = styled.div`
   font-size: 12px;
+  border: 1px solid gray;
+  border-radius: 20px;
+  margin: 0 10px;
+  padding: 10px;
 `;
 
 export const AdminPanelItem = ({ user }) => {
@@ -110,131 +127,146 @@ export const AdminPanelItem = ({ user }) => {
 
   return (
     <EmployeeDiv key={user.id}>
-      {user.name} {user.lastName}
-      <button
-        style={{
-          background: "none",
-          border: "1px solid black",
-          margin: "10px",
-        }}
-        className="edit bsmall"
-        onClick={() => editModalToggle(user)}
-      >
-        <MDBIcon icon="edit" />
-      </button>
-      <>
-        <MDBModal
-          tabIndex="-1"
-          show={editModalState}
-          setShow={setEditModalState}
+      {user.name} {user.lastName}{" "}
+      <Btns>
+        <button
+          style={{ background: "none", borderRadius: "20px" }}
+          onClick={() => editModalToggle(user)}
         >
-          <MDBModalDialog centered>
-            <MDBModalContent className="bg-warning bg-gradient">
-              <MDBModalHeader>
-                <MDBModalTitle>Edycja usera</MDBModalTitle>
-                <MDBBtn
-                  className="btn-close"
-                  color="orange"
-                  onClick={() => editModalToggle(user)}
-                ></MDBBtn>
-              </MDBModalHeader>
-              <MDBModalBody>
-                Imie
-                <MDBInput
-                  ref={inputEditUserName}
-                  type="text"
-                  className="bg-light bg-gradient"
-                />
-              </MDBModalBody>
-              <MDBModalBody>
-                Nazwisko
-                <MDBInput
-                  ref={inputEditUserLastName}
-                  type="text"
-                  className="bg-light bg-gradient"
-                />
-                E-mail
-                <MDBInput
-                  ref={inputEditUserEmail}
-                  type="text"
-                  className="bg-light bg-gradient"
-                />
-                <MDBDropdown>
-                  <MDBDropdownToggle>
-                    {newLocation ? newLocation.name : context.location.name}
-                  </MDBDropdownToggle>
-                  <MDBDropdownMenu>
-                    {context.locations.map((location) => {
-                      return (
-                        <MDBDropdownItem
-                          key={location.id}
-                          onClick={() => setNewLocation(location)}
-                          link
-                        >
-                          {location.name}
-                        </MDBDropdownItem>
-                      );
-                    })}
-                  </MDBDropdownMenu>
-                </MDBDropdown>
-              </MDBModalBody>
-              <MDBModalFooter>
-                <MDBBtn color="secondary" onClick={() => editModalToggle(user)}>
-                  Anuluj
-                </MDBBtn>
-                <MDBBtn
-                  color="success"
-                  id={user.id}
-                  onClick={() => editUser(user.id)}
-                >
-                  Zapisz
-                </MDBBtn>
-              </MDBModalFooter>
-            </MDBModalContent>
-          </MDBModalDialog>
-        </MDBModal>
-      </>
-      <button
-        style={{ background: "none", border: "1px solid black" }}
-        className="edit bsmall"
-        onClick={deleteModalToggle}
-      >
-        <MDBIcon icon="trash" />
-      </button>
-      <>
-        <MDBModal
-          tabIndex="-1"
-          show={deleteModalState}
-          setShow={setDeleteModalState}
-        >
-          <MDBModalDialog centered>
-            <MDBModalContent className="bg-danger bg-gradient">
-              <MDBModalHeader>
-                <MDBModalTitle>Czy na pewno</MDBModalTitle>
-                <MDBBtn
-                  className="btn-close"
-                  color="orange"
-                  onClick={deleteModalToggle}
-                ></MDBBtn>
-              </MDBModalHeader>
+          <MDBIcon color="black" icon="edit" />
+        </button>
+        <>
+          <MDBModal
+            tabIndex="-1"
+            show={editModalState}
+            setShow={setEditModalState}
+          >
+            <MDBModalDialog centered>
+              <MDBModalContent className="bg-grey bg-gradient">
+                <MDBModalHeader>
+                  <MDBModalTitle>
+                    Edycja pracownika
+                    <MDBIcon className="ms-3" fas icon="users" />
+                  </MDBModalTitle>
+                  <MDBBtn
+                    className="btn-close"
+                    color="orange"
+                    onClick={() => editModalToggle(user)}
+                  ></MDBBtn>
+                </MDBModalHeader>
+                <MDBModalBody>
+                  <p style={{ fontSize: "18px" }}>Imię</p>
+                  <MDBInput
+                    ref={inputEditUserName}
+                    type="text"
+                    className="bg-light bg-gradient"
+                  />
+                </MDBModalBody>
+                <MDBModalBody>
+                  <p style={{ fontSize: "18px" }}>Nazwisko</p>
+                  <MDBInput
+                    ref={inputEditUserLastName}
+                    type="text"
+                    className="bg-light bg-gradient"
+                  />
+                </MDBModalBody>
+                <MDBModalBody>
+                  <p style={{ fontSize: "18px" }}>e-mail</p>
+                  <MDBInput
+                    ref={inputEditUserEmail}
+                    type="text"
+                    className="bg-light bg-gradient"
+                  />
+                </MDBModalBody>
 
-              <MDBModalFooter className="justify-content-center">
-                <MDBBtn color="secondary" onClick={deleteModalToggle}>
-                  Anuluj
-                </MDBBtn>
-                <MDBBtn
-                  color="success gradient"
-                  onClick={() => {
-                    deleteUser(user.id);
-                  }}
-                >
-                  Usuń
-                </MDBBtn>
-              </MDBModalFooter>
-            </MDBModalContent>
-          </MDBModalDialog>
-        </MDBModal>
-      </>
+                <MDBModalBody>
+                  <p style={{ fontSize: "18px" }}>Location</p>
+
+                  <MDBDropdown>
+                    <MDBDropdownToggle color="grey">
+                      {newLocation ? newLocation.name : context.location.name}
+                    </MDBDropdownToggle>
+                    <MDBDropdownMenu>
+                      {context.locations.map((location) => {
+                        return (
+                          <MDBDropdownItem
+                            key={location.id}
+                            onClick={() => setNewLocation(location)}
+                            link
+                          >
+                            {location.name}
+                          </MDBDropdownItem>
+                        );
+                      })}
+                    </MDBDropdownMenu>
+                  </MDBDropdown>
+                </MDBModalBody>
+
+                <MDBModalFooter>
+                  <MDBBtn
+                    color="secondary"
+                    onClick={() => editModalToggle(user)}
+                  >
+                    Anuluj
+                  </MDBBtn>
+                  <MDBBtn
+                    color="success"
+                    id={user.id}
+                    onClick={() => editUser(user.id)}
+                  >
+                    Zapisz
+                  </MDBBtn>
+                </MDBModalFooter>
+              </MDBModalContent>
+            </MDBModalDialog>
+          </MDBModal>
+        </>
+        <button
+          style={{
+            background: "none",
+            borderRadius: "20px",
+          }}
+          onClick={deleteModalToggle}
+        >
+          <MDBIcon color="black" icon="trash" />
+        </button>
+        <>
+          <MDBModal
+            tabIndex="-1"
+            show={deleteModalState}
+            setShow={setDeleteModalState}
+          >
+            <MDBModalDialog centered>
+              <MDBModalContent className="bg-danger bg-gradient">
+                <MDBModalHeader>
+                  <MDBModalTitle>
+                    Czy na pewno chcesz usunąć pracownika?
+                  </MDBModalTitle>
+                  <MDBBtn
+                    className="btn-close"
+                    color="orange"
+                    onClick={deleteModalToggle}
+                  ></MDBBtn>
+                </MDBModalHeader>
+
+                <MDBModalFooter className="justify-content-center">
+                  <MDBBtn color="secondary" onClick={deleteModalToggle}>
+                    Anuluj
+                  </MDBBtn>
+                  <MDBBtn
+                    color="success gradient"
+                    onClick={() => {
+                      deleteUser(user.id);
+                    }}
+                  >
+                    Usuń
+                  </MDBBtn>
+                </MDBModalFooter>
+              </MDBModalContent>
+            </MDBModalDialog>
+          </MDBModal>
+        </>
+      </Btns>
     </EmployeeDiv>
   );
 };

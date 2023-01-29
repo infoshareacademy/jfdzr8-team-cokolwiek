@@ -17,6 +17,8 @@ i {
 }
 padding-left: 20px;
 padding-right: 20px;
+background: lightgray;
+border-radius: 30px;
 `;
 const Wrapper = styled.div`
   width: 100%;
@@ -24,7 +26,7 @@ const Wrapper = styled.div`
 
 export const Header = ({ user }) => {
   return (
-    <MDBContainer fluid className="bg-dark">
+    <MDBContainer fluid className="bg-secondary shadow-1-strong">
       <Wrapper>
         <MDBNavbarBrand className="justify-content-center">
           <img src={logo} height="100" alt="" loading="lazy" />
@@ -34,7 +36,7 @@ export const Header = ({ user }) => {
               onClick={() => auth.signOut()}
             >
               <MDBIcon fas icon="sign-out-alt" />
-              Sign out
+              Wyloguj
             </Button>
           )}
         </MDBNavbarBrand>
