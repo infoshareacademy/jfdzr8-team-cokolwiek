@@ -16,8 +16,9 @@ import {
   MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem 
 } from "mdb-react-ui-kit";
 import {
-  getUsersByEmail, addUserFunction
+  getUsersByEmail, usersCollection
 } from "../firebase/utils/functions";
+import { addDoc } from "@firebase/firestore";
 
 
 export const AdminPanel = () => {
@@ -72,16 +73,22 @@ export const AdminPanel = () => {
       }
    
       if (ok) {
-        //console.log({ name: newName, lastName: newLastName, locationId: newLocationId, email: newEmail})
-        addUserFunction({ name: newName, lastName: newLastName, locationId: newLocationId, email: newEmail});
+        addDoc(usersCollection, {
+          name: newName, 
+          lastName: newLastName,
+          location_id: newLocationId,
+          "e-mail": newEmail,
+          isAdmin: false
+        }).then(context.setGetUsersTrigger((val)=>!val))
         addModalToggle();
       }
     })
     
 	};
-
+  console.log("admin panel users z context",context.users)
     return (<>
     <h1>Admin Panel</h1>
+    
       {context.location &&
         <>
           <div>selected location: {context.location.name}</div>
@@ -138,11 +145,10 @@ export const AdminPanel = () => {
 						</MDBModalContent>
 					</MDBModalDialog>
 				</MDBModal>
-    </>   {console.log(`contet users for location ${context.location.name} ${context.location.id}`,context.users)}
+    </>   
           {
-            context.users.map(user =>(context.location.id == user.location_id ) ? 
+            context.users.map(user =>
             <AdminPanelItem key={user.id} user={user}/> 
-            : false
             )
           }
           

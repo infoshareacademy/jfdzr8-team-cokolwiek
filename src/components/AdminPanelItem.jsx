@@ -101,13 +101,7 @@ export const AdminPanelItem = ({ user }) => {
 			lastName: newLastName,
 			location_id: newLocationId,
 			"e-mail": newEmail
-		  }).then(() => {
-			console.log(context.location.name)
-			context.setLocation(false)
-			context.setLocation({...initialLocation})
-			console.log(context.location.name)
-		  }
-		  )
+		  }).then(context.setGetUsersTrigger((val)=>!val))
         editModalToggle();
       }
     })

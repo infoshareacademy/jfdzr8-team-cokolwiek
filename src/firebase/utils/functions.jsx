@@ -25,7 +25,7 @@ export const getUsers =  () => {
 }
 
 export const getUsersByLocation =  (id) => {
-  return getDocs(query(usersCollection,  where("location_id", "==", id), orderBy('lastName')))
+  return getDocs(query(usersCollection,  where("location_id", "==", id), where("isAdmin", "==", false)))
 }
 
 export const getUsersWithoutLocation =  (id) => {
@@ -78,15 +78,7 @@ export const editLocationFunction =  (id, newName) =>  {
   })
 }
 
-export const addUserFunction = ({name, lastName, locationId, email}) =>  {
-  addDoc(usersCollection, {
-    name: name, 
-    lastName: lastName,
-    location_id: locationId,
-    "e-mail": email,
-    isAdmin: false
-  })
-}
+
 
 
     
