@@ -15,7 +15,11 @@ import {
   MDBModalFooter,
   MDBInput,
 } from "mdb-react-ui-kit";
-import { dellLocationFunction, editLocationFunction, getLocationsByName } from "../firebase/utils/functions";
+import {
+  dellLocationFunction,
+  editLocationFunction,
+  getLocationsByName,
+} from "../firebase/utils/functions";
 
 const ListItem = styled.li`
   display: flex;
@@ -29,7 +33,7 @@ const ListItem = styled.li`
   border: 1px solid;
   margin-bottom: 10px;
   &:hover {
-    background: #e4a11b;
+    background: #9fd9f9;
     cursor: pointer;
   }
   span {
@@ -39,56 +43,53 @@ const ListItem = styled.li`
 `;
 
 export const AdminMenuItem = ({ location }) => {
-
   const context = useContext(MenuContent);
   const [editModalState, setEditModalState] = useState(false);
   const [deleteModalState, setDeleteModalState] = useState(false);
-  const editLocationInput = useRef()
-  
-
+  const editLocationInput = useRef();
 
   const editModalToggle = () => {
     setEditModalState(!editModalState);
     if (!editModalState) {
-      editLocationInput.current.value = location.name
-      editLocationInput.current.placeholder = ""
+      editLocationInput.current.value = location.name;
+      editLocationInput.current.placeholder = "";
     }
-  }
+  };
   const deleteModalToggle = () => setDeleteModalState(!deleteModalState);
 
-
   const deleteLocation = () => {
-    dellLocationFunction(location.id)
-    if (context.location.id == location.id) context.setLocation(false)
+    dellLocationFunction(location.id);
+    if (context.location.id == location.id) context.setLocation(false);
   };
 
- const editLocation = () => {
-  const currentValue = editLocationInput.current.value
-  if (currentValue != "") {
-    getLocationsByName(currentValue).then(querySnapshot => {
-      const isUnique = querySnapshot.empty ? true : false
-      if (isUnique) {
-        editLocationFunction(location.id, currentValue)
-        if (context.location.id == location.id) context.setLocation({...location, name: currentValue})
-        editModalToggle()
-      } else {
-        editLocationInput.current.value = ""
-        editLocationInput.current.placeholder = "Enter unique name"
-        editLocationInput.current.focus()
-      }
-    })
-  } else {
-    editLocationInput.current.placeholder = "Enter unique name"
-    editLocationInput.current.focus()
-}
- }
+  const editLocation = () => {
+    const currentValue = editLocationInput.current.value;
+    if (currentValue != "") {
+      getLocationsByName(currentValue).then((querySnapshot) => {
+        const isUnique = querySnapshot.empty ? true : false;
+        if (isUnique) {
+          editLocationFunction(location.id, currentValue);
+          if (context.location.id == location.id)
+            context.setLocation({ ...location, name: currentValue });
+          editModalToggle();
+        } else {
+          editLocationInput.current.value = "";
+          editLocationInput.current.placeholder = "Enter unique name";
+          editLocationInput.current.focus();
+        }
+      });
+    } else {
+      editLocationInput.current.placeholder = "Enter unique name";
+      editLocationInput.current.focus();
+    }
+  };
 
   return (
     <ListItem
       key={location.id}
       className={location.id == context.location.id ? "selected" : ""}
     >
-      <span id={location.id} onClick={()=>context.setLocation(location)}>
+      <span id={location.id} onClick={() => context.setLocation(location)}>
         {location.name}
       </span>
       <button
@@ -99,7 +100,11 @@ export const AdminMenuItem = ({ location }) => {
         <MDBIcon icon="edit" />
       </button>
       <>
-        <MDBModal tabIndex="-1" show={editModalState} setShow={setEditModalState}>
+        <MDBModal
+          tabIndex="-1"
+          show={editModalState}
+          setShow={setEditModalState}
+        >
           <MDBModalDialog centered>
             <MDBModalContent className="bg-warning bg-gradient">
               <MDBModalHeader>
@@ -121,7 +126,9 @@ export const AdminMenuItem = ({ location }) => {
                 <MDBBtn color="secondary" onClick={editModalToggle}>
                   Anuluj
                 </MDBBtn>
-                <MDBBtn color="success" onClick={editLocation}>Zapisz</MDBBtn>
+                <MDBBtn color="success" onClick={editLocation}>
+                  Zapisz
+                </MDBBtn>
               </MDBModalFooter>
             </MDBModalContent>
           </MDBModalDialog>
@@ -135,11 +142,18 @@ export const AdminMenuItem = ({ location }) => {
         <MDBIcon icon="trash" />
       </button>
       <>
-        <MDBModal tabIndex="-1" show={deleteModalState} setShow={setDeleteModalState} >
+        <MDBModal
+          tabIndex="-1"
+          show={deleteModalState}
+          setShow={setDeleteModalState}
+        >
           <MDBModalDialog centered>
             <MDBModalContent className="bg-danger bg-gradient">
               <MDBModalHeader>
-                <MDBModalTitle>Czy chcesz usunąć lokalizację {location.name} <br/>wraz z przypisanymi do niej osobami?</MDBModalTitle>
+                <MDBModalTitle>
+                  Czy chcesz usunąć lokalizację {location.name} <br />
+                  wraz z przypisanymi do niej osobami?
+                </MDBModalTitle>
                 <MDBBtn
                   className="btn-close"
                   color="orange"
@@ -151,10 +165,7 @@ export const AdminMenuItem = ({ location }) => {
                 <MDBBtn color="secondary" onClick={deleteModalToggle}>
                   Anuluj
                 </MDBBtn>
-                <MDBBtn
-                  color="success gradient"
-                  onClick={deleteLocation}
-                >
+                <MDBBtn color="success gradient" onClick={deleteLocation}>
                   Usuń
                 </MDBBtn>
               </MDBModalFooter>

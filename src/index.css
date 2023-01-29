@@ -13,11 +13,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  
+
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
 
 body {
@@ -65,8 +64,6 @@ button:focus-visible {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #e4a11b;
+  background: #dcdbdb;
   border-radius: 10px;
 }
-
-
