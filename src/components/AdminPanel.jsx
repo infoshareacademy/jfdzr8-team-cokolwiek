@@ -15,6 +15,33 @@ import {
 } from "mdb-react-ui-kit";
 import { getUsersByEmail, usersCollection } from "../firebase/utils/functions";
 import { addDoc } from "@firebase/firestore";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+position: absolute;
+right: 0;
+width: calc(100vw - 250px);
+height: calc(100vh - 260px);
+padding: 20px;
+overflow-y: scroll;
+`
+
+const EWrapper = styled.div`
+width: 100%;
+display:flex;
+flex-direction: row;
+flex-wrap: wrap;
+column-gap: 40px; 
+row-gap: 20px;
+`
+
+const AdminHeader = styled.div`
+display: flex;
+align-items: center;
+h2 {
+  margin-right: 20px;
+}
+`
 
 export const AdminPanel = () => {
   const context = useContext(MenuContent);
@@ -82,14 +109,11 @@ export const AdminPanel = () => {
   };
   //console.log("admin panel users z context", context.users);
   return (
-    <>
-      <h1>Admin Panel</h1>
+    <Wrapper>
       <hr></hr>
-      {context.location && (
-        <>
-          <h2>selected location: {context.location.name}</h2>
-          <hr></hr>
-          <>
+      {context.location && <>
+        <AdminHeader>
+          <h2>{context.location.name}</h2>
             <button
               style={{
                 background: "none",
@@ -104,7 +128,10 @@ export const AdminPanel = () => {
               Add User
               <MDBIcon icon="plus" className="ms-3" />
             </button>
+            </AdminHeader>
+            <hr></hr>
             <p></p>
+          
             <MDBModal
               tabIndex="-1"
               show={addModalState}
@@ -160,12 +187,13 @@ export const AdminPanel = () => {
                 </MDBModalContent>
               </MDBModalDialog>
             </MDBModal>
-          </>
+          <EWrapper>
           {context.users.map((user) => (
             <AdminPanelItem key={user.id} user={user} />
           ))}
-        </>
-      )}
-    </>
-  );
-};
+          </EWrapper>
+          </>}
+    </Wrapper>
+  )
+}
+

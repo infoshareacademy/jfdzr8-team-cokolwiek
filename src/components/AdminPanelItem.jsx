@@ -21,7 +21,12 @@ import { MenuContent } from "./StateContainer";
 import { deleteDoc, doc, updateDoc } from "@firebase/firestore";
 import { db } from "../firebase/firebase";
 
+
 const EmployeeDiv = styled.div`
+
+min-width: 300px;
+max-width: 300px;
+
   font-size: 20px;
   border: 1px solid gray;
   border-radius: 20px;
@@ -32,7 +37,6 @@ const EmployeeDiv = styled.div`
   justify-content: space-between;
   background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   max-height: 80px;
-
 button.ripple.ripple-surface.ripple-surface-light.btn.btn-grey.dropdown-toggle {
     text-align: left;
     padding-left: 15px;
@@ -57,13 +61,19 @@ ul.dropdown-menu  {
 
 `;
 
-const Btns = styled.div`
+const ButtonsGroup = styled.div`
   font-size: 12px;
   border: 1px solid gray;
   border-radius: 20px;
   margin: 0 10px;
   padding: 10px;
+  min-width: 110px;
 `;
+
+const Elabel = styled.div`
+max-width: 200px;
+overflow: hidden;
+`
 
 export const AdminPanelItem = ({ user }) => {
   const [deleteModalState, setDeleteModalState] = useState(false);
@@ -152,8 +162,8 @@ export const AdminPanelItem = ({ user }) => {
 
   return (
     <EmployeeDiv key={user.id}>
-      {user.name} {user.lastName}{" "}
-      <Btns>
+      <Elabel>{user.name} {user.lastName}</Elabel>
+      <ButtonsGroup>
         <button
           style={{ background: "none", borderRadius: "20px" }}
           onClick={() => editModalToggle(user)}
@@ -295,7 +305,7 @@ export const AdminPanelItem = ({ user }) => {
             </MDBModalDialog>
           </MDBModal>
         </>
-      </Btns>
+      </ButtonsGroup>
     </EmployeeDiv>
   );
 };
