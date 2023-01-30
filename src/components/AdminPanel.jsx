@@ -22,7 +22,7 @@ position: absolute;
 right: 0;
 width: calc(100vw - 250px);
 height: calc(100vh - 260px);
-padding: 20px;
+padding: 40px;
 overflow-y: scroll;
 `
 
@@ -110,9 +110,9 @@ export const AdminPanel = () => {
   //console.log("admin panel users z context", context.users);
   return (
     <Wrapper>
-      <hr></hr>
       {context.location && <>
         <AdminHeader>
+          <hr></hr>
           <h2>{context.location.name}</h2>
             <button
               style={{

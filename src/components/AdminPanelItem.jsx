@@ -70,7 +70,7 @@ const ButtonsGroup = styled.div`
   min-width: 110px;
 `;
 
-const Elabel = styled.div`
+const ELabel = styled.div`
 max-width: 200px;
 overflow: hidden;
 `
@@ -102,11 +102,10 @@ export const AdminPanelItem = ({ user }) => {
     } 
   };
 
-  const deleteUser = (id) => {
-    deleteDoc(doc(db, "Users", id))
-      .then()
+  const deleteUser = async (id) => {
+    await deleteDoc(doc(db, "Users", id))
       .then(context.setGetUsersTrigger((val) => !val));
-    editModalToggle();
+    deleteModalToggle();
   };
 
   const editUser = (id) => {
@@ -162,7 +161,7 @@ export const AdminPanelItem = ({ user }) => {
 
   return (
     <EmployeeDiv key={user.id}>
-      <Elabel>{user.name} {user.lastName}</Elabel>
+      <ELabel>{user.name} {user.lastName}</ELabel>
       <ButtonsGroup>
         <button
           style={{ background: "none", borderRadius: "20px" }}
