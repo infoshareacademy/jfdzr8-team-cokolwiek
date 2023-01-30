@@ -12,10 +12,6 @@ import {
   MDBModalBody,
   MDBModalFooter,
   MDBInput,
-  MDBDropdown,
-  MDBDropdownMenu,
-  MDBDropdownToggle,
-  MDBDropdownItem,
 } from "mdb-react-ui-kit";
 import { getUsersByEmail, usersCollection } from "../firebase/utils/functions";
 import { addDoc } from "@firebase/firestore";
@@ -84,7 +80,7 @@ export const AdminPanel = () => {
         }
       });
   };
-  console.log("admin panel users z context", context.users);
+  //console.log("admin panel users z context", context.users);
   return (
     <>
       <h1>Admin Panel</h1>
@@ -128,39 +124,37 @@ export const AdminPanel = () => {
                     ></MDBBtn>
                   </MDBModalHeader>
                   <MDBModalBody>
-                    <p style={{ fontSize: "18px" }}>Imię</p>
-
                     <MDBInput
                       ref={inputAddUserName}
                       type="text"
                       className="bg-light bg-gradient"
+                      label="Name"
                     />
                   </MDBModalBody>
 
                   <MDBModalBody>
-                    <p style={{ fontSize: "18px" }}>Nazwisko</p>
-                    <MDBInput
-                      ref={inputAddUserName}
-                      type="text"
-                      className="bg-light bg-gradient"
-                    />
-                  </MDBModalBody>
-
-                  <MDBModalBody>
-                    <p style={{ fontSize: "18px" }}> E-mail</p>
-
                     <MDBInput
                       ref={inputAddUserLastName}
                       type="text"
                       className="bg-light bg-gradient"
+                      label="Last name"
+                    />
+                  </MDBModalBody>
+
+                  <MDBModalBody>
+                    <MDBInput
+                      ref={inputAddUserEmail}
+                      type="text"
+                      className="bg-light bg-gradient"
+                      label="E-mail"
                     />
                   </MDBModalBody>
                   <MDBModalFooter>
                     <MDBBtn color="secondary" onClick={addModalToggle}>
-                      Anuluj
+                      Cancel
                     </MDBBtn>
                     <MDBBtn color="success" onClick={addUser}>
-                      Zapisz
+                      Save
                     </MDBBtn>
                   </MDBModalFooter>
                 </MDBModalContent>

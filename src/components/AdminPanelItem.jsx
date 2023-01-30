@@ -32,6 +32,26 @@ const EmployeeDiv = styled.div`
   justify-content: space-between;
   background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   max-height: 80px;
+
+button.ripple.ripple-surface.ripple-surface-light.btn.btn-grey.dropdown-toggle {
+    text-align: left;
+    padding-left: 15px;
+    width: 100%;
+    height: 36px;
+	border:none;
+}
+.dropdown-toggle {
+    text-align: left;
+    padding-left: 15px;
+    width: 100%;
+    height: 36px;
+	border: none;
+}
+  
+ul.dropdown-menu  {
+    width: 100%;
+}
+
 `;
 
 const Btns = styled.div`
@@ -48,6 +68,7 @@ export const AdminPanelItem = ({ user }) => {
   const inputEditUserName = useRef();
   const inputEditUserLastName = useRef();
   const inputEditUserEmail = useRef();
+  const inputFake = useRef()
 
   const context = useContext(MenuContent);
   const [newLocation, setNewLocation] = useState(false);
@@ -55,7 +76,7 @@ export const AdminPanelItem = ({ user }) => {
   const deleteModalToggle = () => setDeleteModalState(!deleteModalState);
 
   const editModalToggle = (user) => {
-    setEditModalState(!editModalState);
+	setEditModalState(!editModalState);
     if (!editModalState) {
       inputEditUserName.current.value = user.name;
       inputEditUserName.current.placeholder = "";
@@ -63,8 +84,9 @@ export const AdminPanelItem = ({ user }) => {
       inputEditUserLastName.current.placeholder = "";
       inputEditUserEmail.current.value = user["e-mail"];
       inputEditUserEmail.current.placeholder = "";
+	  inputFake.current.value = " "
       setNewLocation(context.location);
-    }
+    } 
   };
 
   const deleteUser = (id) => {
@@ -145,51 +167,54 @@ export const AdminPanelItem = ({ user }) => {
               <MDBModalContent className="bg-grey bg-gradient">
                 <MDBModalHeader>
                   <MDBModalTitle>
-                    Edycja pracownika
+                    EDIT USER
                     <MDBIcon className="ms-3" fas icon="users" />
                   </MDBModalTitle>
                   <MDBBtn
                     className="btn-close"
                     color="orange"
-                    onClick={() => editModalToggle(user)}
+                    onClick={() => {editModalToggle(user)}}
                   ></MDBBtn>
                 </MDBModalHeader>
                 <MDBModalBody>
-                  <p style={{ fontSize: "18px" }}>Imię</p>
                   <MDBInput
                     ref={inputEditUserName}
                     type="text"
                     className="bg-light bg-gradient"
+					label="Name"
                   />
                 </MDBModalBody>
                 <MDBModalBody>
-                  <p style={{ fontSize: "18px" }}>Nazwisko</p>
                   <MDBInput
                     ref={inputEditUserLastName}
                     type="text"
                     className="bg-light bg-gradient"
+					label="Last name"
                   />
                 </MDBModalBody>
                 <MDBModalBody>
-                  <p style={{ fontSize: "18px" }}>e-mail</p>
                   <MDBInput
                     ref={inputEditUserEmail}
                     type="text"
                     className="bg-light bg-gradient"
+					label="E-mail"
                   />
                 </MDBModalBody>
 
                 <MDBModalBody>
-                  <p style={{ fontSize: "18px" }}>Location</p>
-
-                  <MDBDropdown>
-                    <MDBDropdownToggle color="grey">
+				  <MDBInput type="text"
+                    className="bg-light bg-gradient"
+					label="Location"
+					ref={inputFake}
+					>
+                  <MDBDropdown  style={{marginTop: "-36px"}}>
+                    <MDBDropdownToggle color="grey" > 
                       {newLocation ? newLocation.name : context.location.name}
                     </MDBDropdownToggle>
                     <MDBDropdownMenu>
                       {context.locations.map((location) => {
                         return (
-                          <MDBDropdownItem
+                          <MDBDropdownItem 
                             key={location.id}
                             onClick={() => setNewLocation(location)}
                             link
@@ -200,6 +225,7 @@ export const AdminPanelItem = ({ user }) => {
                       })}
                     </MDBDropdownMenu>
                   </MDBDropdown>
+				  </MDBInput>
                 </MDBModalBody>
 
                 <MDBModalFooter>
@@ -207,14 +233,14 @@ export const AdminPanelItem = ({ user }) => {
                     color="secondary"
                     onClick={() => editModalToggle(user)}
                   >
-                    Anuluj
+                    Cancel
                   </MDBBtn>
                   <MDBBtn
                     color="success"
                     id={user.id}
                     onClick={() => editUser(user.id)}
                   >
-                    Zapisz
+                    Save
                   </MDBBtn>
                 </MDBModalFooter>
               </MDBModalContent>
@@ -240,7 +266,7 @@ export const AdminPanelItem = ({ user }) => {
               <MDBModalContent className="bg-danger bg-gradient">
                 <MDBModalHeader>
                   <MDBModalTitle>
-                    Czy na pewno chcesz usunąć pracownika?
+                    DELETE USER
                   </MDBModalTitle>
                   <MDBBtn
                     className="btn-close"
@@ -251,7 +277,7 @@ export const AdminPanelItem = ({ user }) => {
 
                 <MDBModalFooter className="justify-content-center">
                   <MDBBtn color="secondary" onClick={deleteModalToggle}>
-                    Anuluj
+                    Cancel
                   </MDBBtn>
                   <MDBBtn
                     color="success gradient"
@@ -259,7 +285,7 @@ export const AdminPanelItem = ({ user }) => {
                       deleteUser(user.id);
                     }}
                   >
-                    Usuń
+                    Delete
                   </MDBBtn>
                 </MDBModalFooter>
               </MDBModalContent>

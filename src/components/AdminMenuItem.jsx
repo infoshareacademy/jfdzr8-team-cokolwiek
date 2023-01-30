@@ -112,7 +112,7 @@ export const AdminMenuItem = ({ location }) => {
             <MDBModalContent className="bg-gray bg-gradient">
               <MDBModalHeader>
                 <MDBModalTitle>
-                  EDIT NAME
+                  EDIT LOCATION
                   <MDBIcon className="ms-3" fas icon="globe-americas" />
                 </MDBModalTitle>
                 <MDBBtn
@@ -126,14 +126,15 @@ export const AdminMenuItem = ({ location }) => {
                   ref={editLocationInput}
                   type="text"
                   className="bg-light bg-gradient"
+                  label="Name"
                 />
               </MDBModalBody>
               <MDBModalFooter>
                 <MDBBtn color="secondary" onClick={editModalToggle}>
-                  Anuluj
+                  Cancel
                 </MDBBtn>
                 <MDBBtn color="success" onClick={editLocation}>
-                  Zapisz
+                  Save
                 </MDBBtn>
               </MDBModalFooter>
             </MDBModalContent>
