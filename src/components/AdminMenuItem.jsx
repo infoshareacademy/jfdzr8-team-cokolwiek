@@ -159,8 +159,7 @@ export const AdminMenuItem = ({ location }) => {
             <MDBModalContent className="bg-danger bg-gradient">
               <MDBModalHeader>
                 <MDBModalTitle>
-                  Czy chcesz usunąć lokalizację {location.name} <br />
-                  wraz z przypisanymi do niej osobami?
+                  DELETE {location.name}
                 </MDBModalTitle>
                 <MDBBtn
                   className="btn-close"
@@ -171,10 +170,10 @@ export const AdminMenuItem = ({ location }) => {
 
               <MDBModalFooter className="justify-content-center">
                 <MDBBtn color="secondary" onClick={deleteModalToggle}>
-                  Anuluj
+                  Cancel
                 </MDBBtn>
                 <MDBBtn color="success gradient" onClick={deleteLocation}>
-                  Usuń
+                  Delete
                 </MDBBtn>
               </MDBModalFooter>
             </MDBModalContent>

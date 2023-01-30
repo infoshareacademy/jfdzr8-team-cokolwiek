@@ -266,7 +266,7 @@ export const AdminPanelItem = ({ user }) => {
               <MDBModalContent className="bg-danger bg-gradient">
                 <MDBModalHeader>
                   <MDBModalTitle>
-                    DELETE USER
+                    DELETE {user.name} {user.lastName}
                   </MDBModalTitle>
                   <MDBBtn
                     className="btn-close"
