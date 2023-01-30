@@ -40,6 +40,9 @@ button.ripple.ripple-surface.ripple-surface-light.btn.btn-grey.dropdown-toggle {
     height: 36px;
 	border:none;
 }
+button.ripple-surface {
+	box-shadow: none;
+}
 .dropdown-toggle {
     text-align: left;
     padding-left: 15px;
