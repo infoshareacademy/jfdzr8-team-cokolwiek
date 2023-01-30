@@ -102,8 +102,8 @@ export const AdminPanelItem = ({ user }) => {
     } 
   };
 
-  const deleteUser = async (id) => {
-    await deleteDoc(doc(db, "Users", id))
+  const deleteUser = (id) => {
+     deleteDoc(doc(db, "Users", id))
       .then(context.setGetUsersTrigger((val) => !val));
     deleteModalToggle();
   };
