@@ -77,8 +77,7 @@ const LinkBox = styled(Link)`
 
 const List = styled.ul`
   list-style-type: none;
-  height: 66vh;
-  min-height: 65vh;
+  height: calc(100vh - 310px);
   overflow-y: auto;
   padding-right: 15px;
   width: 100%;

@@ -40,6 +40,8 @@ display: flex;
 align-items: center;
 h2 {
   margin-right: 20px;
+  font-size: 44px;
+  font-weight: 700;
 }
 `
 
