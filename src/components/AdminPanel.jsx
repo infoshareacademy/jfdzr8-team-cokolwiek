@@ -12,13 +12,38 @@ import {
   MDBModalBody,
   MDBModalFooter,
   MDBInput,
-  MDBDropdown,
-  MDBDropdownMenu,
-  MDBDropdownToggle,
-  MDBDropdownItem,
 } from "mdb-react-ui-kit";
 import { getUsersByEmail, usersCollection } from "../firebase/utils/functions";
 import { addDoc } from "@firebase/firestore";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+position: absolute;
+right: 0;
+width: calc(100vw - 250px);
+height: calc(100vh - 260px);
+padding: 40px;
+overflow-y: scroll;
+`
+
+const EWrapper = styled.div`
+width: 100%;
+display:flex;
+flex-direction: row;
+flex-wrap: wrap;
+column-gap: 40px; 
+row-gap: 20px;
+`
+
+const AdminHeader = styled.div`
+display: flex;
+align-items: center;
+h2 {
+  margin-right: 20px;
+  font-size: 44px;
+  font-weight: 700;
+}
+`
 
 export const AdminPanel = () => {
   const context = useContext(MenuContent);
@@ -84,16 +109,13 @@ export const AdminPanel = () => {
         }
       });
   };
-  console.log("admin panel users z context", context.users);
+  //console.log("admin panel users z context", context.users);
   return (
-    <>
-      <h1>Admin Panel</h1>
-      <hr></hr>
-      {context.location && (
-        <>
-          <h2>selected location: {context.location.name}</h2>
+    <Wrapper>
+      {context.location && <>
+        <AdminHeader>
           <hr></hr>
-          <>
+          <h2>{context.location.name}</h2>
             <button
               style={{
                 background: "none",
@@ -108,7 +130,10 @@ export const AdminPanel = () => {
               Add User
               <MDBIcon icon="plus" className="ms-3" />
             </button>
+            </AdminHeader>
+            <hr></hr>
             <p></p>
+          
             <MDBModal
               tabIndex="-1"
               show={addModalState}
@@ -128,50 +153,49 @@ export const AdminPanel = () => {
                     ></MDBBtn>
                   </MDBModalHeader>
                   <MDBModalBody>
-                    <p style={{ fontSize: "18px" }}>Imię</p>
-
                     <MDBInput
                       ref={inputAddUserName}
                       type="text"
                       className="bg-light bg-gradient"
+                      label="Name"
                     />
                   </MDBModalBody>
 
                   <MDBModalBody>
-                    <p style={{ fontSize: "18px" }}>Nazwisko</p>
-                    <MDBInput
-                      ref={inputAddUserName}
-                      type="text"
-                      className="bg-light bg-gradient"
-                    />
-                  </MDBModalBody>
-
-                  <MDBModalBody>
-                    <p style={{ fontSize: "18px" }}> E-mail</p>
-
                     <MDBInput
                       ref={inputAddUserLastName}
                       type="text"
                       className="bg-light bg-gradient"
+                      label="Last name"
+                    />
+                  </MDBModalBody>
+
+                  <MDBModalBody>
+                    <MDBInput
+                      ref={inputAddUserEmail}
+                      type="text"
+                      className="bg-light bg-gradient"
+                      label="E-mail"
                     />
                   </MDBModalBody>
                   <MDBModalFooter>
                     <MDBBtn color="secondary" onClick={addModalToggle}>
-                      Anuluj
+                      Cancel
                     </MDBBtn>
                     <MDBBtn color="success" onClick={addUser}>
-                      Zapisz
+                      Save
                     </MDBBtn>
                   </MDBModalFooter>
                 </MDBModalContent>
               </MDBModalDialog>
             </MDBModal>
-          </>
+          <EWrapper>
           {context.users.map((user) => (
             <AdminPanelItem key={user.id} user={user} />
           ))}
-        </>
-      )}
-    </>
-  );
-};
+          </EWrapper>
+          </>}
+    </Wrapper>
+  )
+}
+

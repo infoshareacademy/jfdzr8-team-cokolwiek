@@ -77,8 +77,7 @@ const LinkBox = styled(Link)`
 
 const List = styled.ul`
   list-style-type: none;
-  height: 66vh;
-  min-height: 65vh;
+  height: calc(100vh - 310px);
   overflow-y: auto;
   padding-right: 15px;
   width: 100%;
@@ -140,19 +139,19 @@ export const AdminMenu = () => {
 
       {isEditView ? (
         <LinkBox to="/" onClick={() => setEditView(false)}>
-          Wyłącz tryb edycji
+          Disable edit mode
           <MDBIcon far icon="times-circle" className="ms-3 align-self-center" />
         </LinkBox>
       ) : (
         <LinkBox to="/AdminPanel" onClick={() => setEditView(true)}>
-          Włącz tryb edycji
+          Enable edit mode
           <MDBIcon far icon="edit ms-3 align-self-center" />
         </LinkBox>
       )}
       {isEditView ? (
         <>
           <button className="edit bbig" onClick={addModalToggle}>
-            Dodaj lokalizacje
+            Create new location
             <MDBIcon icon="plus" className="ms-3" />
           </button>
           <MDBModal
@@ -164,7 +163,7 @@ export const AdminMenu = () => {
               <MDBModalContent className="bg-gray bg-gradient">
                 <MDBModalHeader>
                   <MDBModalTitle>
-                    Dodaj lokalizację
+                    CREATE LOCATION
                     <MDBIcon className="ms-3" fas icon="map-marker-alt" />
                   </MDBModalTitle>
                   <MDBBtn
@@ -178,15 +177,15 @@ export const AdminMenu = () => {
                     ref={addLocationInput}
                     type="text"
                     className="bg-light bg-gradient"
-                    label="Nazwa lokalizacji"
+                    label="Location name"
                   />
                 </MDBModalBody>
                 <MDBModalFooter>
                   <MDBBtn color="secondary" onClick={addModalToggle}>
-                    Anuluj
+                    Cancel
                   </MDBBtn>
                   <MDBBtn color="success" onClick={addLocation}>
-                    Zapisz
+                    Save
                   </MDBBtn>
                 </MDBModalFooter>
               </MDBModalContent>
@@ -195,7 +194,7 @@ export const AdminMenu = () => {
         </>
       ) : (
         <h4>
-          Twoje lokalizacje
+          Locations
           <MDBIcon className="ms-3" fas icon="map-marked-alt" />
         </h4>
       )}

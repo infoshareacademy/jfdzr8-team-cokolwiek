@@ -16,7 +16,7 @@ const LayoutHeader = styled.div`
 const LayoutContent = styled.div`
  display: flex;
  flex-direction: column;
-	height: 100%;
+ height: 100%;
 `
 const LayoutFooter = styled.div`
 position: absolute;
@@ -24,9 +24,7 @@ top: 0;
 `;
 
 const LayoutMenu = styled.div`
- min-width: 250px;
- max-width: 300px;
- width: 25vw;
+ width: 250px;
  height: 100vh;
  position: absolute;
  left: 0;

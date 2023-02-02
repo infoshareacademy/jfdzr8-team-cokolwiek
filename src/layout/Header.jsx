@@ -36,7 +36,7 @@ export const Header = ({ user }) => {
               onClick={() => auth.signOut()}
             >
               <MDBIcon fas icon="sign-out-alt" />
-              Wyloguj
+              Log Out
             </Button>
           )}
         </MDBNavbarBrand>
