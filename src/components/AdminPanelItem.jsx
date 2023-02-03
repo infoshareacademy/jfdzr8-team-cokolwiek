@@ -14,7 +14,7 @@ import {
   MDBDropdown,
   MDBDropdownMenu,
   MDBDropdownToggle,
-  MDBDropdownItem,
+  MDBDropdownItem
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { MenuContent } from "./StateContainer";
@@ -23,20 +23,20 @@ import { db } from "../firebase/firebase";
 
 
 const EmployeeDiv = styled.div`
-
-min-width: 300px;
-max-width: 300px;
-
+min-width: 280px;
+max-width: 280px;
+max-height: 180px;
+min-height: 180px;
   font-size: 20px;
   border: 1px solid gray;
   border-radius: 20px;
   padding: 20px;
   margin: 10px 0;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  max-height: 80px;
 button.ripple.ripple-surface.ripple-surface-light.btn.btn-grey.dropdown-toggle {
     text-align: left;
     padding-left: 15px;
@@ -65,14 +65,14 @@ const ButtonsGroup = styled.div`
   font-size: 12px;
   border: 1px solid gray;
   border-radius: 20px;
-  margin: 0 10px;
-  padding: 10px;
-  min-width: 110px;
+  margin:0;
+  padding: 4px;
+  min-width: 0px;
+  align-self: flex-start;
 `;
 
 const ELabel = styled.div`
-max-width: 200px;
-overflow: hidden;
+width: 130px;
 `
 
 export const AdminPanelItem = ({ user }) => {
@@ -102,10 +102,11 @@ export const AdminPanelItem = ({ user }) => {
     } 
   };
 
-  const deleteUser = (id) => {
+  const deleteUser =  (id) => {
      deleteDoc(doc(db, "Users", id))
-      .then(context.setGetUsersTrigger((val) => !val));
+      .then(()=>{context.setGetUsersTrigger((val) => !val)})
     deleteModalToggle();
+    
   };
 
   const editUser = (id) => {
@@ -153,7 +154,7 @@ export const AdminPanelItem = ({ user }) => {
             lastName: newLastName,
             location_id: newLocationId,
             "e-mail": newEmail,
-          }).then(context.setGetUsersTrigger((val) => !val));
+          }).then(()=>{context.setGetUsersTrigger((val) => !val)});
           editModalToggle();
         }
       });
@@ -161,7 +162,8 @@ export const AdminPanelItem = ({ user }) => {
 
   return (
     <EmployeeDiv key={user.id}>
-      <ELabel>{user.name} {user.lastName}</ELabel>
+      <ELabel>{user.name + ' ' + user.lastName} 
+      <p>{user["e-mail"]}</p></ELabel>
       <ButtonsGroup>
         <button
           style={{ background: "none", borderRadius: "20px" }}
@@ -305,6 +307,8 @@ export const AdminPanelItem = ({ user }) => {
           </MDBModal>
         </>
       </ButtonsGroup>
+      
     </EmployeeDiv>
+    
   );
 };

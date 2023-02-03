@@ -104,7 +104,7 @@ export const AdminPanel = () => {
             location_id: newLocationId,
             "e-mail": newEmail,
             isAdmin: false,
-          }).then(context.setGetUsersTrigger((val) => !val));
+          }).then(()=>{context.setGetUsersTrigger((val) => !val)});
           addModalToggle();
         }
       });
@@ -114,7 +114,6 @@ export const AdminPanel = () => {
     <Wrapper>
       {context.location && <>
         <AdminHeader>
-          <hr></hr>
           <h2>{context.location.name}</h2>
             <button
               style={{
