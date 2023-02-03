@@ -19,7 +19,7 @@ export const StateContainer = ({children}) => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log("statecontainer selectedLocation",selectedLocation)
+        console.log("statecontainer selectedLocation",selectedLocation, "trigger value",getUsersTrigger)
         console.log(users)
         setUsers(users)  
       }) : setUsers([])
@@ -41,7 +41,7 @@ export const StateContainer = ({children}) => {
     return (
     <MenuContent.Provider 
     value={{location:selectedLocation, setLocation:setSelectedLocation, 
-    users:users, locations:locations, setLocations:setLocations,
+    users:users, locations:locations, setLocations:setLocations, setUsers: setUsers,
     setGetUsersTrigger: setGetUsersTrigger } }>
     {children}
     </MenuContent.Provider>

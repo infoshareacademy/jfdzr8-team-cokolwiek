@@ -10,37 +10,80 @@ import {
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
 
+const TableDiv = styled.div`
+`;
+
+const Btns = styled.div`
+  font-size: 14px;
+  align-self: start;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+`;
+
+const TablePack = styled.div`
+
+`;
+
+const AdminHeader = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  h2 {
+    margin-right: 20px;
+    font-size: 44px;
+    font-weight: 700;
+  }
+`
+const AdminContent = styled.div`
+
+`
+
+const Wrapper = styled.div`
+  position: absolute;
+  right: 0;
+  width: calc(100vw - 250px);
+  height: calc(100vh - 260px);
+  padding: 40px;
+  overflow-y: scroll;
+
+
+`
+
 export const AdminHome = () => {
   const context = useContext(MenuContent);
 
-  const TableDiv = styled.div`
-    max-width: 600px;
-  `;
 
-  const Btns = styled.div`
-    font-size: 14px;
-    align-self: start;
-    margin: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  const TablePack = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `;
 
   return (
-    <>
-      <h1>Admin Home</h1>
+    <Wrapper>
+      {context.location && <>
+        <AdminHeader>
+          <h2>{context.location.name}</h2> {context.users.length > 0 && <><MDBInput type="week"></MDBInput>
+          <Btns>
+        <button
+          style={{
+            background: "yellowgreen",
+            borderRadius: "20px",
+            width: "200px",
+            color: "black"
+          }}
+        >
+          Accept
+          <MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
+        </button>
+      </Btns></>}
       <hr></hr>
-      {context.location && <h2>selected location: {context.location.name}</h2>}
-      <hr></hr>
+          </AdminHeader>
+          <hr/>
+            
+      <AdminContent> 
+      {!context.users.length ? <h2>No data to display</h2> :    
       <TablePack>
         <TableDiv>
-          <MDBTable>
+          <MDBTable hover responsive>
             <MDBTableHead dark>
               <tr>
                 <th scope="col">Employee</th>
@@ -52,15 +95,17 @@ export const AdminHome = () => {
                 <th scope="col">Saturday</th>
                 <th scope="col">Sunday</th>
                 <th scope="col">Sum</th>
-              </tr>
+                </tr>
             </MDBTableHead>
             <MDBTableBody>
               {context.users.map((user) => (
                 <tr key={user.id}>
-                  <p>{user.name}</p>
-                  <th>
-                    <MDBInput />
-                  </th>
+                  <td>
+                  {user.name + ' ' + user.lastName}
+                  </td>
+                  <td>
+                    <MDBInput value={0}/>
+                  </td>
                   <td>
                     <MDBInput />
                   </td>
@@ -86,19 +131,9 @@ export const AdminHome = () => {
           </MDBTable>
         </TableDiv>
       </TablePack>
-      <Btns>
-        <button
-          style={{
-            background: "yellowgreen",
-            borderRadius: "20px",
-            width: "200px",
-            color: "black",
-          }}
-        >
-          Accept
-          <MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
-        </button>
-      </Btns>
-    </>
+      }
+      </AdminContent>  
+      </>}
+      </Wrapper>
   );
 };

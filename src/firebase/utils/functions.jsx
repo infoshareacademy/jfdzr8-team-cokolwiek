@@ -3,7 +3,7 @@ import { signInWithPopup, signOut } from 'firebase/auth'
 import { addDoc, collection, deleteDoc, doc, getDocs, getDoc, updateDoc, query, where, orderBy } from "firebase/firestore";
 
 
-
+export const dataCollection = collection(db, "Data");
 export const usersCollection = collection(db, "Users");
 export const locationsCollection = collection(db, "Locations");
 
@@ -23,6 +23,8 @@ export const signInWithGoogle = async () => {
 export const getUsers =  () => {
   return getDocs(query(usersCollection,  where("isAdmin", "==", false)))
 }
+
+
 
 export const getUsersByLocation =  (id) => {
   return getDocs(query(usersCollection,  where("location_id", "==", id), where("isAdmin", "==", false)))
