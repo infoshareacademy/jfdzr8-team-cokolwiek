@@ -113,8 +113,6 @@ export const AdminMenu = () => {
           if (isUnique) {
             addLocationFunction(currentValue);
             addModalToggle();
-            addLocationFunction(currentValue);
-            addModalToggle();
           } else {
             addLocationInput.current.value = "";
             addLocationInput.current.placeholder = "Enter unique name";
