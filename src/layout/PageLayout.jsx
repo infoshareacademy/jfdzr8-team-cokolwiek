@@ -40,6 +40,6 @@ export const PageLayout = ({ header, footer, children, menu }) => (
       {children}
       </StateContainer>
     </LayoutContent>
-    <LayoutFooter>{footer}</LayoutFooter>
+   <LayoutFooter>{footer}</LayoutFooter>
   </LayoutRoot>
 );

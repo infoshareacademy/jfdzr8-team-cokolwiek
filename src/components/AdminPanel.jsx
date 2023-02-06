@@ -17,32 +17,40 @@ import { getUsersByEmail, usersCollection } from "../firebase/utils/functions";
 import { addDoc } from "@firebase/firestore";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+
+const AdminHeader = styled.div`
 position: absolute;
 right: 0;
 width: calc(100vw - 250px);
-height: calc(100vh - 260px);
-padding: 40px;
-overflow-y: scroll;
+  display: flex;
+  height: 80px;
+  margin-top: 10px;
+  align-items: center;
+  h2 {
+    margin-right: 20px;
+    font-size: 44px;
+    font-weight: 700;
+  }
+  padding: 40px
 `
-
 const EWrapper = styled.div`
-width: 100%;
+position: absolute;
+right: 0;
+width: calc(100vw - 250px);
+height: calc(100vh - 260px - 60px);
+padding: 40px;
+margin-top: 90px;
+overflow-y: auto;
 display:flex;
 flex-direction: row;
 flex-wrap: wrap;
 column-gap: 40px; 
 row-gap: 20px;
+padding-top:10px;
 `
 
-const AdminHeader = styled.div`
-display: flex;
-align-items: center;
-h2 {
-  margin-right: 20px;
-  font-size: 44px;
-  font-weight: 700;
-}
+const Wrapper = styled.div`
+ 
 `
 
 export const AdminPanel = () => {
@@ -130,9 +138,6 @@ export const AdminPanel = () => {
               <MDBIcon icon="plus" className="ms-3" />
             </button>
             </AdminHeader>
-            <hr></hr>
-            <p></p>
-          
             <MDBModal
               tabIndex="-1"
               show={addModalState}

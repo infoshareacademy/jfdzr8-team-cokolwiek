@@ -1,4 +1,5 @@
-import { getUsers, getUsersByEmail, getLocations, getUsersByLocation } from "./functions"
+import { getUsers, getUsersByEmail, getLocations, getUsersByLocation, dataCollection } from "./functions"
+import { addDoc, collection, deleteDoc, doc, getDocs, getDoc, updateDoc, query, where, orderBy } from "firebase/firestore";
 
 export const Test = () => {
     
@@ -11,12 +12,14 @@ export const Test = () => {
         console.log(users)
       }
       
-      test(getUsers)
-      test(getUsersByEmail,"ssosnkrz@gmail.com")
-      test(getUsersByLocation("OB7HQaKL4NEal5LMAJ9U"))
+      //test(getUsers)
+      //test(getUsersByEmail,"ssosnkrz@gmail.com")
+      //test(getUsersByLocation("OB7HQaKL4NEal5LMAJ9U"))
 
       //dellUser("d1Ik6qEs8sp5ww8zQDzh")
 
-      test(getLocations)
+      //test(getLocations)
+
+      addDoc(dataCollection, {location_id:"lrvUqiSTEhshuEGbqCyj",user_id:"2CHjpYwRTiSKjtQDTGsP",week:"01", isApproved: false, monday: 0,dupa:1})
 
 }
