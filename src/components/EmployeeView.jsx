@@ -1,8 +1,5 @@
-import { query, where, getDocs, } from "firebase/firestore";
-import {
-	dataCollection,
-	
-} from "../firebase/utils/functions";
+import { query, where, getDocs, addDoc } from "firebase/firestore";
+import { dataCollection } from "../firebase/utils/functions";
 import { useContext, useEffect, useRef, useState } from "react";
 import { MenuContent } from "./StateContainer";
 import React from "react";
@@ -11,9 +8,10 @@ import {
 	MDBTableHead,
 	MDBTableBody,
 	MDBInput,
+	MDBBtn,
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
-
+import { NameLocation} from './test';
 
 const TableDiv = styled.div`
 	width: 60%;
@@ -33,166 +31,176 @@ const currentWeek = function () {
 	return now.toLocaleString("en-US", options) + "-W" + w;
 };
 
-const initData = (user) => {
-    const newData = {
-        pn: 0, wt: 0, sr: 0, cz: 0, pt: 0, sn: 0, nd: 0, sum: 0, name: user.name + " " + user.lastName, userId: user.id, locationId: user.location_id, 
-    }
-          
-    return newData
-  
-  }
+const initData = user => {
+	const newData = {
+		pn: 0,
+		wt: 0,
+		sr: 0,
+		cz: 0,
+		pt: 0,
+		sn: 0,
+		nd: 0,
+		sum: 0,
+		name: user.name + " " + user.lastName,
+		userId: user.id,
+		locationId: user.location_id,
+	};
 
-export const EmployeeView = ({ user}) => {
+	return newData;
+};
 
-	const context = useContext(MenuContent);
-	const [data, setData] = useState([]);
-	const [week, setWeek] = useState(currentWeek());
-    const weekInput = useRef(null);
-    const w = currentWeek()
-    if (weekInput.current) weekInput.current.value = w == week ? w : week
-    useEffect(() => {
+export const EmployeeView = ({ user }) => {
+    const context = useContext(MenuContent);
+    const [data, setData] = useState([]);
+    
+    const [value, setValue] = useState(data)
+    const [draftId, setDraftId] = useState(null)
+
+	const [week, setWeek] = useState(currentWeek(data));
+	const weekInput = useRef(null);
+	const w = currentWeek();
+	if (weekInput.current) weekInput.current.value = w == week ? w : week;
+	useEffect(() => {
 		getDocs(
 			query(
 				dataCollection,
 				where("location_id", "==", user.location_id),
 				where("user_id", "==", user.id),
-                where("week", "==", week),
-                
+				where("week", "==", week)
 			)
 		).then(querySnapshot => {
 			const data = querySnapshot.docs.map(doc => ({
 				id: doc.id,
 				...doc.data(),
 			}));
-            if (data.length == 0) {
-                const ddd = initData(user)
-                setData(ddd)
-                
-            } else {
-                const ddd = {
-                    pn: data[0].pn,
-                    wt: data[0].wt,
-                    sr: data[0].sr,
-                    czw: data[0].czw,
-                    pt: data[0].pt,
-                    sn: data[0].sn,
-                    nd: data[0].nd,
-                    sum:data[0].sum
-                
-                }
-                setData(ddd)
-            }
-			
+			if (data.length == 0) {
+				const ddd = initData(user);
+				setData(ddd);
+			} else {
+				const ddd = {
+					pn: data[0].pn,
+					wt: data[0].wt,
+					sr: data[0].sr,
+					czw: data[0].czw,
+					pt: data[0].pt,
+					sn: data[0].sn,
+					nd: data[0].nd,
+					sum: data[0].sum,
+				};
+				setData(ddd);
+			}
 		});
 	}, [week]);
 
+    const handleSubmit = event => {
+        alert(`Podano następujące imię: ${event.target.value}`)
+        event.preventDefault()
+    }
+
+    // const getFormData = (e) => {
+    //     const form = e.target;
+    //     const { pn,wt,sr,czw,pt,sn,nd } = form;
+    
+    //     const dat = {
+    //       pn: pn.value,
+    //       wt: wt.value,
+    //         sr: sr.value,
+    //         czw: czw.value,
+    //         pt: pt.value,
+    //         sn: sn.value,
+    //         nd: nd.value
+          
+    //     };
+    
+        
+    //     return dat;
+    //   };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     addDoc(dataCollection, getFormData(e));
+    // };
+    
+    // const handleUpdate = (e, docId) => {
+    //     e.preventDefault();
+    //     const docRef = doc(dataCollection, docId);
+    
+    //     updateDoc(docRef, getFormData(e));
+    
+    //     setDraftId(null);
+    // }
+
+    
+
 	return (
-        <>
-            <h2>name</h2>
-            {console.log(data, "week", week,)}
-           <MDBInput type="week" onChange={(e)=>{
-            setWeek(e.target.value)
-          }}
-          ref={weekInput}></MDBInput>
-			<TablePack>
-				<TableDiv>
-					<MDBTable hover responsive>
-						<MDBTableHead dark>
-							<tr>
-								<th scope="col">Employee</th>
-								<th scope="col">Monday</th>
-								<th scope="col">Tuesday</th>
-								<th scope="col">Wednesday</th>
-								<th scope="col">Thursday</th>
-								<th scope="col">Friday</th>
-								<th scope="col">Saturday</th>
-								<th scope="col">Sunday</th>
-								<th scope="col">Sum</th>
-							</tr>
-						</MDBTableHead>
-						<MDBTableBody>
-				
+		<>
+			<NameLocation />
+			{console.log(data, "week", week)}
+
+			<form onSubmit={handleSubmit}>
+				<MDBInput
+					type="week"
+					onChange={e => {
+						setWeek(e.target.value);
+					}}
+					ref={weekInput}></MDBInput>
+				<TablePack>
+					<TableDiv>
+						<MDBTable hover responsive>
+							<MDBTableHead dark>
+								<tr>
+									<th scope="col">Employee</th>
+									<th scope="col">Monday</th>
+									<th scope="col">Tuesday</th>
+									<th scope="col">Wednesday</th>
+									<th scope="col">Thursday</th>
+									<th scope="col">Friday</th>
+									<th scope="col">Saturday</th>
+									<th scope="col">Sunday</th>
+									<th scope="col">Sum</th>
+								</tr>
+							</MDBTableHead>
+							<MDBTableBody>
 								<tr>
 									<td>{data.name}</td>
 									<td>
 										<MDBInput
-											value={data.pn }
-											onKeyDown={e => handleKey(data.pn, e)}
-											onKeyUp={e => handleKey(user.id, "pn", e)}
-											onBlur={e => handleBlur(user.id, "pn", e)}
-											onChange={e => handleChange(user.id, "pn", e)}
+											value={value}
+											// value={data.pn}
+											onChange={e => setValue(e.target.value)}
 										/>
 									</td>
 									<td>
-										<MDBInput
-											value={data.wt}
-											onKeyDown={e => handleKey(user.id, "wt", e)}
-											onKeyUp={e => handleKey(user.id, "wt", e)}
-											onBlur={e => handleBlur(user.id, "wt", e)}
-											onChange={e => handleChange(user.id, "wt", e)}
-										/>
+										<MDBInput value={data.wt} />
 									</td>
 									<td>
-										<MDBInput
-											value={data.sr}
-											onKeyDown={e => handleKey(user.id, "sr", e)}
-											onKeyUp={e => handleKey(user.id, "sr", e)}
-											onBlur={e => handleBlur(user.id, "sr", e)}
-											onChange={e => handleChange(user.id, "sr", e)}
-										/>
+										<MDBInput value={data.sr} />
 									</td>
 									<td>
-										<MDBInput
-                                        value={data.cz}
-											onKeyDown={e => handleKey(user.id, "cz", e)}
-											onKeyUp={e => handleKey(user.id, "cz", e)}
-											onBlur={e => handleBlur(user.id, "cz", e)}
-											onChange={e => handleChange(user.id, "cz", e)}
-										/>
+										<MDBInput value={data.pt} />
 									</td>
 									<td>
-										<MDBInput
-											value={data.pt}
-											onKeyDown={e => handleKey(user.id, "pt", e)}
-											onKeyUp={e => handleKey(user.id, "pt", e)}
-											onBlur={e => handleBlur(user.id, "pt", e)}
-											onChange={e => handleChange(user.id, "pt", e)}
-										/>
+										<MDBInput value={data.sn} />
 									</td>
 									<td>
-										<MDBInput
-											value={data.sn}
-											onKeyDown={e => handleKey(user.id, "sn", e)}
-											onKeyUp={e => handleKey(user.id, "sn", e)}
-											onBlur={e => handleBlur(user.id, "sn", e)}
-											onChange={e => handleChange(user.id, "sn", e)}
-										/>
-									</td>
-									<td>
-										<MDBInput
-											value={data.nd}
-											onKeyDown={e => handleKey(user.id, "nd", e)}
-											onKeyUp={e => handleKey(user.id, "nd", e)}
-											onBlur={e => handleBlur(user.id, "nd", e)}
-											onChange={e => handleChange(user.id, "nd", e)}
-										/>
+										<MDBInput value={data.nd} />
 									</td>
 									<td>
 										<span
 											className="form-control"
 											style={{ background: "transparent", width: "100px" }}>
-											{data[user.id] ? data[user.id].sum : ""}
+											{data.sum}
 										</span>
 									</td>
 								</tr>
-						</MDBTableBody>
-					</MDBTable>
-				</TableDiv>
-			</TablePack>
+							</MDBTableBody>
+						</MDBTable>
+					</TableDiv>
+				</TablePack>
+
+				<MDBBtn type="submit" block>
+					Submit
+				</MDBBtn>
+			</form>
 		</>
 	);
 };
-
-// cos w stylu getDocs(query(usersCollection,  where("location_id", "==", ""), tu dodaj where na usera, tu dodaj where na tydzien))
-
-// no i oczywiscie kolakcja Data
