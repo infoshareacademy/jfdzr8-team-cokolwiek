@@ -1,15 +1,16 @@
-import { getDoc, doc } from 'firebase/firestore';
-import { useContext, useEffect, useState } from 'react';
-import { usersCollection } from '../firebase/utils/functions';
+import { async } from '@firebase/util';
+import { doc, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
+import { db } from '../firebase/firebase';
+import { locationsCollection } from '../firebase/utils/functions'
 
 
-
-export const NameIcon = ({ user }) => {
+export const NameLocation = ({ user }) => {
     const [data, setData] = useState([]);
     
     useEffect(() => {
         async function fetchData() {
-            const docRef = doc(usersCollection, user.id)
+            const docRef = doc(locationsCollection, user.location_id)
             try {
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
@@ -29,7 +30,7 @@ export const NameIcon = ({ user }) => {
     
     return(
         <>
-            <h2>{data.name + " " + data.lastName} </h2>
+            <h2>Twoja Lokalizacja:{data.name} </h2>
             
         </>
     )

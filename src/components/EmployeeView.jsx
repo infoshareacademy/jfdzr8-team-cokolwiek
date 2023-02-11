@@ -11,7 +11,7 @@ import {
 	MDBBtn,
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
-import { NameLocation} from './test';
+import { NameLocation } from "./NameLocation";
 
 const TableDiv = styled.div`
 	width: 60%;
@@ -36,7 +36,7 @@ const initData = user => {
 		pn: 0,
 		wt: 0,
 		sr: 0,
-		cz: 0,
+		czw: 0,
 		pt: 0,
 		sn: 0,
 		nd: 0,
@@ -50,11 +50,10 @@ const initData = user => {
 };
 
 export const EmployeeView = ({ user }) => {
-    const context = useContext(MenuContent);
-    const [data, setData] = useState([]);
-    
-    const [value, setValue] = useState(data)
-    const [draftId, setDraftId] = useState(null)
+	const context = useContext(MenuContent);
+	const [data, setData] = useState(null);
+
+	// const [draftId, setDraftId] = useState(null);
 
 	const [week, setWeek] = useState(currentWeek(data));
 	const weekInput = useRef(null);
@@ -92,48 +91,66 @@ export const EmployeeView = ({ user }) => {
 		});
 	}, [week]);
 
-    const handleSubmit = event => {
-        alert(`Podano następujące imię: ${event.target.value}`)
-        event.preventDefault()
-    }
+	const handleChange = (id, day, e) => {
+		const val = parseFloat(e.target.value);
+		const error = isNaN(val) || val < 0;
+		let sum = data.sum;
+		if (!error)
+			sum =
+				data.pn * 1 +
+				data.wt * 1 +
+				data.sr * 1 +
+				data.czw * 1 +
+				data.pt * 1 +
+				data.sn * 1 +
+				data.nd * 1;
 
-    // const getFormData = (e) => {
-    //     const form = e.target;
-    //     const { pn,wt,sr,czw,pt,sn,nd } = form;
-    
-    //     const dat = {
-    //       pn: pn.value,
-    //       wt: wt.value,
-    //         sr: sr.value,
-    //         czw: czw.value,
-    //         pt: pt.value,
-    //         sn: sn.value,
-    //         nd: nd.value
-          
-    //     };
-    
-        
-    //     return dat;
-    //   };
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     addDoc(dataCollection, getFormData(e));
-    // };
-    
-    // const handleUpdate = (e, docId) => {
-    //     e.preventDefault();
-    //     const docRef = doc(dataCollection, docId);
-    
-    //     updateDoc(docRef, getFormData(e));
-    
-    //     setDraftId(null);
-    // }
+		setData({ ...data, [day]: e.target.value, sum:sum });
+		console.log(data, e, id, day);
+	};
 
-    
+	const handleSubmit = event => {
+		alert(`Zapisano : ${event.target.value}`);
+		event.preventDefault();
+	};
+
+	// const getFormData = (e) => {
+	//     const form = e.target;
+	//     const { pn,wt,sr,czw,pt,sn,nd } = form;
+
+	//     const dat = {
+	//       pn: pn.value,
+	//       wt: wt.value,
+	//         sr: sr.value,
+	//         czw: czw.value,
+	//         pt: pt.value,
+	//         sn: sn.value,
+	//         nd: nd.value
+
+	//     };
+
+	//     return dat;
+	//   };
+	// const handleSubmit = (e) => {
+	//     e.preventDefault();
+	//     addDoc(dataCollection, getFormData(e));
+	// };
+
+	// const handleUpdate = () => {
+	//     e.preventDefault();
+	//     const docRef = doc(dataCollection,);
+
+	//     updateDoc(docRef, getFormData(e));
+
+	//     setDraftId(null);
+
+	// }
+
+   
 
 	return (
 		<>
-			<NameLocation />
+			<NameLocation user={user} />
 			{console.log(data, "week", week)}
 
 			<form onSubmit={handleSubmit}>
@@ -161,34 +178,54 @@ export const EmployeeView = ({ user }) => {
 							</MDBTableHead>
 							<MDBTableBody>
 								<tr>
-									<td>{data.name}</td>
+									<td>{data?.name}</td>
 									<td>
 										<MDBInput
-											value={value}
-											// value={data.pn}
-											onChange={e => setValue(e.target.value)}
+											value={data ? data.pn : ""}
+											onChange={e => handleChange(user.id, "pn", e)}
 										/>
 									</td>
 									<td>
-										<MDBInput value={data.wt} />
+										<MDBInput
+											value={data ? data.wt : ""}
+											onChange={e => handleChange(user.id, "wt", e)}
+										/>
 									</td>
 									<td>
-										<MDBInput value={data.sr} />
+										<MDBInput
+											value={data ? data.sr : ""}
+											onChange={e => handleChange(user.id, "sr", e)}
+										/>
 									</td>
 									<td>
-										<MDBInput value={data.pt} />
+										<MDBInput
+											value={data ? data.czw : ""}
+											onChange={e => handleChange(user.id, "czw", e)}
+										/>
 									</td>
 									<td>
-										<MDBInput value={data.sn} />
+										<MDBInput
+											value={data ? data.pt : ""}
+											onChange={e => handleChange(user.id, "pt", e)}
+										/>
 									</td>
 									<td>
-										<MDBInput value={data.nd} />
+										<MDBInput
+											value={data ? data.sn : ""}
+											onChange={e => handleChange(user.id, "sn", e)}
+										/>
+									</td>
+									<td>
+										<MDBInput
+											value={data ? data.nd : ""}
+											onChange={e => handleChange(user.id, "nd", e)}
+										/>
 									</td>
 									<td>
 										<span
 											className="form-control"
 											style={{ background: "transparent", width: "100px" }}>
-											{data.sum}
+											{data?.sum}
 										</span>
 									</td>
 								</tr>
@@ -197,7 +234,7 @@ export const EmployeeView = ({ user }) => {
 					</TableDiv>
 				</TablePack>
 
-				<MDBBtn type="submit" block>
+				<MDBBtn type="submit" >
 					Submit
 				</MDBBtn>
 			</form>

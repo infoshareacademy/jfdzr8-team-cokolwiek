@@ -32,7 +32,7 @@ export const Header = ({ user }) => {
       
         <MDBNavbarBrand className="justify-content-center">
           <img src={logo} height="100" alt="" loading="lazy" />
-          <NameIcon/>
+          {/* <NameIcon user={user} /> */}
           {user && (
             <Button
               className="button small text-dark"
