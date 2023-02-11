@@ -52,15 +52,14 @@ function App() {
     <div>Loading...</div>
   ) : (
     <BrowserRouter>
-      {console.log("render", user)}
-      {/* <PageLayout
-        header={<Header user={user} />}
-        footer={<Footer />}
+      <PageLayout
+        header={user ? <Header user={user}/> : null}
+        footer={user ? <Footer /> : null}
         menu={user?.isAdmin ? <AdminMenu /> : null}
-      > */}
+      > 
       <Routes>
         <Route element={<ProtectedRoute isAllowed={!user} />}>
-          <Route path="/login" element={<LandingPage />} />
+          <Route path="/login" element={<LandingPage/>} />
         </Route>
         <Route element={<ProtectedRoute isAllowed={user?.isAdmin} />}>
           <Route path="/AdminEmployeesList" element={<AdminEmployeesList />} />
@@ -81,7 +80,7 @@ function App() {
         {/*tylko do testowania cruda do bazy*/}
         <Route path="/test" element={<Test />} />
       </Routes>
-      {/* </PageLayout> */}
+      </PageLayout>
     </BrowserRouter>
   );
 }
