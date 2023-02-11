@@ -16,7 +16,7 @@ import { getUsersByEmail } from "./firebase/utils/functions";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { AdminMenu } from "./components/AdminMenu";
-
+import LandingPage from "./components/LandingPage/LandingPage";
 
 {
   /*tylko do testowania cruda do bazy*/
@@ -26,7 +26,6 @@ import { Test } from "./firebase/utils/test";
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setIsLoading] = useState(true);
-  
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -54,34 +53,35 @@ function App() {
   ) : (
     <BrowserRouter>
       {console.log("render", user)}
-      <PageLayout header={<Header user={user} />} footer={<Footer />} menu={ user?.isAdmin ? <AdminMenu /> : null }>
-        <Routes>
-          <Route element={<ProtectedRoute isAllowed={!user} />}>
-            <Route path="/login" element={<Login />} />
-          </Route>
-          <Route element={<ProtectedRoute isAllowed={user?.isAdmin} />}>
-            <Route
-              path="/AdminEmployeesList"
-              element={<AdminEmployeesList />}
-            />
-            <Route path="/AdminPanel" element={<AdminPanel />} />
-          </Route>
+      {/* <PageLayout
+        header={<Header user={user} />}
+        footer={<Footer />}
+        menu={user?.isAdmin ? <AdminMenu /> : null}
+      > */}
+      <Routes>
+        <Route element={<ProtectedRoute isAllowed={!user} />}>
+          <Route path="/login" element={<LandingPage />} />
+        </Route>
+        <Route element={<ProtectedRoute isAllowed={user?.isAdmin} />}>
+          <Route path="/AdminEmployeesList" element={<AdminEmployeesList />} />
+          <Route path="/AdminPanel" element={<AdminPanel />} />
+        </Route>
+        <Route
+          element={<ProtectedRoute isAllowed={user} redirectPath="/login" />}
+        >
           <Route
-            element={<ProtectedRoute isAllowed={user} redirectPath="/login" />}
-          >
-            <Route
-              path="/"
-              element={
-                user?.isAdmin ? <AdminHome /> : <EmployeeView user={user} />
-              }
-            />
-          </Route>
-          <Route path="*" element={<NotFound />} />
+            path="/"
+            element={
+              user?.isAdmin ? <AdminHome /> : <EmployeeView user={user} />
+            }
+          />
+        </Route>
+        <Route path="*" element={<NotFound />} />
 
-          {/*tylko do testowania cruda do bazy*/}
-          <Route path="/test" element={<Test />} />
-        </Routes>
-      </PageLayout>
+        {/*tylko do testowania cruda do bazy*/}
+        <Route path="/test" element={<Test />} />
+      </Routes>
+      {/* </PageLayout> */}
     </BrowserRouter>
   );
 }
