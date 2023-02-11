@@ -1,0 +1,10 @@
+.iconArrow {
+  width: 15px;
+  height: 10px;
+}
+
+.iconArrowActive {
+  width: 15px;
+  height: 10px;
+  rotate: 180deg;
+}
