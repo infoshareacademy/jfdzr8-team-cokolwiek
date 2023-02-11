@@ -1,4 +1,11 @@
-import { query, where, getDocs, addDoc } from "firebase/firestore";
+import {
+	query,
+	where,
+	getDocs,
+	addDoc,
+	updateDoc,
+	doc,
+} from "firebase/firestore";
 import { dataCollection } from "../firebase/utils/functions";
 import { useContext, useEffect, useRef, useState } from "react";
 import { MenuContent } from "./StateContainer";
@@ -13,9 +20,10 @@ import {
 import styled from "styled-components";
 import { NameLocation } from "./NameLocation";
 import { NameIcon } from "./NameIcon";
+import { db } from "../firebase/firebase";
 
 const TableDiv = styled.div`
-	width: 60%;
+	width: 100%;
 `;
 
 const TablePack = styled.div`
@@ -44,7 +52,8 @@ const initData = user => {
 		sum: 0,
 		name: user.name + " " + user.lastName,
 		userId: user.id,
-		locationId: user.location_id,
+        locationId: user.location_id,
+        isApproved: false
 	};
 
 	return newData;
@@ -85,7 +94,11 @@ export const EmployeeView = ({ user }) => {
 					pt: data[0].pt,
 					sn: data[0].sn,
 					nd: data[0].nd,
-					sum: data[0].sum,
+					sum: 0,
+					name: user.name + " " + user.lastName,
+					userId: user.id,
+                    locationId: user.location_id,
+                    isApproved: data[0].isApproved
 				};
 				setData(ddd);
 			}
@@ -138,24 +151,54 @@ export const EmployeeView = ({ user }) => {
 		if (e.target.value == "") setData({ ...data, [day]: 0 });
 	};
 
-	const saveData = data => {
-		context.users.forEach(user => {
-			console.log(
-				"week:",
-				week,
-				"location:",
-				context.location.id,
-				"user id:",
-				user.id,
-				"data:",
-				data
-			);
-		});
-	};
-
 	const handleSubmit = event => {
-		alert(`Zapisano : ${event.target.value}`);
 		event.preventDefault();
+	data.isApproved ? 
+		getDocs(
+			query(
+				dataCollection,
+				where("location_id", "==", user.location_id),
+				where("user_id", "==", user.id),
+				where("week", "==", week)
+			)
+		).then(querySnapshot => {
+			const d = querySnapshot.docs.map(doc => ({
+				id: doc.id,
+				...doc.data(),
+			}));
+			if (d.length == 0) {
+				//insert
+				addDoc(dataCollection, {
+					isApproved: false,
+					location_id: data.locationId,
+					week: week,
+					user_id: data.userId,
+					pn: data.pn,
+					wt: data.wt,
+					sr: data.sr,
+					czw: data.czw,
+					pt: data.pt,
+					sn: data.sn,
+					nd: data.nd,
+				});
+			} else {
+				console.log(d[0].id, data, user, week);
+				updateDoc(doc(db, "Data", d[0].id), {
+					isApproved: false,
+					location_id: data.locationId,
+					week: week,
+					user_id: data.userId,
+					pn: data.pn,
+					wt: data.wt,
+					sr: data.sr,
+					czw: data.czw,
+					pt: data.pt,
+					sn: data.sn,
+					nd: data.nd,
+				});
+			}
+        })
+        : null
 	};
 
 	// const getFormData = (e) => {
@@ -298,7 +341,7 @@ export const EmployeeView = ({ user }) => {
 					</TableDiv>
 				</TablePack>
 
-				<MDBBtn type="submit">Submit</MDBBtn>
+				<MDBBtn type="submit" disabled={data ? data.isApproved : false}>Submit</MDBBtn>
 			</form>
 		</>
 	);
