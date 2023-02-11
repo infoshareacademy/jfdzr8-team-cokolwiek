@@ -26,7 +26,7 @@ import {
 const Wrapper = styled.div`
 .edit {
     display: ${({ isEditView }) => (!isEditView ? "none" : "initial")}};
-}
+
 .bbig {
     color:#fbfbfb;
     width: 200px;

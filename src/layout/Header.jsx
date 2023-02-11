@@ -4,6 +4,7 @@ import { MDBIcon } from "mdb-react-ui-kit";
 
 import logo from "../assets/TimeTaker.png";
 import { MDBNavbar, MDBContainer, MDBNavbarBrand } from "mdb-react-ui-kit";
+import { NameIcon } from '../components/NameIcon';
 
 const Button = styled.button`
 position: absolute;
@@ -28,8 +29,10 @@ export const Header = ({ user }) => {
   return (
     <MDBContainer fluid className="bg-secondary shadow-1-strong">
       <Wrapper>
+      
         <MDBNavbarBrand className="justify-content-center">
           <img src={logo} height="100" alt="" loading="lazy" />
+          {/* <NameIcon user={user} /> */}
           {user && (
             <Button
               className="button small text-dark"
