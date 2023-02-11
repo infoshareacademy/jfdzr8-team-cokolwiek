@@ -29,7 +29,7 @@ export const NameIcon = ({ user }) => {
     
     return(
         <>
-            <h2>{data.name + " " + data.lastName} </h2>
+            <h2> Witaj: {data.name + " " + data.lastName} </h2>
             
         </>
     )

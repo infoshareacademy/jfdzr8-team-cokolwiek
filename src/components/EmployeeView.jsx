@@ -12,6 +12,7 @@ import {
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { NameLocation } from "./NameLocation";
+import { NameIcon } from "./NameIcon";
 
 const TableDiv = styled.div`
 	width: 60%;
@@ -105,8 +106,51 @@ export const EmployeeView = ({ user }) => {
 				data.sn * 1 +
 				data.nd * 1;
 
-		setData({ ...data, [day]: e.target.value, sum:sum });
+		setData({ ...data, [day]: e.target.value, sum: sum });
+
 		console.log(data, e, id, day);
+	};
+
+	const handleKey = (id, day, e) => {
+		let val = parseFloat(e.target.value);
+		let error = isNaN(val) || val < 0;
+		const old_sum = data.sum;
+		const sum =
+			data.pn * 1 +
+			data.wt * 1 +
+			data.sr * 1 +
+			data.czw * 1 +
+			data.pt * 1 +
+			data.sn * 1 +
+			data.nd * 1;
+		if (e.target.value == "") {
+			val = "";
+			error = false;
+		}
+		setData({
+			...data,
+			[day]: error ? 0 : val,
+			sum: isNaN(sum) ? old_sum : sum,
+		});
+	};
+
+	const handleBlur = (id, day, e) => {
+		if (e.target.value == "") setData({ ...data, [day]: 0 });
+	};
+
+	const saveData = data => {
+		context.users.forEach(user => {
+			console.log(
+				"week:",
+				week,
+				"location:",
+				context.location.id,
+				"user id:",
+				user.id,
+				"data:",
+				data
+			);
+		});
 	};
 
 	const handleSubmit = event => {
@@ -146,10 +190,9 @@ export const EmployeeView = ({ user }) => {
 
 	// }
 
-   
-
 	return (
 		<>
+			<NameIcon user={user} />
 			<NameLocation user={user} />
 			{console.log(data, "week", week)}
 
@@ -183,42 +226,63 @@ export const EmployeeView = ({ user }) => {
 										<MDBInput
 											value={data ? data.pn : ""}
 											onChange={e => handleChange(user.id, "pn", e)}
+											onKeyDown={e => handleKey(user.id, "pn", e)}
+											onKeyUp={e => handleKey(user.id, "pn", e)}
+											onBlur={e => handleBlur(user.id, "pn", e)}
 										/>
 									</td>
 									<td>
 										<MDBInput
 											value={data ? data.wt : ""}
 											onChange={e => handleChange(user.id, "wt", e)}
+											onKeyDown={e => handleKey(user.id, "wt", e)}
+											onKeyUp={e => handleKey(user.id, "wt", e)}
+											onBlur={e => handleBlur(user.id, "wt", e)}
 										/>
 									</td>
 									<td>
 										<MDBInput
 											value={data ? data.sr : ""}
 											onChange={e => handleChange(user.id, "sr", e)}
+											onKeyDown={e => handleKey(user.id, "sr", e)}
+											onKeyUp={e => handleKey(user.id, "sr", e)}
+											onBlur={e => handleBlur(user.id, "sr", e)}
 										/>
 									</td>
 									<td>
 										<MDBInput
 											value={data ? data.czw : ""}
 											onChange={e => handleChange(user.id, "czw", e)}
+											onKeyDown={e => handleKey(user.id, "czw", e)}
+											onKeyUp={e => handleKey(user.id, "czw", e)}
+											onBlur={e => handleBlur(user.id, "czw", e)}
 										/>
 									</td>
 									<td>
 										<MDBInput
 											value={data ? data.pt : ""}
 											onChange={e => handleChange(user.id, "pt", e)}
+											onKeyDown={e => handleKey(user.id, "pt", e)}
+											onKeyUp={e => handleKey(user.id, "pt", e)}
+											onBlur={e => handleBlur(user.id, "pt", e)}
 										/>
 									</td>
 									<td>
 										<MDBInput
 											value={data ? data.sn : ""}
 											onChange={e => handleChange(user.id, "sn", e)}
+											onKeyDown={e => handleKey(user.id, "sn", e)}
+											onKeyUp={e => handleKey(user.id, "sn", e)}
+											onBlur={e => handleBlur(user.id, "sn", e)}
 										/>
 									</td>
 									<td>
 										<MDBInput
 											value={data ? data.nd : ""}
 											onChange={e => handleChange(user.id, "nd", e)}
+											onKeyDown={e => handleKey(user.id, "nd", e)}
+											onKeyUp={e => handleKey(user.id, "nd", e)}
+											onBlur={e => handleBlur(user.id, "nd", e)}
 										/>
 									</td>
 									<td>
@@ -234,9 +298,7 @@ export const EmployeeView = ({ user }) => {
 					</TableDiv>
 				</TablePack>
 
-				<MDBBtn type="submit" >
-					Submit
-				</MDBBtn>
+				<MDBBtn type="submit">Submit</MDBBtn>
 			</form>
 		</>
 	);
