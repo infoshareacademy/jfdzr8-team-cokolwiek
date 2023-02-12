@@ -18,8 +18,8 @@ export default function Features() {
   const [option, setoption] = useState("");
 
   return (
-    <Container>
-      <MainTitle>{"Features"}</MainTitle>
+    <Container id={"features"}>
+      <MainTitle>{"Features 🚀"}</MainTitle>
       <MainParagraph>
         {
           "With features like a comprehensive calendar system, multiple locations management, time tracking, and employee database, you'll have everything you need to take control of your time and reach your goals. Monitor your time with the time tracking feature, so you can make informed decisions about how you allocate your time."

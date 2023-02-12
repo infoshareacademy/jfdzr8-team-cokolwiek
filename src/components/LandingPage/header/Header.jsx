@@ -15,6 +15,7 @@ import logo from "../../../assets/images/TimeTakerlogo.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { signInWithGoogle } from "../../../firebase/utils/functions";
+import { HashLink } from "react-router-hash-link";
 
 export default function Header() {
   const [navToggle, setNavToggle] = useState(false);
@@ -49,24 +50,20 @@ export default function Header() {
       </MobileNav>
       <Set navToggle={navToggle}>
         <Items>
-          <Link to="/features">
+          <HashLink to="/#features">
             <Path>{"Features"}</Path>
-          </Link>
+          </HashLink>
 
-          <Link to="/extension">
-            <Path>{"Pricing"}</Path>
-          </Link>
+          <HashLink to="/#benefits">
+            <Path>{"Benefits"}</Path>
+          </HashLink>
 
-          <Link to="/contact">
-            <Path>{"Contact"}</Path>
-          </Link>
+          <HashLink to="/#faq">
+            <Path>{"FAQ"}</Path>
+          </HashLink>
 
-          <LoginButton>
-            <Link to="/login">
-              <Path>
-                <button onClick={signInWithGoogle}>Login</button>
-              </Path>
-            </Link>
+          <LoginButton onClick={signInWithGoogle}>
+            <Link to="/login">Login</Link>
           </LoginButton>
         </Items>
       </Set>
