@@ -152,7 +152,6 @@ export const EmployeeView = ({ user }) => {
     const handleSubmit = event => {
         alert("zapisano")
 		event.preventDefault();
-	data.isApproved ? 
 		getDocs(
 			query(
 				dataCollection,
@@ -197,9 +196,8 @@ export const EmployeeView = ({ user }) => {
 				});
 			}
         })
-        : null
+    
 	};
-
 
 	return (
 		<>
