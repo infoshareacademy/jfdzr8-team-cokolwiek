@@ -28,6 +28,10 @@ export const getDataByLocation =  (id=0, week=0) => {
   return getDocs(query(dataCollection,  where("location_id", "==", id),where("week", "==", week)))
 }
 
+export const getAllLocationData =  (id=0) => {
+  return getDocs(query(dataCollection,  where("location_id", "==", id)))
+}
+
 export const getDataByUser =  (id=0) => {
   return getDocs(query(dataCollection,  where("user_id", "==", id)))
 }
@@ -74,7 +78,13 @@ export const getLocationsByName = async (name) => {
 export const dellLocationFunction = (id) => {
   deleteDoc(doc(db, "Locations", id))
   getDocs(query(usersCollection, where("location_id", "==", id))).then(querySnapshot => {
-    querySnapshot.forEach(doc => deleteDoc(doc))
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    data.map(d=>{
+      deleteDoc(doc(db, "Users", d.id))
+    })
   })
 }
 
