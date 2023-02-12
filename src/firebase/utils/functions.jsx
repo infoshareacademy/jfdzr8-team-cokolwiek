@@ -25,7 +25,7 @@ export const getUsers =  () => {
 }
 
 export const getDataByLocation =  (id=0, week=0) => {
-  return getDocs(query(dataCollection,  where("location_id", "==", id)))
+  return getDocs(query(dataCollection,  where("location_id", "==", id),where("week", "==", week)))
 }
 
 export const getUsersByLocation =  (id) => {
