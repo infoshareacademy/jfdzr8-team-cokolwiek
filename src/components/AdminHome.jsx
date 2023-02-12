@@ -10,9 +10,10 @@ import {
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { useEffect } from "react";
-import { getDataByLocation } from "../firebase/utils/functions";
+import { dataCollection, getDataByLocation } from "../firebase/utils/functions";
 import { useRef } from "react";
-import { addDoc } from "firebase/firestore";
+import { addDoc, doc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 const TableDiv = styled.div`
 `;
@@ -69,7 +70,7 @@ const currentWeek = function() {
 const initData = (users) => {
   const newData = []
   users.map((user) => {
-    newData[user.id] = {pn:0,wt:0,sr:0,cz:0,pt:0,sn:0,nd:0,sum:0}
+    newData[user.id] = {pn:0,wt:0,sr:0,czw:0,pt:0,sn:0,nd:0,sum:0,docId:0}
   })
   return newData
 }
@@ -88,24 +89,26 @@ useEffect(()=>{
   if (weekInput.current) weekInput.current.value = w == week ? w : week
 
   getDataByLocation(context.location.id,week).then(querySnapshot => {
-    //alert(location.name)
     const dd = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-    console.log("data dd",dd)
-  }
-
-  )
-
-  
+    const newData = []
+    dd.map((d) => {
+      newData[d.user_id] = {pn:d.pn,wt:d.wt,sr:d.sr,czw:d.czw,pt:d.pt,sn:d.sn,nd:d.nd,sum:d.pn+d.wt+d.sr+d.czw+d.pt+d.sn+d.nd,docId:d.id}
+    })
+    setData((d)=>{return {
+      ...d,
+      ...newData
+    }})
+  })
 },[context.users,week])
 
 const handleChange = (id, day, e) => {
   const val = parseFloat(e.target.value) 
   const error = isNaN(val) || val < 0 
   let sum = data[id].sum
-  if (!error) sum = data[id].pn*1 + data[id].wt*1 + data[id].sr*1 + data[id].cz*1 + data[id].pt*1 + data[id].sn*1 + data[id].nd*1
+  if (!error) sum = data[id].pn*1 + data[id].wt*1 + data[id].sr*1 + data[id].czw*1 + data[id].pt*1 + data[id].sn*1 + data[id].nd*1
   setData((data)=>{
     return (
     {
@@ -118,7 +121,7 @@ const handleKey = (id, day, e) => {
   let val = parseFloat(e.target.value) 
   let error = (isNaN(val) || val < 0) 
   const old_sum = data[id].sum
-  const sum = data[id].pn*1 + data[id].wt*1 + data[id].sr*1 + data[id].cz*1 + data[id].pt*1 + data[id].sn*1 + data[id].nd*1
+  const sum = data[id].pn*1 + data[id].wt*1 + data[id].sr*1 + data[id].czw*1 + data[id].pt*1 + data[id].sn*1 + data[id].nd*1
   if (e.target.value == '') {
     val = ''
     error = false
@@ -145,7 +148,36 @@ const handleBlur = (id, day, e) => {
 
 const saveData = (data) => {
   context.users.forEach((user)=>{
-    console.log("week:",week,"location:",context.location.id,"user id:",user.id,"data:",data[user.id])
+    //console.log("week:",week,"location:",context.location.id,"user id:",user.id,"data:",data[user.id])
+    if (data[user.id].docId == 0) {
+      addDoc(dataCollection, {
+        isApproved: true,
+        location_id: context.location.id,
+        week: week,
+        user_id: user.id,
+        pn: data[user.id].pn,
+        wt: data[user.id].wt,
+        sr: data[user.id].sr,
+        czw: data[user.id].czw,
+        pt: data[user.id].pt,
+        sn: data[user.id].sn,
+        nd: data[user.id].nd,
+      });
+    } else {
+      updateDoc(doc(db, "Data", data[user.id].docId), {
+        isApproved: true,
+        location_id: context.location.id,
+        week: week,
+        user_id: user.id,
+        pn: data[user.id].pn,
+        wt: data[user.id].wt,
+        sr: data[user.id].sr,
+        czw: data[user.id].czw,
+        pt: data[user.id].pt,
+        sn: data[user.id].sn,
+        nd: data[user.id].nd,
+      });
+    }
   })
 }
 
@@ -219,11 +251,11 @@ const saveData = (data) => {
                     onChange={(e)=>handleChange(user.id,"sr",e)}/>
                   </td>
                   <td>
-                  <MDBInput value={data[user.id] ? data[user.id].cz : ''} 
-                    onKeyDown={(e)=>handleKey(user.id,"cz",e)} 
-                    onKeyUp={(e)=>handleKey(user.id,"cz",e)} 
-                    onBlur={(e)=>handleBlur(user.id,"cz",e)} 
-                    onChange={(e)=>handleChange(user.id,"cz",e)}/>
+                  <MDBInput value={data[user.id] ? data[user.id].czw : ''} 
+                    onKeyDown={(e)=>handleKey(user.id,"czw",e)} 
+                    onKeyUp={(e)=>handleKey(user.id,"czw",e)} 
+                    onBlur={(e)=>handleBlur(user.id,"czw",e)} 
+                    onChange={(e)=>handleChange(user.id,"czw",e)}/>
                   </td>
                   <td>
                   <MDBInput value={data[user.id] ? data[user.id].pt : ''} 
