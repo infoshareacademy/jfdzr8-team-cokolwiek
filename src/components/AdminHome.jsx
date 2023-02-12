@@ -53,7 +53,13 @@ height: calc(100vh - 260px - 60px);
 padding: 40px;
 margin-top: 75px;
 overflow-y: auto;
+.i {
+  font-size: 22px;
+  text-align: center;
+}
 `
+
+
 
 const Wrapper = styled.div`
  
@@ -70,13 +76,14 @@ const currentWeek = function() {
 const initData = (users) => {
   const newData = []
   users.map((user) => {
-    newData[user.id] = {pn:0,wt:0,sr:0,czw:0,pt:0,sn:0,nd:0,sum:0,docId:0}
+    newData[user.id] = {pn:0,wt:0,sr:0,czw:0,pt:0,sn:0,nd:0,sum:0,docId:0, isApproved: false}
   })
   return newData
 }
 
 export const AdminHome = () => {
-  const context = useContext(MenuContent);
+const context = useContext(MenuContent);
+const [reload,setReload] = useState(false)
 const [data, setData] = useState([])
 const [week, setWeek] = useState(currentWeek())
 const weekInput = useRef(null)
@@ -95,14 +102,14 @@ useEffect(()=>{
     }));
     const newData = []
     dd.map((d) => {
-      newData[d.user_id] = {pn:d.pn,wt:d.wt,sr:d.sr,czw:d.czw,pt:d.pt,sn:d.sn,nd:d.nd,sum:d.pn+d.wt+d.sr+d.czw+d.pt+d.sn+d.nd,docId:d.id}
+      newData[d.user_id] = {pn:d.pn,wt:d.wt,sr:d.sr,czw:d.czw,pt:d.pt,sn:d.sn,nd:d.nd,sum:d.pn+d.wt+d.sr+d.czw+d.pt+d.sn+d.nd,docId:d.id,isApproved:d.isApproved}
     })
     setData((d)=>{return {
       ...d,
       ...newData
     }})
   })
-},[context.users,week])
+},[context.users,week,reload])
 
 const handleChange = (id, day, e) => {
   const val = parseFloat(e.target.value) 
@@ -179,6 +186,7 @@ const saveData = (data) => {
       });
     }
   })
+  setReload(reload=> !reload)
 }
 
   return (
@@ -221,6 +229,7 @@ const saveData = (data) => {
                 <th scope="col">Saturday</th>
                 <th scope="col">Sunday</th>
                 <th scope="col">Sum</th>
+                <th scope="col">Approved</th>
                 </tr>
             </MDBTableHead>
             <MDBTableBody>
@@ -279,6 +288,7 @@ const saveData = (data) => {
                     onChange={(e)=>handleChange(user.id,"nd",e)}/>
                   </td>
                   <td><span className="form-control" style={{background:"transparent", width:"100px"}}>{data[user.id] ? data[user.id].sum : ''}</span></td>
+                  <td className="i">{data[user.id]?.isApproved ? <i class="fas fa-check-circle"></i>  : <i class="fas fa-times-circle"></i> }</td>
                 </tr>
               ))}
             </MDBTableBody>
