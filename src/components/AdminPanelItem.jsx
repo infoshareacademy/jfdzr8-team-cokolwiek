@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react";
-import { dellUserFunction, getUsersByEmail } from "../firebase/utils/functions";
+import { dellUserFunction, getDataByUser, getUsersByEmail } from "../firebase/utils/functions";
 import {
   MDBBtn,
   MDBIcon,
@@ -156,6 +156,18 @@ export const AdminPanelItem = ({ user }) => {
             "e-mail": newEmail,
           }).then(()=>{context.setGetUsersTrigger((val) => !val)});
           editModalToggle();
+          //update Data 
+          if (user.location_id != newLocationId) {
+            getDataByUser(id).then(querySnapshot => {
+              const data = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }));
+              data.map(d=>{
+                updateDoc(doc(db, "Data", d.id), {...d, location_id: newLocationId })
+              })
+            })
+          }
         }
       });
   };
