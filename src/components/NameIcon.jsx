@@ -1,4 +1,5 @@
 import { getDoc, doc } from 'firebase/firestore';
+import { MDBIcon } from 'mdb-react-ui-kit';
 import { useContext, useEffect, useState } from 'react';
 import { usersCollection } from '../firebase/utils/functions';
 
@@ -29,7 +30,13 @@ export const NameIcon = ({ user }) => {
     
     return(
         <>
-            <h2> Witaj: {data.name + " " + data.lastName} </h2>
+            <h6
+                style={{
+						
+						borderRadius: "20px",
+						width: "200px",
+						color: "black",
+					}}>  Welcome: <MDBIcon fas icon="user-alt" /> {data.name + " " + data.lastName} </h6>
             
         </>
     )

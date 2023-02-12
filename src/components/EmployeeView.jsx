@@ -16,6 +16,7 @@ import {
 	MDBTableBody,
 	MDBInput,
 	MDBBtn,
+	MDBIcon,
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { NameLocation } from "./NameLocation";
@@ -23,15 +24,36 @@ import { NameIcon } from "./NameIcon";
 import { db } from "../firebase/firebase";
 
 const TableDiv = styled.div`
-	width: 90%;
+	width: 100%;
 `;
 
 const TablePack = styled.div`
 	display: flex;
 	justify-content: center;
-    width: 100%
+	width: 100%;
 `;
-
+const UserHeader = styled.div`
+display:flex;
+justify-content: space-between;
+	width: 100%;
+	display: flex;
+	height: 80px;
+	margin-top: 10px;
+	align-items: center;
+	h2 {
+		margin-right: 20px;
+		font-size: 44px;
+		font-weight: 700;
+	}
+	padding: 40px;
+`;
+const UserContent = styled.div`
+	width: 100%;
+	height: calc(100vh - 260px - 60px);
+	padding: 40px;
+	margin-top: 75px;
+	overflow-y: auto;
+`;
 const currentWeek = function () {
 	var options = { year: "numeric" };
 	var now = new Date();
@@ -53,8 +75,8 @@ const initData = user => {
 		sum: 0,
 		name: user.name + " " + user.lastName,
 		userId: user.id,
-        locationId: user.location_id,
-        isApproved: false
+		locationId: user.location_id,
+		isApproved: false,
 	};
 
 	return newData;
@@ -92,11 +114,18 @@ export const EmployeeView = ({ user }) => {
 					pt: data[0].pt,
 					sn: data[0].sn,
 					nd: data[0].nd,
-					sum: data[0].pn + data[0].wt+ data[0].sr + data[0].czw + data[0].pt + data[0].sn+ data[0].nd,
+					sum:
+						data[0].pn +
+						data[0].wt +
+						data[0].sr +
+						data[0].czw +
+						data[0].pt +
+						data[0].sn +
+						data[0].nd,
 					name: user.name + " " + user.lastName,
 					userId: user.id,
-                    locationId: user.location_id,
-                    isApproved: data[0].isApproved
+					locationId: user.location_id,
+					isApproved: data[0].isApproved,
 				};
 				setData(ddd);
 			}
@@ -105,7 +134,7 @@ export const EmployeeView = ({ user }) => {
 
 	const handleChange = (id, day, e) => {
 		const val = parseFloat(e.target.value);
-		const error = isNaN(val) || val < 0 ;
+		const error = isNaN(val) || val < 0;
 		let sum = data.sum;
 		if (!error)
 			sum =
@@ -149,8 +178,8 @@ export const EmployeeView = ({ user }) => {
 		if (e.target.value == "") setData({ ...data, [day]: 0 });
 	};
 
-    const handleSubmit = event => {
-        alert("zapisano")
+	const handleSubmit = event => {
+		alert("zapisano");
 		event.preventDefault();
 		getDocs(
 			query(
@@ -195,127 +224,142 @@ export const EmployeeView = ({ user }) => {
 					nd: data.nd,
 				});
 			}
-        })
-    
+		});
 	};
 
 	return (
 		<>
-			<NameIcon user={user} />
-			<NameLocation user={user} />
 			{console.log(data, "week", week)}
 
 			<form onSubmit={handleSubmit}>
-				<MDBInput
-					type="week"
-					onChange={e => {
-						setWeek(e.target.value);
-					}}
-					ref={weekInput}></MDBInput>
-				<TablePack>
-					<TableDiv>
-						<MDBTable hover responsive>
-							<MDBTableHead dark>
-								<tr>
-									<th scope="col">Employee</th>
-									<th scope="col">Monday</th>
-									<th scope="col">Tuesday</th>
-									<th scope="col">Wednesday</th>
-									<th scope="col">Thursday</th>
-									<th scope="col">Friday</th>
-									<th scope="col">Saturday</th>
-									<th scope="col">Sunday</th>
-									<th scope="col">Sum</th>
-								</tr>
-							</MDBTableHead>
-							<MDBTableBody>
-								<tr>
-									<td>{data?.name}</td>
-									<td>
-                                        <MDBInput
-                                            disabled={data ? data.isApproved : false}
-											value={data ? data.pn : ""}
-											onChange={e => handleChange(user.id, "pn", e)}
-											onKeyDown={e => handleKey(user.id, "pn", e)}
-											onKeyUp={e => handleKey(user.id, "pn", e)}
-											onBlur={e => handleBlur(user.id, "pn", e)}
-										/>
-									</td>
-									<td>
-                                        <MDBInput
-                                            disabled={data ? data.isApproved : false}
-											value={data ? data.wt : ""}
-											onChange={e => handleChange(user.id, "wt", e)}
-											onKeyDown={e => handleKey(user.id, "wt", e)}
-											onKeyUp={e => handleKey(user.id, "wt", e)}
-											onBlur={e => handleBlur(user.id, "wt", e)}
-										/>
-									</td>
-									<td>
-                                        <MDBInput
-                                            disabled={data ? data.isApproved : false}
-											value={data ? data.sr : ""}
-											onChange={e => handleChange(user.id, "sr", e)}
-											onKeyDown={e => handleKey(user.id, "sr", e)}
-											onKeyUp={e => handleKey(user.id, "sr", e)}
-											onBlur={e => handleBlur(user.id, "sr", e)}
-										/>
-									</td>
-									<td>
-                                        <MDBInput
-                                            disabled={data ? data.isApproved : false}
-											value={data ? data.czw : ""}
-											onChange={e => handleChange(user.id, "czw", e)}
-											onKeyDown={e => handleKey(user.id, "czw", e)}
-											onKeyUp={e => handleKey(user.id, "czw", e)}
-											onBlur={e => handleBlur(user.id, "czw", e)}
-										/>
-									</td>
-									<td>
-                                        <MDBInput
-                                            disabled={data ? data.isApproved : false}
-											value={data ? data.pt : ""}
-											onChange={e => handleChange(user.id, "pt", e)}
-											onKeyDown={e => handleKey(user.id, "pt", e)}
-											onKeyUp={e => handleKey(user.id, "pt", e)}
-											onBlur={e => handleBlur(user.id, "pt", e)}
-										/>
-									</td>
-									<td>
-                                        <MDBInput
-                                            disabled={data ? data.isApproved : false}
-											value={data ? data.sn : ""}
-											onChange={e => handleChange(user.id, "sn", e)}
-											onKeyDown={e => handleKey(user.id, "sn", e)}
-											onKeyUp={e => handleKey(user.id, "sn", e)}
-											onBlur={e => handleBlur(user.id, "sn", e)}
-										/>
-									</td>
-									<td>
-                                        <MDBInput
-                                            disabled={data ? data.isApproved : false}
-                                            value={data ? data.nd : ""}
-											onChange={e => handleChange(user.id, "nd", e)}
-											onKeyDown={e => handleKey(user.id, "nd", e)}
-											onKeyUp={e => handleKey(user.id, "nd", e)}
-											onBlur={e => handleBlur(user.id, "nd", e)}
-										/>
-									</td>
-									<td>
-										<span
-											className="form-control"
-											style={{ background: "transparent", width: "100px" }}>
-                                            {data?.sum} 
-                                            
-										</span>
-									</td>
-								</tr>
-							</MDBTableBody>
-						</MDBTable>
-					</TableDiv>
-				</TablePack>
+                <UserHeader>
+                
+					<NameLocation user={user} />
 
-				<MDBBtn type="submit" disabled={data ? data.isApproved : false}>Submit</MDBBtn>
+					<MDBInput
+						type="week"
+						onChange={e => {
+							setWeek(e.target.value);
+						}}
+						ref={weekInput}></MDBInput>
+					<NameIcon user={user} />
+				</UserHeader>
+				<UserContent>
+					<TablePack>
+						<TableDiv>
+							<MDBTable hover responsive>
+								<MDBTableHead dark>
+									<tr>
+										<th scope="col">Employee</th>
+										<th scope="col">Monday</th>
+										<th scope="col">Tuesday</th>
+										<th scope="col">Wednesday</th>
+										<th scope="col">Thursday</th>
+										<th scope="col">Friday</th>
+										<th scope="col">Saturday</th>
+										<th scope="col">Sunday</th>
+										<th scope="col">Sum</th>
+									</tr>
+								</MDBTableHead>
+								<MDBTableBody>
+									<tr>
+										<td>{data?.name}</td>
+										<td>
+											<MDBInput
+												disabled={data ? data.isApproved : false}
+												value={data ? data.pn : ""}
+												onChange={e => handleChange(user.id, "pn", e)}
+												onKeyDown={e => handleKey(user.id, "pn", e)}
+												onKeyUp={e => handleKey(user.id, "pn", e)}
+												onBlur={e => handleBlur(user.id, "pn", e)}
+											/>
+										</td>
+										<td>
+											<MDBInput
+												disabled={data ? data.isApproved : false}
+												value={data ? data.wt : ""}
+												onChange={e => handleChange(user.id, "wt", e)}
+												onKeyDown={e => handleKey(user.id, "wt", e)}
+												onKeyUp={e => handleKey(user.id, "wt", e)}
+												onBlur={e => handleBlur(user.id, "wt", e)}
+											/>
+										</td>
+										<td>
+											<MDBInput
+												disabled={data ? data.isApproved : false}
+												value={data ? data.sr : ""}
+												onChange={e => handleChange(user.id, "sr", e)}
+												onKeyDown={e => handleKey(user.id, "sr", e)}
+												onKeyUp={e => handleKey(user.id, "sr", e)}
+												onBlur={e => handleBlur(user.id, "sr", e)}
+											/>
+										</td>
+										<td>
+											<MDBInput
+												disabled={data ? data.isApproved : false}
+												value={data ? data.czw : ""}
+												onChange={e => handleChange(user.id, "czw", e)}
+												onKeyDown={e => handleKey(user.id, "czw", e)}
+												onKeyUp={e => handleKey(user.id, "czw", e)}
+												onBlur={e => handleBlur(user.id, "czw", e)}
+											/>
+										</td>
+										<td>
+											<MDBInput
+												disabled={data ? data.isApproved : false}
+												value={data ? data.pt : ""}
+												onChange={e => handleChange(user.id, "pt", e)}
+												onKeyDown={e => handleKey(user.id, "pt", e)}
+												onKeyUp={e => handleKey(user.id, "pt", e)}
+												onBlur={e => handleBlur(user.id, "pt", e)}
+											/>
+										</td>
+										<td>
+											<MDBInput
+												disabled={data ? data.isApproved : false}
+												value={data ? data.sn : ""}
+												onChange={e => handleChange(user.id, "sn", e)}
+												onKeyDown={e => handleKey(user.id, "sn", e)}
+												onKeyUp={e => handleKey(user.id, "sn", e)}
+												onBlur={e => handleBlur(user.id, "sn", e)}
+											/>
+										</td>
+										<td>
+											<MDBInput
+												disabled={data ? data.isApproved : false}
+												value={data ? data.nd : ""}
+												onChange={e => handleChange(user.id, "nd", e)}
+												onKeyDown={e => handleKey(user.id, "nd", e)}
+												onKeyUp={e => handleKey(user.id, "nd", e)}
+												onBlur={e => handleBlur(user.id, "nd", e)}
+											/>
+										</td>
+										<td>
+											<span
+												className="form-control"
+												style={{ background: "transparent", width: "100px" }}>
+												{data?.sum}
+											</span>
+										</td>
+									</tr>
+								</MDBTableBody>
+							</MDBTable>
+						</TableDiv>
+					</TablePack>
+
+					<MDBBtn
+						type="submit"
+						style={{
+							background: "yellowgreen",
+							borderRadius: "20px",
+							width: "200px",
+							color: "black",
+						}}
+						disabled={data ? data.isApproved : false}>
+						Submit
+						<MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
+					</MDBBtn>
+				</UserContent>
 			</form>
 		</>
 	);
