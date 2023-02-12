@@ -28,6 +28,10 @@ export const getDataByLocation =  (id=0, week=0) => {
   return getDocs(query(dataCollection,  where("location_id", "==", id),where("week", "==", week)))
 }
 
+export const getDataByUser =  (id=0) => {
+  return getDocs(query(dataCollection,  where("user_id", "==", id)))
+}
+
 export const getUsersByLocation =  (id) => {
   return getDocs(query(usersCollection,  where("location_id", "==", id), where("isAdmin", "==", false)))
 }
