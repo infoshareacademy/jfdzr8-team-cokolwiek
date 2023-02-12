@@ -23,12 +23,13 @@ import { NameIcon } from "./NameIcon";
 import { db } from "../firebase/firebase";
 
 const TableDiv = styled.div`
-	width: 100%;
+	width: 90%;
 `;
 
 const TablePack = styled.div`
 	display: flex;
 	justify-content: center;
+    width: 100%
 `;
 
 const currentWeek = function () {
@@ -62,9 +63,6 @@ const initData = user => {
 export const EmployeeView = ({ user }) => {
 	const context = useContext(MenuContent);
 	const [data, setData] = useState(null);
-
-	// const [draftId, setDraftId] = useState(null);
-
 	const [week, setWeek] = useState(currentWeek(data));
 	const weekInput = useRef(null);
 	const w = currentWeek();
@@ -94,7 +92,7 @@ export const EmployeeView = ({ user }) => {
 					pt: data[0].pt,
 					sn: data[0].sn,
 					nd: data[0].nd,
-					sum: 0,
+					sum: data[0].pn + data[0].wt+ data[0].sr + data[0].czw + data[0].pt + data[0].sn+ data[0].nd,
 					name: user.name + " " + user.lastName,
 					userId: user.id,
                     locationId: user.location_id,
@@ -107,7 +105,7 @@ export const EmployeeView = ({ user }) => {
 
 	const handleChange = (id, day, e) => {
 		const val = parseFloat(e.target.value);
-		const error = isNaN(val) || val < 0;
+		const error = isNaN(val) || val < 0 ;
 		let sum = data.sum;
 		if (!error)
 			sum =
@@ -151,7 +149,8 @@ export const EmployeeView = ({ user }) => {
 		if (e.target.value == "") setData({ ...data, [day]: 0 });
 	};
 
-	const handleSubmit = event => {
+    const handleSubmit = event => {
+        alert("zapisano")
 		event.preventDefault();
 	data.isApproved ? 
 		getDocs(
@@ -201,37 +200,6 @@ export const EmployeeView = ({ user }) => {
         : null
 	};
 
-	// const getFormData = (e) => {
-	//     const form = e.target;
-	//     const { pn,wt,sr,czw,pt,sn,nd } = form;
-
-	//     const dat = {
-	//       pn: pn.value,
-	//       wt: wt.value,
-	//         sr: sr.value,
-	//         czw: czw.value,
-	//         pt: pt.value,
-	//         sn: sn.value,
-	//         nd: nd.value
-
-	//     };
-
-	//     return dat;
-	//   };
-	// const handleSubmit = (e) => {
-	//     e.preventDefault();
-	//     addDoc(dataCollection, getFormData(e));
-	// };
-
-	// const handleUpdate = () => {
-	//     e.preventDefault();
-	//     const docRef = doc(dataCollection,);
-
-	//     updateDoc(docRef, getFormData(e));
-
-	//     setDraftId(null);
-
-	// }
 
 	return (
 		<>
@@ -266,7 +234,8 @@ export const EmployeeView = ({ user }) => {
 								<tr>
 									<td>{data?.name}</td>
 									<td>
-										<MDBInput
+                                        <MDBInput
+                                            disabled={data ? data.isApproved : false}
 											value={data ? data.pn : ""}
 											onChange={e => handleChange(user.id, "pn", e)}
 											onKeyDown={e => handleKey(user.id, "pn", e)}
@@ -275,7 +244,8 @@ export const EmployeeView = ({ user }) => {
 										/>
 									</td>
 									<td>
-										<MDBInput
+                                        <MDBInput
+                                            disabled={data ? data.isApproved : false}
 											value={data ? data.wt : ""}
 											onChange={e => handleChange(user.id, "wt", e)}
 											onKeyDown={e => handleKey(user.id, "wt", e)}
@@ -284,7 +254,8 @@ export const EmployeeView = ({ user }) => {
 										/>
 									</td>
 									<td>
-										<MDBInput
+                                        <MDBInput
+                                            disabled={data ? data.isApproved : false}
 											value={data ? data.sr : ""}
 											onChange={e => handleChange(user.id, "sr", e)}
 											onKeyDown={e => handleKey(user.id, "sr", e)}
@@ -293,7 +264,8 @@ export const EmployeeView = ({ user }) => {
 										/>
 									</td>
 									<td>
-										<MDBInput
+                                        <MDBInput
+                                            disabled={data ? data.isApproved : false}
 											value={data ? data.czw : ""}
 											onChange={e => handleChange(user.id, "czw", e)}
 											onKeyDown={e => handleKey(user.id, "czw", e)}
@@ -302,7 +274,8 @@ export const EmployeeView = ({ user }) => {
 										/>
 									</td>
 									<td>
-										<MDBInput
+                                        <MDBInput
+                                            disabled={data ? data.isApproved : false}
 											value={data ? data.pt : ""}
 											onChange={e => handleChange(user.id, "pt", e)}
 											onKeyDown={e => handleKey(user.id, "pt", e)}
@@ -311,7 +284,8 @@ export const EmployeeView = ({ user }) => {
 										/>
 									</td>
 									<td>
-										<MDBInput
+                                        <MDBInput
+                                            disabled={data ? data.isApproved : false}
 											value={data ? data.sn : ""}
 											onChange={e => handleChange(user.id, "sn", e)}
 											onKeyDown={e => handleKey(user.id, "sn", e)}
@@ -320,8 +294,9 @@ export const EmployeeView = ({ user }) => {
 										/>
 									</td>
 									<td>
-										<MDBInput
-											value={data ? data.nd : ""}
+                                        <MDBInput
+                                            disabled={data ? data.isApproved : false}
+                                            value={data ? data.nd : ""}
 											onChange={e => handleChange(user.id, "nd", e)}
 											onKeyDown={e => handleKey(user.id, "nd", e)}
 											onKeyUp={e => handleKey(user.id, "nd", e)}
@@ -332,7 +307,8 @@ export const EmployeeView = ({ user }) => {
 										<span
 											className="form-control"
 											style={{ background: "transparent", width: "100px" }}>
-											{data?.sum}
+                                            {data?.sum} 
+                                            
 										</span>
 									</td>
 								</tr>
