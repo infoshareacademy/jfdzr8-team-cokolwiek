@@ -1,5 +1,15 @@
-import { Container, Logo, Path, Set, Set2, Network } from "./FooterStyling";
+import {
+  Container,
+  Logo,
+  Path,
+  Set,
+  Set2,
+  Network,
+  Devs,
+  Imagem,
+} from "./FooterStyling";
 import logo from "../../../assets/images/TimeTaker.png";
+import icon from "../../../assets/images/foreign.png";
 
 import { Link } from "react-router-dom";
 
@@ -18,17 +28,25 @@ export default function Footer() {
       </Set2>
 
       <Set2>
-        <Link to="/features">
-          <Path>{"Features"}</Path>
-        </Link>
-
-        <Link to="/extension">
-          <Path>{"Pricing"}</Path>
-        </Link>
-
-        <Link to="/contact">
-          <Path>{"Contact"}</Path>
-        </Link>
+        <p>⚙️ Developers:</p>
+        <a href="https://github.com/aleksanderkulej" target="_blank">
+          <Devs>
+            <p>Aleksander Kulej</p>
+            <Imagem src={icon} alt="external website"></Imagem>
+          </Devs>
+        </a>
+        <a href="https://github.com/ryba1235" target="_blank">
+          <Devs>
+            <p>Krzysztof Sosnowski</p>
+            <Imagem src={icon} alt="firefox logo"></Imagem>
+          </Devs>
+        </a>
+        <a href="https://github.com/WiktorSobczak" target="_blank">
+          <Devs>
+            <p>Wiktor Sobczak</p>
+            <Imagem src={icon} alt="firefox logo"></Imagem>
+          </Devs>
+        </a>
       </Set2>
     </Container>
   );

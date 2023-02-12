@@ -8,7 +8,8 @@ export const Container = styled.nav`
   left: 0;
   padding: 2rem;
   justify-content: space-between;
-  height: 200px;
+  height: 100px;
+  align-items: center;
 `;
 
 export const Items = styled.div`
@@ -47,6 +48,7 @@ export const Logo = styled.img`
 `;
 
 export const Path = styled.text`
+  color: black;
   margin: 1.4rem;
   @media (max-width: 800px) {
     color: white;
@@ -59,7 +61,7 @@ export const Path = styled.text`
     background-color: red;
   }
   :hover {
-    color: red;
+    color: white;
   }
 `;
 
@@ -70,7 +72,7 @@ export const LoginButton = styled.button`
   background: white;
   :hover {
     background: white;
-    border: 2px solid red;
+
     color: red;
   }
   @media (max-width: 800px) {

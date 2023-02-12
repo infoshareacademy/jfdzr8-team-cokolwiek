@@ -13,8 +13,8 @@ import opera from "../../../assets/images/online.png";
 
 export default function Extension() {
   return (
-    <Container>
-      <Title>{"Why switch to online work-time records?"}</Title>
+    <Container id="benefits">
+      <Title>{"Why switch to online work-time records? 🕑"}</Title>
       <Paragraph>
         {
           "Electronic work-time recording is often considered better than traditional, manual methods for a number of reasons:"

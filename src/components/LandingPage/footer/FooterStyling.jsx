@@ -45,3 +45,20 @@ export const Path = styled.p`
     color: red;
   }
 `;
+
+export const Devs = styled.p`
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  :hover {
+    color: lightgreen;
+  }
+`;
+
+export const Imagem = styled.img`
+  margin-bottom: 1.5rem;
+  max-width: 15px;
+  margin-left: 5px;
+`;

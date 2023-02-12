@@ -103,7 +103,7 @@ export const MainParagraph = styled.p`
   text-align: center;
   font-size: 1rem;
   line-height: 1.3;
-  color: gray;
+  color: #515353;
   margin-bottom: 1rem;
 `;
 
@@ -113,7 +113,7 @@ export const Paragraph = styled.p`
   text-align: left;
   font-size: 1rem;
   line-height: 1.3;
-  color: gray;
+  color: #515353;
   margin-bottom: 1rem;
 `;
 

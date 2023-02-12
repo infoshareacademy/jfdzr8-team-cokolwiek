@@ -19,7 +19,7 @@ export const Title = styled.h4`
 
 export const MainTitle = styled.h3`
   text-transform: uppercase;
-  font-size: 0.8rem;
+  font-size: 1.3rem;
   letter-spacing: 5px;
   margin-bottom: 2rem;
   color: white;
@@ -54,16 +54,16 @@ export const Email = styled.input`
 
 export const Send = styled.button`
   padding: 0.7rem 1rem;
-  color: white;
-  border: 2px solid red;
-  background: red;
+  color: black;
+  border: 2px solid lightgreen;
+  background: #eef4f4;
   font-size: 0.8rem;
   border-radius: 0.2rem;
   margin-left: 1rem;
   transition: 0.5s;
   :hover {
     background: white;
-    color: red;
+    color: green;
   }
   @media (max-width: 800px) {
     margin-top: 0.6rem;
