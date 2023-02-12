@@ -106,6 +106,15 @@ export const AdminPanelItem = ({ user }) => {
      deleteDoc(doc(db, "Users", id))
       .then(()=>{context.setGetUsersTrigger((val) => !val)})
     deleteModalToggle();
+    getDataByUser(id).then(querySnapshot => {
+      const data = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      data.map(d=>{
+        deleteDoc(doc(db, "Data", d.id))
+      })
+    })
     
   };
 

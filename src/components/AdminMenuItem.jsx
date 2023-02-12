@@ -18,8 +18,11 @@ import {
 import {
   dellLocationFunction,
   editLocationFunction,
+  getAllLocationData,
   getLocationsByName,
 } from "../firebase/utils/functions";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 const ListItem = styled.li`
   display: flex;
@@ -60,8 +63,15 @@ export const AdminMenuItem = ({ location }) => {
   const deleteLocation = () => {
     dellLocationFunction(location.id);
     if (context.location.id == location.id) context.setLocation(false);
-    dellLocationFunction(location.id);
-    if (context.location.id == location.id) context.setLocation(false);
+    getAllLocationData(location.id).then(querySnapshot => {
+      const data = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      data.map(d=>{
+        deleteDoc(doc(db, "Data", d.id))
+      })
+    })
   };
 
   const editLocation = () => {
