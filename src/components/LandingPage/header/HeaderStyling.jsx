@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.nav`
-  background-color: lightgray;
+  background-color: #eef4f4;
   display: flex;
   justify-content: center;
   top: 0;
