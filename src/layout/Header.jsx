@@ -8,18 +8,19 @@ import { NameIcon } from '../components/NameIcon';
 
 const Button = styled.button`
 position: absolute;
-right: 0;
+right: 20px;
 margin-right: 20px;
-background: white;
-height: 50px;
+height: 55px;
 padding 10px;
 i {
   padding-right:10px;
 }
 padding-left: 20px;
 padding-right: 20px;
-background: lightgray;
-border-radius: 30px;
+background-color: #fbfbfb;
+border-radius: 5px;
+color: #1a1a1a;
+width: 200px;
 `;
 const Wrapper = styled.div`
   width: 100%;
