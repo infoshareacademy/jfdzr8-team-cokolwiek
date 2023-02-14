@@ -17,6 +17,13 @@ import {
 	MDBInput,
 	MDBBtn,
 	MDBIcon,
+	MDBModal,
+	MDBModalDialog,
+	MDBModalContent,
+	MDBModalHeader,
+	MDBModalTitle,
+	MDBModalBody,
+	MDBModalFooter,
 } from "mdb-react-ui-kit";
 import styled from "styled-components";
 import { NameLocation } from "./NameLocation";
@@ -33,8 +40,8 @@ const TablePack = styled.div`
 	width: 100%;
 `;
 const UserHeader = styled.div`
-display:flex;
-justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 	width: 100%;
 	display: flex;
 	height: 80px;
@@ -86,6 +93,11 @@ export const EmployeeView = ({ user }) => {
 	const context = useContext(MenuContent);
 	const [data, setData] = useState(null);
 	const [week, setWeek] = useState(currentWeek(data));
+	false;
+	const [basicModal, setBasicModal] = useState(false);
+
+	const toggleShow = () => setBasicModal(!basicModal);
+
 	const weekInput = useRef(null);
 	const w = currentWeek();
 	if (weekInput.current) weekInput.current.value = w == week ? w : week;
@@ -179,7 +191,6 @@ export const EmployeeView = ({ user }) => {
 	};
 
 	const handleSubmit = event => {
-		alert("zapisano");
 		event.preventDefault();
 		getDocs(
 			query(
@@ -232,8 +243,7 @@ export const EmployeeView = ({ user }) => {
 			{console.log(data, "week", week)}
 
 			<form onSubmit={handleSubmit}>
-                <UserHeader>
-                
+				<UserHeader>
 					<NameLocation user={user} />
 
 					<MDBInput
@@ -348,6 +358,7 @@ export const EmployeeView = ({ user }) => {
 					</TablePack>
 
 					<MDBBtn
+						onClick={toggleShow}
 						type="submit"
 						style={{
 							background: "yellowgreen",
@@ -359,6 +370,30 @@ export const EmployeeView = ({ user }) => {
 						Submit
 						<MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
 					</MDBBtn>
+					<MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
+						<MDBModalDialog>
+							<MDBModalContent>
+								<MDBModalHeader>
+									<MDBModalTitle>Changes have been saved</MDBModalTitle>
+									<MDBBtn
+										className="btn-close"
+										color="orange"
+										onClick={toggleShow}></MDBBtn>
+								</MDBModalHeader>
+
+								<MDBModalFooter>
+									<MDBBtn
+										style={{
+											color: "black",
+											background: "#9acd32",
+										}}
+										onClick={toggleShow}>
+										Close
+									</MDBBtn>
+								</MDBModalFooter>
+							</MDBModalContent>
+						</MDBModalDialog>
+					</MDBModal>
 				</UserContent>
 			</form>
 		</>
