@@ -32,6 +32,7 @@ import { db } from "../firebase/firebase";
 
 const TableDiv = styled.div`
 	width: 100%;
+	border: double;
 `;
 
 const TablePack = styled.div`
@@ -60,6 +61,29 @@ const UserContent = styled.div`
 	padding: 40px;
 	margin-top: 75px;
 	overflow-y: auto;
+`;
+const Submit = styled.div`
+	display: flex;
+	justify-content: center;
+	position: relative;
+	top: 18%;
+`;
+const TextDataSaved = styled.span`
+	background: rgb(171, 133, 103);
+	color: white;
+	border: double;
+	width: 33%;
+	display: flex;
+	justify-content: center;
+	border-radius: 20px;
+	font-size: 21px;
+	padding: 2px;
+	height: 5%;
+	align-items: center;
+	position: relative;
+    position: fixed;
+    bottom: 10rem;
+    ${'' /* left: 5rem; */}
 `;
 const currentWeek = function () {
 	var options = { year: "numeric" };
@@ -243,10 +267,18 @@ export const EmployeeView = ({ user }) => {
 			{console.log(data, "week", week)}
 
 			<form onSubmit={handleSubmit}>
-				<UserHeader>
+                <UserHeader>
+                    
 					<NameLocation user={user} />
 
 					<MDBInput
+						style={{
+							background: "rgb(171, 133, 103)",
+							borderRadius: "20px",
+							border: "7px double rgb(247 235 223);",
+                            boxShadow: "10px 7px 13px rgb(247 235 223)",
+                            color: 'white'
+						}}
 						type="week"
 						onChange={e => {
 							setWeek(e.target.value);
@@ -355,40 +387,64 @@ export const EmployeeView = ({ user }) => {
 								</MDBTableBody>
 							</MDBTable>
 						</TableDiv>
-					</TablePack>
-
-					<MDBBtn
-						onClick={toggleShow}
-						type="submit"
-						style={{
-							background: "yellowgreen",
-							borderRadius: "20px",
-							width: "200px",
-							color: "black",
-						}}
-						disabled={data ? data.isApproved : false}>
-						Submit
-						<MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
-					</MDBBtn>
+                    </TablePack>
+                    {!data?.isApproved  &&
+                        <Submit>
+                            <MDBBtn
+                                onClick={toggleShow}
+                                type="submit"
+                                style={{
+                                    borderRadius: "20px",
+                                    width: "200px",
+                                    color: "white",
+                                    background: "rgb(171,133,103)",
+                                    border: "5px double",
+                                    boxShadow: "7px 7px 21px",
+                                }}
+                                disabled={data ? data.isApproved : false}>
+                                S u b m i t
+                                <MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
+                            </MDBBtn>
+                        </Submit>}
+					{data?.isApproved && (
+						<div
+							style={{
+								display: "flex",
+								justifyContent: "center",
+							}}>
+							<TextDataSaved>
+								The data has been approved by the employer !
+							</TextDataSaved>
+						</div>
+					)}
 					<MDBModal show={basicModal} setShow={setBasicModal} tabIndex="-1">
 						<MDBModalDialog>
-							<MDBModalContent>
+							<MDBModalContent
+								style={{
+									background:
+										" radialGradient(circle, rgba(251,248,245,1) 73%, rgba(247,235,223,1) 99%)",
+								}}>
 								<MDBModalHeader>
-									<MDBModalTitle>Changes have been saved</MDBModalTitle>
-									<MDBBtn
-										className="btn-close"
-										color="orange"
-										onClick={toggleShow}></MDBBtn>
+									<MDBModalTitle
+										style={{
+											color: "rgb(171,133,103)",
+										}}>
+										<b>Changes have been saved !</b>
+									</MDBModalTitle>
 								</MDBModalHeader>
 
 								<MDBModalFooter>
 									<MDBBtn
 										style={{
-											color: "black",
-											background: "#9acd32",
+											borderRadius: "20px",
+											width: "150px",
+											color: "white",
+											background: "rgb(171,133,103)",
+											border: "5px double",
+											boxShadow: "7px 7px 21px",
 										}}
 										onClick={toggleShow}>
-										Close
+										C l o s e
 									</MDBBtn>
 								</MDBModalFooter>
 							</MDBModalContent>
