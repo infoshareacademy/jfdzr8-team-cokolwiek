@@ -28,20 +28,21 @@ const ListItem = styled.li`
   display: flex;
   margin-top: 10px;
   align-items: baseline;
-  justify-content: center;
   padding: 5px;
+  padding-right:10px;
   margin: 0;
   border-radius: 5px;
   width: 100%;
-  border: 1px solid;
-  margin-bottom: 10px;
+  color: #202124;
+  margin-bottom: 5px;
   &:hover {
-    background: #9fd9f9;
+    background: #dce0e7;
     cursor: pointer;
   }
   span {
-    width: 80%;
-    text-align: center;
+    width: 100%;
+    padding: 3px;
+    padding-left: 10px;
   }
 `;
 
