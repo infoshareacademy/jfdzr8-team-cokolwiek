@@ -32,7 +32,8 @@ import { db } from "../firebase/firebase";
 
 const TableDiv = styled.div`
 	width: 100%;
-	border: double;
+	border: 2px solid;
+	box-shadow: 10px 6px 19px black;
 `;
 
 const TablePack = styled.div`
@@ -69,30 +70,23 @@ const Submit = styled.div`
 	top: 18%;
 `;
 const TextDataSaved = styled.span`
-	background: rgb(171, 133, 103);
+	background: rgb(133, 24, 24);
 	color: white;
-	border: double;
-	width: 33%;
+	border: 2px solid black;
+	width: 45vh;
 	display: flex;
 	justify-content: center;
 	border-radius: 20px;
 	font-size: 21px;
 	padding: 2px;
-	height: 5%;
+	height: 3.2rem;
 	align-items: center;
 	position: relative;
 	position: fixed;
-	bottom: 10rem;
-	${"" /* left: 5rem; */}
+	bottom: 20rem;
+	box-shadow: 10px 6px 19px black;
 `;
-// const HourInput = styled.input`
-// display:flex;
-// justify-content: center;
-// 	width: 70px;
-// 	font-size: 25px;
-//     background:#f5f5f5;
-//     color:black
-// `;
+
 const currentWeek = function () {
 	var options = { year: "numeric" };
 	var now = new Date();
@@ -280,13 +274,12 @@ export const EmployeeView = ({ user }) => {
 
 					<input
 						style={{
-							background: "rgb(171, 133, 103)",
-							borderRadius: "20px",
-							boxShadow: "10px 7px 13px rgb(171, 133, 103)",
+							background: "black",
+							boxShadow: "10px 7px 13px black",
 							color: "white",
 							width: "200px",
-							padding: "5px",
-							border: "7px double",
+							padding: "7px",
+							border: "2px solid white",
 						}}
 						type="week"
 						onChange={e => {
@@ -314,9 +307,21 @@ export const EmployeeView = ({ user }) => {
 								</MDBTableHead>
 								<MDBTableBody>
 									<tr>
-										<td>{data?.name}</td>
-										< td>
-											< MDBInput
+										<td
+											style={{
+												fontSize: "16px",
+												paddingTop: "1.7rem",
+											}}>
+											{data?.name}
+										</td>
+										<td>
+											<MDBInput
+												style={{
+													width: "73px",
+													background: "white",
+													fontSize: "20px",
+													paddingLeft: "30px",
+												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.pn : ""}
 												onChange={e => handleChange(user.id, "pn", e)}
@@ -324,11 +329,15 @@ export const EmployeeView = ({ user }) => {
 												onKeyUp={e => handleKey(user.id, "pn", e)}
 												onBlur={e => handleBlur(user.id, "pn", e)}
 											/>
-										</ td>
-                                        <td >
-											<MDBInput style={{
-                                            width:"70px"
-                                        }}
+										</td>
+										<td>
+											<MDBInput
+												style={{
+													width: "73px",
+													background: "white",
+													fontSize: "20px",
+													paddingLeft: "30px",
+												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.wt : ""}
 												onChange={e => handleChange(user.id, "wt", e)}
@@ -339,6 +348,12 @@ export const EmployeeView = ({ user }) => {
 										</td>
 										<td>
 											<MDBInput
+												style={{
+													width: "73px",
+													background: "white",
+													fontSize: "20px",
+													paddingLeft: "30px",
+												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.sr : ""}
 												onChange={e => handleChange(user.id, "sr", e)}
@@ -347,8 +362,15 @@ export const EmployeeView = ({ user }) => {
 												onBlur={e => handleBlur(user.id, "sr", e)}
 											/>
 										</td>
+
 										<td>
 											<MDBInput
+												style={{
+													width: "73px",
+													background: "white",
+													fontSize: "20px",
+													paddingLeft: "30px",
+												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.czw : ""}
 												onChange={e => handleChange(user.id, "czw", e)}
@@ -359,6 +381,12 @@ export const EmployeeView = ({ user }) => {
 										</td>
 										<td>
 											<MDBInput
+												style={{
+													width: "73px",
+													background: "white",
+													fontSize: "20px",
+													paddingLeft: "30px",
+												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.pt : ""}
 												onChange={e => handleChange(user.id, "pt", e)}
@@ -369,6 +397,12 @@ export const EmployeeView = ({ user }) => {
 										</td>
 										<td>
 											<MDBInput
+												style={{
+													width: "73px",
+													background: "white",
+													fontSize: "20px",
+													paddingLeft: "30px",
+												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.sn : ""}
 												onChange={e => handleChange(user.id, "sn", e)}
@@ -379,6 +413,12 @@ export const EmployeeView = ({ user }) => {
 										</td>
 										<td>
 											<MDBInput
+												style={{
+													width: "73px",
+													background: "white",
+													fontSize: "20px",
+													paddingLeft: "30px",
+												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.nd : ""}
 												onChange={e => handleChange(user.id, "nd", e)}
@@ -390,8 +430,20 @@ export const EmployeeView = ({ user }) => {
 										<td>
 											<span
 												className="form-control"
-												style={{ background: "transparent", width: "100px" }}>
-												{data?.sum}
+												style={{
+													display: "flex",
+													justifyContent: "center",
+													alignItems: "center",
+													width: "73px",
+													background: "transparent",
+													fontSize: "20px",
+													// paddingLeft: "20px",
+													height: "46px",
+													border: "2px solid black",
+													background: "rgb(133,24,24)",
+													color: "white",
+												}}>
+												<b>{data?.sum}</b>
 											</span>
 										</td>
 									</tr>
@@ -405,15 +457,15 @@ export const EmployeeView = ({ user }) => {
 								onClick={toggleShow}
 								type="submit"
 								style={{
+									background: "yellowgreen",
 									borderRadius: "20px",
 									width: "200px",
-									color: "white",
-									background: "rgb(171,133,103)",
-									border: "5px double",
-									boxShadow: "10px 7px 13px rgb(171, 133, 103)",
+									color: "black",
+									border: "2px solid",
+									boxShadow: "5px 5px 16px black",
 								}}
 								disabled={data ? data.isApproved : false}>
-								S u b m i t
+								<b>S u b m i t</b>
 								<MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
 							</MDBBtn>
 						</Submit>
@@ -433,14 +485,10 @@ export const EmployeeView = ({ user }) => {
 						<MDBModalDialog>
 							<MDBModalContent
 								style={{
-									background:
-										" radialGradient(circle, rgba(251,248,245,1) 73%, rgba(247,235,223,1) 99%)",
+									background: " rgb(226,232,241)",
 								}}>
 								<MDBModalHeader>
-									<MDBModalTitle
-										style={{
-											color: "rgb(171,133,103)",
-										}}>
+									<MDBModalTitle>
 										<b>Changes have been saved !</b>
 									</MDBModalTitle>
 								</MDBModalHeader>
@@ -448,15 +496,15 @@ export const EmployeeView = ({ user }) => {
 								<MDBModalFooter>
 									<MDBBtn
 										style={{
+											background: "yellowgreen",
 											borderRadius: "20px",
 											width: "150px",
-											color: "white",
-											background: "rgb(171,133,103)",
-											border: "5px double",
-											boxShadow: "7px 7px 21px",
+											color: "black",
+											border: "2px solid",
+											boxShadow: "5px 5px 16px black",
 										}}
 										onClick={toggleShow}>
-										C l o s e
+										<b>C l o s e</b>
 									</MDBBtn>
 								</MDBModalFooter>
 							</MDBModalContent>

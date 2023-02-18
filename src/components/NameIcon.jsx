@@ -8,17 +8,17 @@ const ViewName = styled.p`
 	margin: 0;
 `;
 const BoxNameIcon = styled.span`
-	border: 7px double #ab8567;
+	border: 2px solid black;
 	border-radius: 20px;
-    box-shadow: 10px 7px 13px rgb(171, 133, 103);
+    box-shadow: 10px 6px 19px black;
 	width: 16%;
 	height: 99px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	margin-top: 65px;
-    background: rgb(247,235,223);
-    padding:2px
+    background: rgb(182,194,209);
+    padding:2px;
 `;
 
 export const NameIcon = ({ user }) => {
