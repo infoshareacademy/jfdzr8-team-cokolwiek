@@ -34,16 +34,31 @@ const AdminHeader = styled.div`
 position: absolute;
 right: 0;
 width: calc(100vw - 250px);
-  display: flex;
   height: 80px;
-  margin-top: 10px;
-  align-items: center;
+  .form-control {
+    background: white;
+  }
   h2 {
     margin-right: 20px;
-    font-size: 44px;
-    font-weight: 700;
+    padding-top: 4px;
+    font-size:24px;
+    font-weight: 500;
   }
-  padding: 40px
+  padding: 40px;
+  padding-top: 25px;
+  button {
+    position: absolute;
+    right: 40px;
+    width: 200px;
+  }
+  
+`
+const MyDiv = styled.div`
+display: flex;
+align-items: center;
+margin-top: -2px;
+padding: -0;
+
 `
 const AdminContent = styled.div`
 position: absolute;
@@ -51,11 +66,36 @@ right: 0;
 width: calc(100vw - 250px);
 height: calc(100vh - 260px - 60px);
 padding: 40px;
-margin-top: 75px;
+margin-top: 60px;
 overflow-y: auto;
 .i {
   font-size: 22px;
   text-align: center;
+}
+td {
+  width: 10%;
+
+}
+td > span {
+  width: 100%;
+  display: block;
+  text-align: center;
+
+}
+th {
+  width: 10%;
+  text-align: center;
+}
+.form-control {
+  background: white;
+  padding: 3px;
+  text-align: center;
+  max-width:100px;
+  margin: 0 auto;
+}
+.form-outline {
+  max-width:100px;
+  margin: 0 auto;
 }
 `
 
@@ -193,6 +233,7 @@ const saveData = (data) => {
     <Wrapper>
       {context.location && <>
         <AdminHeader>
+          <MyDiv >
           <h2>{context.location.name}</h2> {context.users.length > 0 && <><MDBInput type="week" onChange={(e)=>{
             setWeek(e.target.value)
           }} 
@@ -201,15 +242,15 @@ const saveData = (data) => {
         <button onClick={()=>saveData(data)}
           style={{
             background: "yellowgreen",
-            borderRadius: "20px",
-            width: "200px",
             color: "black"
-          }}
+          }} className="btn primary"
         >
-          Accept
+          Approve
           <MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
         </button>
       </Btns></>}
+      </MyDiv>
+      <hr style={{width:"100%"}}></hr>
           </AdminHeader>
            
       <AdminContent> 
@@ -217,7 +258,7 @@ const saveData = (data) => {
       {!context.users.length ? <h2>No data to display</h2> :    
       <TablePack>
         <TableDiv>
-          <MDBTable hover responsive >
+          <MDBTable hover responsive className="table-sm">
             <MDBTableHead dark >
               <tr>
                 <th scope="col">Employee</th>
@@ -236,7 +277,7 @@ const saveData = (data) => {
               {context.users.map((user) => (
                 <tr key={user.id}>
                   <td>
-                    {user.name + ' ' + user.lastName}
+                    <span>{user.name + ' ' +  user.lastName}</span>
                   </td>
                   <td>
                     <MDBInput value={data[user.id] ? data[user.id].pn : ''} 
@@ -287,8 +328,8 @@ const saveData = (data) => {
                     onBlur={(e)=>handleBlur(user.id,"nd",e)} 
                     onChange={(e)=>handleChange(user.id,"nd",e)}/>
                   </td>
-                  <td><span className="form-control" style={{background:"transparent", width:"100px"}}>{data[user.id] ? data[user.id].sum : ''}</span></td>
-                  <td className="i">{data[user.id]?.isApproved ? <i class="fas fa-check-circle"></i>  : <i class="fas fa-times-circle"></i> }</td>
+                  <td><span className="form-control" style={{background: "transparent"}}>{data[user.id] ? data[user.id].sum : ''}</span></td>
+                  <td className="i">{data[user.id]?.isApproved ? <i className="fas fa-check-circle"></i>  : <i className="fas fa-times-circle"></i> }</td>
                 </tr>
               ))}
             </MDBTableBody>

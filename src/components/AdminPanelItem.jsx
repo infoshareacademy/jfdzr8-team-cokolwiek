@@ -25,11 +25,11 @@ import { db } from "../firebase/firebase";
 const EmployeeDiv = styled.div`
 min-width: 280px;
 max-width: 280px;
-max-height: 180px;
-min-height: 180px;
+max-height: 280px;
+min-height: 280px;
   font-size: 20px;
-  border: 1px solid gray;
-  border-radius: 20px;
+  border: 5px solid white;
+  border-radius: 5px;
   padding: 20px;
   margin: 10px 0;
   display: flex;
@@ -37,6 +37,7 @@ min-height: 180px;
   align-items: center;
   justify-content: space-around;
   background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: white;
 button.ripple.ripple-surface.ripple-surface-light.btn.btn-grey.dropdown-toggle {
     text-align: left;
     padding-left: 15px;

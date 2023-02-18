@@ -35,19 +35,21 @@ const Wrapper = styled.div`
     margin-top: 10px;
 }
 .bsmall {
-    height: 25px;
-    width: 50px;
     color:#fbfbfb;
-    margin-left: 5px;
+    margin-left: 10px;
     padding: 2px;
-    font-size: 0.8em;
+    font-size:0.8em;
 }
 h2 {
     color:#fbfbfb;
 }
 h4 {
-    height: 25px;
-    margin-top: 10px;
+    margin-top: 44px;
+    margin-bottom: -10px;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 24px;
 }
 box-shadow: 0px 0px 5px 0px black;
 min-height: 100%;
@@ -57,21 +59,29 @@ align-items: center;
 min-width: 220px;
 padding-top: 20px;
 
-
 `;
 
 const LinkBox = styled(Link)`
   border-radius: 5px;
-  box-shadow: 0px 0px 5px 0px black;
   display: flex;
   justify-content: center;
-  min-width: 200px;
-  height: 35px;
-  padding: 5px;
+  width: 200px;
+  height: 55px;
+  padding: 15px;
   color: #1a1a1a;
   background-color: #fbfbfb;
   margin-bottom: 10px;
+  margin-top: 10px;
   &:hover {
+    color: #1a1a1a;
+  }
+  font-weight: 500;
+  font-family: inherit;
+  font-size: 18px;
+  transition: border-color 0.25s;
+  i {
+    padding-right:10px;
+    padding-top: 4px;
   }
 `;
 
@@ -79,14 +89,12 @@ const List = styled.ul`
   list-style-type: none;
   height: calc(100vh - 310px);
   overflow-y: auto;
-  padding-right: 15px;
-  width: 100%;
-  margin-top: 10px;
-  border-top: 1px solid;
-  padding: 10px;
-  box-shadow: 0px 0px 2px 0px black;
+  width: 220px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 5px;
   .selected {
-    background: #8fd3f4;
+    background: #dce0e7;
   }
 `;
 
@@ -133,25 +141,31 @@ export const AdminMenu = () => {
 
   return (
     <Wrapper isEditView={isEditView}>
-      <h2>Admin Menu</h2>
-
+      
       {isEditView ? (
-        <LinkBox to="/" onClick={() => setEditView(false)}>
-          Disable edit mode
-          <MDBIcon far icon="times-circle" className="ms-3 align-self-center" />
+        <LinkBox to="/" onClick={() => setEditView(false)} className="text-dark">
+          <MDBIcon icon="edit" fas />
+          Edit mode
+          
         </LinkBox>
       ) : (
-        <LinkBox to="/AdminPanel" onClick={() => setEditView(true)}>
-          Enable edit mode
-          <MDBIcon far icon="edit ms-3 align-self-center" />
+        <LinkBox to="/AdminPanel" onClick={() => setEditView(true)} className="text-dark">
+          <MDBIcon fas icon="check-circle" />
+          Approve mode
+          
         </LinkBox>
       )}
+
+      
+
+      
+      <h4 >
+          Locations 
       {isEditView ? (
         <>
-          <button className="edit bbig" onClick={addModalToggle}>
-            Create new location
-            <MDBIcon icon="plus" className="ms-3" />
-          </button>
+            <button className="edit bsmall" style={{background: "none"}}>
+            <MDBIcon icon="plus-circle" className="text-black" fas onClick={addModalToggle}/>
+            </button>
           <MDBModal
             tabIndex="-1"
             show={addModalState}
@@ -190,12 +204,10 @@ export const AdminMenu = () => {
             </MDBModalDialog>
           </MDBModal>
         </>
-      ) : (
-        <h4>
-          Locations
-          <MDBIcon className="ms-3" fas icon="map-marked-alt" />
-        </h4>
-      )}
+      ) : null    
+      }
+      <hr></hr>
+      </h4>
       <List>
         {locations.map((location) => {
           return <AdminMenuItem location={location} key={location.id} />;

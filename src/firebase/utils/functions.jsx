@@ -37,7 +37,8 @@ export const getDataByUser =  (id=0) => {
 }
 
 export const getUsersByLocation =  (id) => {
-  return getDocs(query(usersCollection,  where("location_id", "==", id), where("isAdmin", "==", false)))
+  return getDocs(query(usersCollection,  where("location_id", "==", id), where("isAdmin", "==", false)//, orderBy('lastName')
+  ))
 }
 
 export const getUsersWithoutLocation =  (id) => {

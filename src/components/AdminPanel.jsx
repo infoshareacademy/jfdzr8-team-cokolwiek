@@ -22,16 +22,15 @@ const AdminHeader = styled.div`
 position: absolute;
 right: 0;
 width: calc(100vw - 250px);
-  display: flex;
   height: 80px;
-  margin-top: 10px;
   align-items: center;
   h2 {
     margin-right: 20px;
-    font-size: 44px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 500;
   }
-  padding: 40px
+  padding: 40px;
+  padding-top: 28px;
 `
 const EWrapper = styled.div`
 position: absolute;
@@ -50,7 +49,12 @@ padding-top:10px;
 `
 
 const Wrapper = styled.div`
- 
+.bsmall {
+  color:#fbfbfb;
+  margin-left: 10px;
+  padding: 2px;
+  font-size:0.8em;
+}
 `
 
 export const AdminPanel = () => {
@@ -122,21 +126,12 @@ export const AdminPanel = () => {
     <Wrapper>
       {context.location && <>
         <AdminHeader>
-          <h2>{context.location.name}</h2>
-            <button
-              style={{
-                background: "none",
-                border: "1px solid gray",
-                borderRadius: "20px",
-                color: "black",
-                fontSize: "20px",
-              }}
-              className="edit bbig"
-              onClick={addModalToggle}
-            >
-              Add User
-              <MDBIcon icon="plus" className="ms-3" />
+          <h2>{context.location.name}
+          <button className="edit bsmall" style={{background: "none", padding:"5px",marginLeft:"10px"}}>
+            <MDBIcon icon="plus-circle" className="text-black" fas onClick={addModalToggle}/>
             </button>
+          </h2>
+           <hr style={{width:"100%"}}></hr>
             </AdminHeader>
             <MDBModal
               tabIndex="-1"
