@@ -8,7 +8,7 @@ import { locationsCollection } from "../firebase/utils/functions";
 const BoxNameLocation = styled.span`
 	border: 7px double #ab8567;
 	border-radius: 20px;
-    box-shadow: 10px 7px 13px rgb(247 235 223);
+    box-shadow: 10px 7px 13px rgb(171, 133, 103);
 	width: 16%;
 	height: 99px;
 	display: flex;
@@ -52,7 +52,7 @@ export const NameLocation = ({ user }) => {
 						color: "black",
 					}}>
 					<MDBIcon fas icon="map-marker-alt" />
-                    Your Location:<p style={{marginTop:"10px", fontSize:"20px"}}>{data.name}</p>
+                    Your Location:<p style={{marginTop:"10px", fontSize:"25px"}}>{data.name}</p>
 				</MDBTypography>
 			</BoxNameLocation>
 		</>

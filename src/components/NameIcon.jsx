@@ -10,7 +10,7 @@ const ViewName = styled.p`
 const BoxNameIcon = styled.span`
 	border: 7px double #ab8567;
 	border-radius: 20px;
-    box-shadow: 10px 7px 13px rgb(247 235 223);
+    box-shadow: 10px 7px 13px rgb(171, 133, 103);
 	width: 16%;
 	height: 99px;
 	display: flex;

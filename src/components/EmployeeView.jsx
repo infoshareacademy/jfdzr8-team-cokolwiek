@@ -81,10 +81,18 @@ const TextDataSaved = styled.span`
 	height: 5%;
 	align-items: center;
 	position: relative;
-    position: fixed;
-    bottom: 10rem;
-    ${'' /* left: 5rem; */}
+	position: fixed;
+	bottom: 10rem;
+	${"" /* left: 5rem; */}
 `;
+// const HourInput = styled.input`
+// display:flex;
+// justify-content: center;
+// 	width: 70px;
+// 	font-size: 25px;
+//     background:#f5f5f5;
+//     color:black
+// `;
 const currentWeek = function () {
 	var options = { year: "numeric" };
 	var now = new Date();
@@ -267,23 +275,24 @@ export const EmployeeView = ({ user }) => {
 			{console.log(data, "week", week)}
 
 			<form onSubmit={handleSubmit}>
-                <UserHeader>
-                    
+				<UserHeader>
 					<NameLocation user={user} />
 
-					<MDBInput
+					<input
 						style={{
 							background: "rgb(171, 133, 103)",
 							borderRadius: "20px",
-							border: "7px double rgb(247 235 223);",
-                            boxShadow: "10px 7px 13px rgb(247 235 223)",
-                            color: 'white'
+							boxShadow: "10px 7px 13px rgb(171, 133, 103)",
+							color: "white",
+							width: "200px",
+							padding: "5px",
+							border: "7px double",
 						}}
 						type="week"
 						onChange={e => {
 							setWeek(e.target.value);
 						}}
-						ref={weekInput}></MDBInput>
+						ref={weekInput}></input>
 					<NameIcon user={user} />
 				</UserHeader>
 				<UserContent>
@@ -306,8 +315,8 @@ export const EmployeeView = ({ user }) => {
 								<MDBTableBody>
 									<tr>
 										<td>{data?.name}</td>
-										<td>
-											<MDBInput
+										< td>
+											< MDBInput
 												disabled={data ? data.isApproved : false}
 												value={data ? data.pn : ""}
 												onChange={e => handleChange(user.id, "pn", e)}
@@ -315,9 +324,11 @@ export const EmployeeView = ({ user }) => {
 												onKeyUp={e => handleKey(user.id, "pn", e)}
 												onBlur={e => handleBlur(user.id, "pn", e)}
 											/>
-										</td>
-										<td>
-											<MDBInput
+										</ td>
+                                        <td >
+											<MDBInput style={{
+                                            width:"70px"
+                                        }}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.wt : ""}
 												onChange={e => handleChange(user.id, "wt", e)}
@@ -387,25 +398,26 @@ export const EmployeeView = ({ user }) => {
 								</MDBTableBody>
 							</MDBTable>
 						</TableDiv>
-                    </TablePack>
-                    {!data?.isApproved  &&
-                        <Submit>
-                            <MDBBtn
-                                onClick={toggleShow}
-                                type="submit"
-                                style={{
-                                    borderRadius: "20px",
-                                    width: "200px",
-                                    color: "white",
-                                    background: "rgb(171,133,103)",
-                                    border: "5px double",
-                                    boxShadow: "7px 7px 21px",
-                                }}
-                                disabled={data ? data.isApproved : false}>
-                                S u b m i t
-                                <MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
-                            </MDBBtn>
-                        </Submit>}
+					</TablePack>
+					{!data?.isApproved && (
+						<Submit>
+							<MDBBtn
+								onClick={toggleShow}
+								type="submit"
+								style={{
+									borderRadius: "20px",
+									width: "200px",
+									color: "white",
+									background: "rgb(171,133,103)",
+									border: "5px double",
+									boxShadow: "10px 7px 13px rgb(171, 133, 103)",
+								}}
+								disabled={data ? data.isApproved : false}>
+								S u b m i t
+								<MDBIcon size="lg" className="ms-2" fas icon="check-circle" />
+							</MDBBtn>
+						</Submit>
+					)}
 					{data?.isApproved && (
 						<div
 							style={{
