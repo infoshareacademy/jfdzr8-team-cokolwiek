@@ -437,7 +437,6 @@ export const EmployeeView = ({ user }) => {
 													width: "73px",
 													background: "transparent",
 													fontSize: "20px",
-													// paddingLeft: "20px",
 													height: "46px",
 													border: "2px solid black",
 													background: "rgb(133,24,24)",
