@@ -15,7 +15,7 @@ import logo from "../../../assets/images/TimeTakerlogo.png";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { signInWithGoogle } from "../../../firebase/utils/functions";
-import { HashLink } from "react-router-hash-link";
+import { HashLink,  } from "react-router-hash-link";
 
 export default function Header() {
   const [navToggle, setNavToggle] = useState(false);
