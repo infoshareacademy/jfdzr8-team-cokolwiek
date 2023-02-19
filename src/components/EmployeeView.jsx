@@ -31,20 +31,20 @@ import { NameIcon } from "./NameIcon";
 import { db } from "../firebase/firebase";
 
 const TableDiv = styled.div`
-	width: 100%;
-	border: 2px solid;
-	box-shadow: 10px 6px 19px black;
+	// width: 100%;
+	// border: 2px solid;
+	// box-shadow: 10px 6px 19px black;
 `;
 
 const TablePack = styled.div`
-	display: flex;
-	justify-content: center;
-	width: 100%;
+	// display: flex;
+	// justify-content: center;
+	// width: 100%;
 `;
 const UserHeader = styled.div`
 	display: flex;
 	justify-content: space-between;
-	width: 100%;
+	width: calc(100vw - 250px);
 	display: flex;
 	height: 80px;
 	margin-top: 10px;
@@ -62,6 +62,29 @@ const UserContent = styled.div`
 	padding: 40px;
 	margin-top: 75px;
 	overflow-y: auto;
+	td {
+		width: 10%;
+	}
+	td > span {
+		width: 100%;
+		display: block;
+		text-align: center;
+	}
+	th {
+		width: 10%;
+		text-align: center;
+	}
+	.form-control {
+		background: white;
+		padding: 3px;
+		text-align: center;
+		max-width: 100px;
+		margin: 0 auto;
+	}
+	.form-outline {
+		max-width: 100px;
+		margin: 0 auto;
+	}
 `;
 const Submit = styled.div`
 	display: flex;
@@ -72,8 +95,7 @@ const Submit = styled.div`
 const TextDataSaved = styled.span`
 	background: rgb(133, 24, 24);
 	color: white;
-	border: 2px solid black;
-	width: 45vh;
+	width: 70%;
 	display: flex;
 	justify-content: center;
 	border-radius: 20px;
@@ -83,8 +105,14 @@ const TextDataSaved = styled.span`
 	align-items: center;
 	position: relative;
 	position: fixed;
-	bottom: 20rem;
+	bottom: 12rem;
 	box-shadow: 10px 6px 19px black;
+`;
+const MyDiv = styled.div`
+	display: flex;
+	align-items: center;
+	margin-top: -2px;
+	padding: -0;
 `;
 
 const currentWeek = function () {
@@ -153,13 +181,13 @@ export const EmployeeView = ({ user }) => {
 					sn: data[0].sn,
 					nd: data[0].nd,
 					sum:
-						data[0].pn +
-						data[0].wt +
-						data[0].sr +
-						data[0].czw +
-						data[0].pt +
-						data[0].sn +
-						data[0].nd,
+						data[0].pn * 1 +
+						data[0].wt * 1 +
+						data[0].sr * 1 +
+						data[0].czw * 1 +
+						data[0].pt * 1 +
+						data[0].sn * 1 +
+						data[0].nd * 1,
 					name: user.name + " " + user.lastName,
 					userId: user.id,
 					locationId: user.location_id,
@@ -275,7 +303,7 @@ export const EmployeeView = ({ user }) => {
 					<input
 						style={{
 							background: "black",
-							boxShadow: "10px 7px 13px black",
+							boxShadow: "1px 1px 10px black",
 							color: "white",
 							width: "200px",
 							padding: "7px",
@@ -317,10 +345,9 @@ export const EmployeeView = ({ user }) => {
 										<td>
 											<MDBInput
 												style={{
-													width: "73px",
+													width: "100%",
 													background: "white",
 													fontSize: "20px",
-													paddingLeft: "30px",
 												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.pn : ""}
@@ -333,10 +360,9 @@ export const EmployeeView = ({ user }) => {
 										<td>
 											<MDBInput
 												style={{
-													width: "73px",
+													width: "100%",
 													background: "white",
 													fontSize: "20px",
-													paddingLeft: "30px",
 												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.wt : ""}
@@ -349,10 +375,9 @@ export const EmployeeView = ({ user }) => {
 										<td>
 											<MDBInput
 												style={{
-													width: "73px",
+													width: "100%",
 													background: "white",
 													fontSize: "20px",
-													paddingLeft: "30px",
 												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.sr : ""}
@@ -366,10 +391,9 @@ export const EmployeeView = ({ user }) => {
 										<td>
 											<MDBInput
 												style={{
-													width: "73px",
+													width: "100%",
 													background: "white",
 													fontSize: "20px",
-													paddingLeft: "30px",
 												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.czw : ""}
@@ -382,10 +406,9 @@ export const EmployeeView = ({ user }) => {
 										<td>
 											<MDBInput
 												style={{
-													width: "73px",
+													width: "100%",
 													background: "white",
 													fontSize: "20px",
-													paddingLeft: "30px",
 												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.pt : ""}
@@ -398,10 +421,9 @@ export const EmployeeView = ({ user }) => {
 										<td>
 											<MDBInput
 												style={{
-													width: "73px",
+													width: "100%",
 													background: "white",
 													fontSize: "20px",
-													paddingLeft: "30px",
 												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.sn : ""}
@@ -414,10 +436,9 @@ export const EmployeeView = ({ user }) => {
 										<td>
 											<MDBInput
 												style={{
-													width: "73px",
+													width: "100%",
 													background: "white",
 													fontSize: "20px",
-													paddingLeft: "30px",
 												}}
 												disabled={data ? data.isApproved : false}
 												value={data ? data.nd : ""}
@@ -431,16 +452,8 @@ export const EmployeeView = ({ user }) => {
 											<span
 												className="form-control"
 												style={{
-													display: "flex",
-													justifyContent: "center",
-													alignItems: "center",
-													width: "73px",
 													background: "transparent",
 													fontSize: "20px",
-													height: "46px",
-													border: "2px solid black",
-													background: "rgb(133,24,24)",
-													color: "white",
 												}}>
 												<b>{data?.sum}</b>
 											</span>
@@ -460,8 +473,7 @@ export const EmployeeView = ({ user }) => {
 									borderRadius: "20px",
 									width: "200px",
 									color: "black",
-									border: "2px solid",
-									boxShadow: "5px 5px 16px black",
+									boxShadow: "2px 2px 2px gray",
 								}}
 								disabled={data ? data.isApproved : false}>
 								<b>S u b m i t</b>
@@ -499,11 +511,10 @@ export const EmployeeView = ({ user }) => {
 											borderRadius: "20px",
 											width: "150px",
 											color: "black",
-											border: "2px solid",
 											boxShadow: "5px 5px 16px black",
 										}}
 										onClick={toggleShow}>
-										<b>C l o s e</b>
+										<b>S a v e</b>
 									</MDBBtn>
 								</MDBModalFooter>
 							</MDBModalContent>
