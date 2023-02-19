@@ -4,21 +4,12 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { usersCollection } from "../firebase/utils/functions";
 
-const ViewName = styled.p`
-	margin: 0;
-`;
-const BoxNameIcon = styled.span`
-	border: 2px solid black;
-	border-radius: 20px;
-    box-shadow: 10px 6px 19px black;
-	width: 16%;
-	height: 99px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-top: 65px;
-    background: rgb(182,194,209);
-    padding:2px;
+// const ViewName = styled.p`
+// 	margin: 0;
+// `;
+const BoxNameIcon = styled.div`
+	margin-top: 70px;
+	width: 10rem;
 `;
 
 export const NameIcon = ({ user }) => {
@@ -47,11 +38,11 @@ export const NameIcon = ({ user }) => {
 				<MDBTypography
 					tag="h6"
 					style={{
-						fontSize: "16px",
+						fontSize: "20px",
 						color: "black",
 					}}>
-					<MDBIcon fas icon="user-alt" /> <ViewName>{data.name}</ViewName>
-					<ViewName>{data.lastName}</ViewName>
+					 <p> <MDBIcon fas icon="user-alt" />  {data.name + " " + data.lastName}</p>
+			
 				</MDBTypography>
 			</BoxNameIcon>
 		</>
